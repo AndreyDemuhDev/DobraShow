@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "DobraShow"
 include(":app")
+include(":network")
