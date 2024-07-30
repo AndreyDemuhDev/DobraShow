@@ -55,6 +55,8 @@ android {
 
 dependencies {
 
+    implementation(project(":network"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,15 +65,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    //Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.json)
-    implementation(libs.retrofit.adapters.result)
-    implementation(libs.retrofit.kotlinx.serialization.converter)
-    //Interceptor
-    implementation(libs.logging.interceptor)
-    //okHttp
-    implementation(libs.okhttp.client)
     //Hilt
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
