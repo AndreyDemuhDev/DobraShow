@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +44,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
+import com.example.network.ApiStatus
 import com.example.network.KtorClient
 import com.example.network.models.domain.DomainShowEntity
 import kotlinx.coroutines.delay
@@ -53,20 +56,23 @@ fun DetailShowScreen(
     modifier: Modifier = Modifier
 ) {
 
-
     var show by remember {
         mutableStateOf<DomainShowEntity?>(null)
     }
 
     LaunchedEffect(key1 = Unit, block = {
         delay(500)
-        show = ktorClient.getShow(showId)
+        ktorClient.getShow(showId)
+            .onSuccess { getApiShow ->
+                show = getApiShow
+            }.onException { exception ->
+                // todo
+            }
     })
-
 
     LazyColumn() {
         if (show == null) {
-            item { CircularProgressIndicator() }
+            item { LoadingScreen(modifier = Modifier.fillMaxSize()) }
             return@LazyColumn
         }
 
@@ -102,7 +108,6 @@ fun DetailShowScreen(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
-
     }
 
 }
@@ -184,6 +189,19 @@ fun InformationShowItem(
             text = title,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 2.dp)
+        )
+    }
+}
+
+@Composable
+fun LoadingScreen(
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(100.dp),
         )
     }
 }

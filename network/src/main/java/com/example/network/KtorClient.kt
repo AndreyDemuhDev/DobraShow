@@ -32,18 +32,22 @@ class KtorClient() {
 
     }
 
-    suspend fun getShow(id: Int): DomainShowEntity {
-        return client.get("shows/$id")
-            .body<RemoteShowModel>()
-            .toDomainShow()
+    suspend fun getShow(id: Int): ApiStatus<DomainShowEntity> {
+        return safeApiCall {
+            client.get("shows/$id")
+                .body<RemoteShowModel>()
+                .toDomainShow()
+        }
     }
 
-
+    private inline fun <T> safeApiCall(apiCall: () -> T): ApiStatus<T> {
+        return try {
+            ApiStatus.SuccessStatus(data = apiCall())
+        } catch (exception: Exception) {
+            ApiStatus.ExceptionStatus(exception = exception)
+        }
+    }
 }
 
-@Serializable
-data class Show(
-    val id: Int,
-    val name: String,
-    val genres: List<String>
-)
+
+
