@@ -1,4 +1,4 @@
-package com.example.network.models.domain
+package com.example.network
 
 import androidx.compose.ui.graphics.Color
 

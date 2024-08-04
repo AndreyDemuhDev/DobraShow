@@ -1,5 +1,7 @@
 package com.example.network.models.domain
 
+import com.example.network.ShowStatus
+
 data class DomainShowEntity(
     val id: Int,
     val name: String,           //название
