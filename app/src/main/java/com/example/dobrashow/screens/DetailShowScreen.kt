@@ -1,6 +1,7 @@
 package com.example.dobrashow.screens
 
 import android.text.Html
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -33,8 +35,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -53,6 +57,7 @@ import kotlinx.coroutines.delay
 fun DetailShowScreen(
     ktorClient: KtorClient,
     showId: Int,
+    onClick:(Int)-> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -61,7 +66,6 @@ fun DetailShowScreen(
     }
 
     LaunchedEffect(key1 = Unit, block = {
-        delay(500)
         ktorClient.getShow(showId)
             .onSuccess { getApiShow ->
                 show = getApiShow
@@ -70,7 +74,7 @@ fun DetailShowScreen(
             }
     })
 
-    LazyColumn() {
+    LazyColumn(modifier = modifier) {
         if (show == null) {
             item { LoadingScreen(modifier = Modifier.fillMaxSize()) }
             return@LazyColumn
@@ -108,6 +112,13 @@ fun DetailShowScreen(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
+        item {
+            Button(onClick = {
+                Log.d("MyLog", "show id = $showId")
+                onClick(showId) }) {
+                Text(text = "Show seasons")
+            }
+        }
     }
 
 }
@@ -122,6 +133,8 @@ private fun ImageShowSection(show: DomainShowEntity?) {
                 .aspectRatio(1f)
                 .heightIn(500.dp),
             contentScale = ContentScale.FillBounds,
+            alpha = 0.6f,
+            colorFilter = ColorFilter.tint(Color.Gray, blendMode = BlendMode.Color)
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row(
@@ -129,7 +142,7 @@ private fun ImageShowSection(show: DomainShowEntity?) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp, top = 45.dp, bottom = 20.dp),
+                    .padding(start = 24.dp, end = 24.dp, top = 45.dp, bottom = 10.dp),
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
