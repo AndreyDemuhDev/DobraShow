@@ -1,7 +1,7 @@
 package com.example.network.models.remote
 
 import com.example.network.models.domain.DomainShowEntity
-import com.example.network.models.domain.ShowStatus
+import com.example.network.ShowStatus
 import kotlinx.serialization.Serializable
 
 @Serializable

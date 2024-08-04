@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -39,36 +41,46 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
-import com.example.network.ApiStatus
+import com.example.dobrashow.ui.components.CastItemCard
 import com.example.network.KtorClient
+import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainShowEntity
-import kotlinx.coroutines.delay
 
 @Composable
 fun DetailShowScreen(
     ktorClient: KtorClient,
     showId: Int,
-    onClick:(Int)-> Unit,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     var show by remember {
         mutableStateOf<DomainShowEntity?>(null)
     }
+    var cast by remember {
+        mutableStateOf<List<DomainCastEntity>>(listOf())
+    }
+
+    Log.d("MyLog", "инициализаци cast  = $cast")
 
     LaunchedEffect(key1 = Unit, block = {
         ktorClient.getShow(showId)
             .onSuccess { getApiShow ->
                 show = getApiShow
+            }.onException { exception ->
+                // todo
+            }
+
+        ktorClient.getCastShow(showId)
+            .onSuccess { getCast ->
+                cast = getCast
             }.onException { exception ->
                 // todo
             }
@@ -107,15 +119,38 @@ fun DetailShowScreen(
         item { Spacer(modifier = Modifier.height(10.dp)) }
         item {
             Text(
-                text = Html.fromHtml(show?.summary).toString(),
+                text = "Story Line",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+        item {
+            Text(
+                text = Html.fromHtml(show?.summary).toString().trim(),
                 textAlign = TextAlign.Justify,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
         item {
+            Text(
+                text = "Cast",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+        item {
+            LazyRow(modifier = Modifier.padding(horizontal = 12.dp)) {
+                items(cast) { item ->
+                    CastItemCard(cast = item, modifier = Modifier.padding(horizontal = 4.dp))
+                }
+            }
+
+        }
+        item {
             Button(onClick = {
                 Log.d("MyLog", "show id = $showId")
-                onClick(showId) }) {
+                onClick(showId)
+            }) {
                 Text(text = "Show seasons")
             }
         }
