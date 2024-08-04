@@ -75,8 +75,10 @@ dependencies {
     //Serialization
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.core)
-    //coil
+    //Coil
     implementation(libs.coil.compose)
+    //Navigation
+    implementation(libs.navigation)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
