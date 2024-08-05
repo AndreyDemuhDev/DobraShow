@@ -22,10 +22,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.network.models.domain.DomainCastEntity
+import com.example.network.models.domain.DomainCrewEntity
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CastAndCrewShowPager(cast: List<DomainCastEntity>, modifier: Modifier = Modifier) {
+fun CastAndCrewShowPager(
+    cast: List<DomainCastEntity>,
+    crew: List<DomainCrewEntity>,
+    modifier: Modifier = Modifier
+) {
     val tabItems = listOf("Cast", "Crew")
     var selectedTabIndex by remember { mutableIntStateOf(0) }
     val pagerState = rememberPagerState { tabItems.size }
@@ -67,7 +72,14 @@ fun CastAndCrewShowPager(cast: List<DomainCastEntity>, modifier: Modifier = Modi
                     }
                 }
             } else {
-                Text(text = "Crew")
+                LazyRow(modifier = Modifier.padding(horizontal = 12.dp)) {
+                    items(crew) { item ->
+                        CrewItemCard(
+                            crew = item,
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
+                    }
+                }
             }
         }
     }
