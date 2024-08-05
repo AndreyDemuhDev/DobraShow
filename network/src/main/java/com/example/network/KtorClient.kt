@@ -34,7 +34,6 @@ class KtorClient() {
 
     }
     private var showCache = mutableMapOf<Int, DomainShowEntity>()
-    private var castCache = mutableMapOf<Int, DomainCastEntity>()
 
     suspend fun getShow(id: Int): ApiStatus<DomainShowEntity> {
         showCache[id]?.let { return ApiStatus.SuccessStatus(it) }
@@ -49,9 +48,8 @@ class KtorClient() {
     suspend fun getCastShow(id: Int): ApiStatus<List<DomainCastEntity>> {
         return safeApiCall {
             client.get("shows/$id/cast")
-                .body<List<RemoteCastModel>>().map {
-                    it.toDomainCastList()
-                }
+                .body<List<RemoteCastModel>>()
+                .map { it.toDomainCastList() }
         }
     }
 

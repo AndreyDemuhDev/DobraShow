@@ -6,19 +6,19 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteShowModel(
-    val id: Int,
-    val name: String,           //название
-    val ended: String,          //дата завершения
-    val genres: List<String>,   //жанры
-    val image: ImageShow,       //постер
-    val language: String,       //язык
-    val network: NetworkShow,   //инфа о производителе
-    val officialSite: String,   //ссылка на офф сайт
-    val premiered: String,      //дата премьеры
-    val rating: RatingShow,     //рейтинг
-    val status: String,         //статус (завершен, выпускается)
-    val summary: String,        //описание
-    val url: String,            //ссылка на сайт
+    val id: Int? = -1,
+    val name: String? = "unknown name",                     //название
+    val ended: String? = "unknown ended",                   //дата завершения
+    val genres: List<String>? = emptyList(),                //жанры
+    val image: ImageShow? = null,                           //постер
+    val language: String? = "unknown language",             //язык
+    val network: NetworkShow? = null,                       //инфа о производителе
+    val officialSite: String? = "unknown official site",    //ссылка на офф сайт
+    val premiered: String? = "unknown premiered",           //дата премьеры
+    val rating: RatingShow? = null,                         //рейтинг
+    val status: String? = "unknown status",                 //статус (завершен, выпускается)
+    val summary: String? = "unknown summary",               //описание
+    val url: String? = "unknown url",                       //ссылка на сайт
 ) {
     @Serializable
     data class ImageShow(
@@ -28,7 +28,7 @@ data class RemoteShowModel(
 
     @Serializable
     data class NetworkShow(
-        val country: CountryShow,
+        val country: CountryShow? = null,
         val id: Int,
         val name: String,
         val officialSite: String
@@ -49,34 +49,37 @@ data class RemoteShowModel(
 
 //маппер
 fun RemoteShowModel.toDomainShow(): DomainShowEntity {
-    val showStatus = when (status.lowercase()) {
+    val showStatus = when (status?.lowercase()) {
         "running" -> ShowStatus.Running
         "ended" -> ShowStatus.Ended
         "to be determined" -> ShowStatus.Determined
         else -> ShowStatus.Unknown
     }
     return DomainShowEntity(
-        id = id,
-        name = name,
-        ended = ended,
-        genres = genres,
-        image = DomainShowEntity.ImageShow(medium = image.medium, original = image.original),
-        language = language,
+        id = id ?: -1,
+        name = name ?: "unknown name",
+        ended = ended ?: "unknown",
+        genres = genres ?: emptyList(),
+        image = DomainShowEntity.ImageShow(
+            medium = image?.medium ?: "unknown image",
+            original = image?.original ?: "unknown image"
+        ),
+        language = language ?: "unknown language",
         network = DomainShowEntity.NetworkShow(
             country = DomainShowEntity.CountryShow(
-                code = network.country.code,
-                name = network.country.name,
-                timezone = network.country.timezone
+                code = network?.country?.code ?: "unknown code country",
+                name = network?.country?.name ?: "unknown name country",
+                timezone = network?.country?.timezone ?: "unknown timezone country"
             ),
-            id = network.id,
-            name = network.name,
-            officialSite = network.officialSite
+            id = network?.id ?: -1,
+            name = network?.name ?: "unknown name country",
+            officialSite = network?.officialSite ?: "unknown official site"
         ),
-        officialSite = officialSite,
-        premiered = premiered,
-        rating = DomainShowEntity.RatingShow(average = rating.average),
+        officialSite = officialSite ?: "unknown language",
+        premiered = premiered ?: "unknown premiered",
+        rating = DomainShowEntity.RatingShow(average = rating?.average ?: -1.0),
         status = showStatus,
-        summary = summary,
-        url = url,
+        summary = summary ?: "unknown summary",
+        url = url ?: "unknown url",
     )
 }
