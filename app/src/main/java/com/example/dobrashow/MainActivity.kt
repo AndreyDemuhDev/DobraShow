@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = "show_details") {
                             DetailShowScreen(
                                 ktorClient = ktorClient,
-                                showId = 1,
+                                showId = 5,
                                 onClick = { navController.navigate("seasons_show/$it") },
                                 modifier = Modifier.fillMaxSize()
                             )

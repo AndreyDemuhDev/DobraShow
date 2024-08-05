@@ -1,32 +1,18 @@
 package com.example.dobrashow.screens
 
-import android.text.Html
-import android.util.Log
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,8 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -46,9 +30,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import androidx.core.text.HtmlCompat
+import coil.compose.SubcomposeAsyncImage
 import com.example.dobrashow.R
-import com.example.dobrashow.ui.components.CastItemCard
+import com.example.dobrashow.ui.components.CastAndCrewShowPager
+import com.example.dobrashow.ui.components.ShowStatusComponent
 import com.example.network.KtorClient
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainShowEntity
@@ -68,8 +54,6 @@ fun DetailShowScreen(
         mutableStateOf<List<DomainCastEntity>>(listOf())
     }
 
-    Log.d("MyLog", "инициализаци cast  = $cast")
-
     LaunchedEffect(key1 = Unit, block = {
         ktorClient.getShow(showId)
             .onSuccess { getApiShow ->
@@ -77,7 +61,6 @@ fun DetailShowScreen(
             }.onException { exception ->
                 // todo
             }
-
         ktorClient.getCastShow(showId)
             .onSuccess { getCast ->
                 cast = getCast
@@ -88,161 +71,145 @@ fun DetailShowScreen(
 
     LazyColumn(modifier = modifier) {
         if (show == null) {
-            item { LoadingScreen(modifier = Modifier.fillMaxSize()) }
+            item { LoadingState(modifier = Modifier.fillMaxSize()) }
             return@LazyColumn
         }
-
-        item { ImageShowSection(show) }
-        item { Spacer(modifier = Modifier.height(10.dp)) }
-        item {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 38.dp)
-            ) {
-                InformationShowItem(
-                    icon = R.drawable.ic_calendar,
-                    title = show?.premiered?.substring(0, endIndex = 4) ?: "unknown"
-                )
-                InformationShowItem(
-                    icon = R.drawable.ic_film,
-                    title = show?.genres?.first() ?: "unknown"
-                )
-                InformationShowItem(
-                    icon = R.drawable.ic_rating_star,
-                    title = show?.rating?.average.toString()
-                )
-            }
-        }
-        item { Spacer(modifier = Modifier.height(10.dp)) }
+        item { ImageShowSection(show!!) }
         item {
             Text(
                 text = "Story Line",
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, top = 10.dp)
             )
         }
         item {
             Text(
-                text = Html.fromHtml(show?.summary).toString().trim(),
+                text = HtmlCompat.fromHtml(show!!.summary, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                    .toString().trim(),
                 textAlign = TextAlign.Justify,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
         item {
-            Text(
-                text = "Cast",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp)
+            CastAndCrewShowPager(
+                cast = cast,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
             )
         }
         item {
-            LazyRow(modifier = Modifier.padding(horizontal = 12.dp)) {
-                items(cast) { item ->
-                    CastItemCard(cast = item, modifier = Modifier.padding(horizontal = 4.dp))
-                }
-            }
-
-        }
-        item {
-            Button(onClick = {
-                Log.d("MyLog", "show id = $showId")
-                onClick(showId)
-            }) {
-                Text(text = "Show seasons")
-            }
+            Text(
+                text = "Seasons",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
+            )
         }
     }
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+
 @Composable
-private fun ImageShowSection(show: DomainShowEntity?) {
-    Box(modifier = Modifier) {
-        AsyncImage(
-            model = show?.image?.medium, contentDescription = null,
+private fun ImageShowSection(show: DomainShowEntity, modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
+        SubcomposeAsyncImage(
+            model = show.image.medium, contentDescription = null,
             modifier = Modifier
                 .aspectRatio(1f)
-                .heightIn(500.dp),
+                .heightIn(max = 400.dp),
             contentScale = ContentScale.FillBounds,
-            alpha = 0.6f,
-            colorFilter = ColorFilter.tint(Color.Gray, blendMode = BlendMode.Color)
+            loading = { LoadingState() }
         )
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .heightIn(min = 400.dp)
+                .padding(horizontal = 16.dp)
+        ) {
+            HeaderInformationShowSection(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp, top = 45.dp, bottom = 10.dp),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = "back",
-                    modifier = Modifier.size(36.dp)
-                )
-                Text(
-                    text = show?.name ?: "unknown show name",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.basicMarquee()
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_favorite_heart),
-                    contentDescription = "favorite",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
-            AsyncImage(
-                model = show?.image?.medium, contentDescription = null,
-                modifier = Modifier
-                    .size(width = 220.dp, height = 300.dp)
-                    .border(2.dp, color = Color.DarkGray),
-
-                contentScale = ContentScale.Crop,
+                    .padding(top = 45.dp)
             )
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            0.0f to Color.Transparent,
-                            100.0f to Color.Black,
-                            startY = 0.0f,
-                            endY = 100f
-                        )
-                    )
-                    .padding(top = 40.dp)
-            ) { }
+            InformationShowItem(show = show, modifier = Modifier.align(Alignment.Start))
         }
+    }
+}
+
+@Composable
+private fun HeaderInformationShowSection(modifier: Modifier = Modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_arrow_back),
+            contentDescription = "back",
+            colorFilter = ColorFilter.tint(Color.White),
+            modifier = Modifier.size(36.dp)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_favorite_heart),
+            contentDescription = "favorite",
+            colorFilter = ColorFilter.tint(Color.White),
+            modifier = Modifier.size(36.dp)
+        )
     }
 }
 
 @Composable
 fun InformationShowItem(
-    @DrawableRes icon: Int,
-    title: String,
+    show: DomainShowEntity,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier) {
-        Icon(
-            painter = painterResource(id = icon),
-            contentDescription = title,
-            modifier = Modifier.size(24.dp)
-        )
+    Column(
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+    ) {
         Text(
-            text = title,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 2.dp)
+            text = show.name,
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color.White
         )
+        Row {
+            Text(
+                text = show.genres.joinToString(separator = ", "),
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.White
+            )
+            Text(
+                text = " • " + show.premiered.substring(startIndex = 0, endIndex = 4),
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.White
+            )
+            Text(
+                text = " • " + show.network.country.code,
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.White
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_rating_star),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(Color.Yellow),
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                text = show.rating.average.toString(),
+                fontWeight = FontWeight.SemiBold,
+                color = Color.White,
+                modifier = Modifier.padding(start = 2.dp)
+            )
+            ShowStatusComponent(showStatus = show.status, modifier = Modifier.padding(start = 8.dp))
+        }
     }
 }
 
 @Composable
-fun LoadingScreen(
+fun LoadingState(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
