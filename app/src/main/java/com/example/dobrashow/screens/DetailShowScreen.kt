@@ -37,6 +37,7 @@ import com.example.dobrashow.ui.components.CastAndCrewShowPager
 import com.example.dobrashow.ui.components.ShowStatusComponent
 import com.example.network.KtorClient
 import com.example.network.models.domain.DomainCastEntity
+import com.example.network.models.domain.DomainCrewEntity
 import com.example.network.models.domain.DomainShowEntity
 
 @Composable
@@ -54,6 +55,10 @@ fun DetailShowScreen(
         mutableStateOf<List<DomainCastEntity>>(listOf())
     }
 
+    var crew by remember {
+        mutableStateOf<List<DomainCrewEntity>>(listOf())
+    }
+
     LaunchedEffect(key1 = Unit, block = {
         ktorClient.getShow(showId)
             .onSuccess { getApiShow ->
@@ -64,6 +69,13 @@ fun DetailShowScreen(
         ktorClient.getCastShow(showId)
             .onSuccess { getCast ->
                 cast = getCast
+            }.onException { exception ->
+                // todo
+            }
+
+        ktorClient.getCrewShow(showId)
+            .onSuccess { getCrew ->
+                crew = getCrew
             }.onException { exception ->
                 // todo
             }
@@ -94,6 +106,7 @@ fun DetailShowScreen(
         item {
             CastAndCrewShowPager(
                 cast = cast,
+                crew = crew,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
             )
         }
@@ -105,7 +118,6 @@ fun DetailShowScreen(
             )
         }
     }
-
 }
 
 

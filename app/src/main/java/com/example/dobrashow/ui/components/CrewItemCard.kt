@@ -17,12 +17,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
-import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 
+
 @Composable
-fun CastItemCard(
-    cast: DomainCastEntity,
+fun CrewItemCard(
+    crew: DomainCrewEntity,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -30,23 +30,23 @@ fun CastItemCard(
         modifier = modifier.size(width = 160.dp, height = 210.dp)
     ) {
         AsyncImage(
-            model = cast.person.image.medium,
+            model = crew.person.image.medium,
             contentDescription = "",
+            error = painterResource(id = R.drawable.ic_no_image),
             contentScale = ContentScale.Crop,
-            placeholder = painterResource(id = R.drawable.ic_no_image),
             modifier = Modifier
                 .padding(top = 4.dp)
                 .size(130.dp)
                 .clip(CircleShape)
         )
         Text(
-            text = cast.person.name,
+            text = crew.person.name,
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         Text(
-            text = "as " + "'" + cast.character.name + "'",
+            text = crew.type,
             style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center
         )

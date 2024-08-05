@@ -14,7 +14,7 @@ data class RemoteCastModel(
         val birthday: String?,
         val country: CountryPerson? = null,
         val deathday: String?,
-        val gender: String,
+        val gender: String?,
         val image: ImagePerson? = null,
         val name: String,
         val url: String,
@@ -41,7 +41,7 @@ data class RemoteCastModel(
 }
 
 
-fun RemoteCastModel.toDomainCastList(): DomainCastEntity {
+fun RemoteCastModel.toDomainCast(): DomainCastEntity {
     return DomainCastEntity(
         person = DomainCastEntity.PersonShow(
             id = person.id,
@@ -50,7 +50,7 @@ fun RemoteCastModel.toDomainCastList(): DomainCastEntity {
                 name = person.country?.name ?: "unknown name country"
             ),
             deathday = person.deathday ?: "empty",
-            gender = person.gender,
+            gender = person.gender ?: "unknown gender",
             image = DomainCastEntity.ImagePerson(
                 medium = person.image?.medium ?: "",
                 original = person.image?.original ?: ""
