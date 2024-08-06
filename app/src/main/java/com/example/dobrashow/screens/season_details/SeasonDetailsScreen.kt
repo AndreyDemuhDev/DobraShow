@@ -1,4 +1,4 @@
-package com.example.dobrashow.screens
+package com.example.dobrashow.screens.season_details
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
