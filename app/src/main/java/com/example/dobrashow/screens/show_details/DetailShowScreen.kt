@@ -1,4 +1,4 @@
-package com.example.dobrashow.screens
+package com.example.dobrashow.screens.show_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -17,10 +17,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,85 +29,47 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CastAndCrewShowPager
 import com.example.dobrashow.ui.components.ShowStatusComponent
-import com.example.network.KtorClient
-import com.example.network.models.domain.DomainCastEntity
-import com.example.network.models.domain.DomainCrewEntity
 import com.example.network.models.domain.DomainShowEntity
 
 @Composable
 fun DetailShowScreen(
-    ktorClient: KtorClient,
     showId: Int,
     onClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showViewModel: ShowViewModel = hiltViewModel(),
 ) {
-
-    var show by remember {
-        mutableStateOf<DomainShowEntity?>(null)
-    }
-    var cast by remember {
-        mutableStateOf<List<DomainCastEntity>>(listOf())
-    }
-
-    var crew by remember {
-        mutableStateOf<List<DomainCrewEntity>>(listOf())
-    }
+    val state by showViewModel.showUiState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = {
-        ktorClient.getShow(showId)
-            .onSuccess { getApiShow ->
-                show = getApiShow
-            }.onException { exception ->
-                // todo
-            }
-        ktorClient.getCastShow(showId)
-            .onSuccess { getCast ->
-                cast = getCast
-            }.onException { exception ->
-                // todo
-            }
-
-        ktorClient.getCrewShow(showId)
-            .onSuccess { getCrew ->
-                crew = getCrew
-            }.onException { exception ->
-                // todo
-            }
+        showViewModel.getShowInformation(showId)
+        showViewModel.getPeoplesShowInformation(showId)
     })
 
-    LazyColumn(modifier = modifier) {
-        if (show == null) {
-            item { LoadingState(modifier = Modifier.fillMaxSize()) }
-            return@LazyColumn
-        }
-        item { ImageShowSection(show!!) }
-        item {
-            Text(
-                text = "Story Line",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp, top = 10.dp)
-            )
-        }
-        item {
-            Text(
-                text = HtmlCompat.fromHtml(show!!.summary, HtmlCompat.FROM_HTML_MODE_COMPACT)
-                    .toString().trim(),
-                textAlign = TextAlign.Justify,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        }
-        item {
-            CastAndCrewShowPager(
-                cast = cast,
-                crew = crew,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-            )
-        }
+    if (state.isError) {
+
+    }
+
+    DetailsShowContent(
+        showState = state.showInformation,
+        listPeoplesShow = state.showPeoplesList
+    )
+
+}
+
+@Composable
+fun DetailsShowContent(
+    showState: ShowInformationUiState,
+    listPeoplesShow: ShowPeoplesListUiState,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn {
+        item { ShowInformationState(showInfoUiState = showState, modifier = modifier) }
+        item { ShowPeoplesShowUiState(peoplesShow = listPeoplesShow) }
         item {
             Text(
                 text = "Seasons",
@@ -118,11 +78,76 @@ fun DetailShowScreen(
             )
         }
     }
+
+}
+
+@Composable
+private fun ShowInformationState(
+    showInfoUiState: ShowInformationUiState,
+    modifier: Modifier
+) {
+    when (showInfoUiState) {
+        is ShowInformationUiState.Success -> {
+            Column(modifier = modifier) {
+                ImageShowSection(showInfoUiState.show)
+                Text(
+                    text = "Story Line",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 16.dp, top = 10.dp)
+                )
+                Text(
+                    text = HtmlCompat.fromHtml(
+                        showInfoUiState.show.summary,
+                        HtmlCompat.FROM_HTML_MODE_COMPACT
+                    )
+                        .toString().trim(),
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+        }
+
+        is ShowInformationUiState.Error -> {
+            Text(text = "Ошибка загрузки")
+        }
+
+        ShowInformationUiState.Loading -> {
+            Text(text = "Loading show information")
+        }
+    }
+}
+
+@Composable
+fun ShowPeoplesShowUiState(
+    peoplesShow: ShowPeoplesListUiState,
+    modifier: Modifier = Modifier
+) {
+    when (peoplesShow) {
+        is ShowPeoplesListUiState.Error -> {
+            Text(text = "Error peoples show information")
+        }
+
+        ShowPeoplesListUiState.Loading -> {
+            LoadingState()
+        }
+
+        is ShowPeoplesListUiState.Success -> {
+            CastAndCrewShowPager(
+                cast = peoplesShow.castList,
+                crew = peoplesShow.crewList,
+                modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+        }
+    }
 }
 
 
 @Composable
-private fun ImageShowSection(show: DomainShowEntity, modifier: Modifier = Modifier) {
+private fun ImageShowSection(
+    show: DomainShowEntity,
+    modifier: Modifier = Modifier
+) {
     Box(modifier = modifier.fillMaxSize()) {
         SubcomposeAsyncImage(
             model = show.image.medium, contentDescription = null,
@@ -215,10 +240,14 @@ fun InformationShowItem(
                 color = Color.White,
                 modifier = Modifier.padding(start = 2.dp)
             )
-            ShowStatusComponent(showStatus = show.status, modifier = Modifier.padding(start = 8.dp))
+            ShowStatusComponent(
+                showStatus = show.status,
+                modifier = Modifier.padding(start = 8.dp)
+            )
         }
     }
 }
+
 
 @Composable
 fun LoadingState(
