@@ -30,11 +30,15 @@ import com.example.dobrashow.screens.SeasonDetailsScreen
 import com.example.dobrashow.ui.theme.DobraShowTheme
 import com.example.network.KtorClient
 import com.example.network.models.domain.DomainShowEntity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val ktorClient = KtorClient()
+    @Inject
+    lateinit var ktorClient: KtorClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
