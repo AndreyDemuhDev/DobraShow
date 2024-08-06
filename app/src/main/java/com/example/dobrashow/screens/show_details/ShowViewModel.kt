@@ -5,17 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.dobrashow.repositories.ShowRepository
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
+import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.lang.Thread.State
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,22 +22,24 @@ class ShowViewModel @Inject constructor(
     private val showRepository: ShowRepository
 ) : ViewModel() {
 
-
-    private val _showInformation =
+    private val showInformation =
         MutableStateFlow<ShowInformationUiState>(ShowInformationUiState.Loading)
-    private val _listPeoplesShow =
+    private val listPeoplesShow =
         MutableStateFlow<ShowPeoplesListUiState>(ShowPeoplesListUiState.Loading)
-    private val _listsssssCast = MutableStateFlow<List<DomainCastEntity>>(emptyList())
-    private val _listsssssCrew = MutableStateFlow<List<DomainCrewEntity>>(emptyList())
+    private val listCast = MutableStateFlow<List<DomainCastEntity>>(emptyList())
+    private val listCrew = MutableStateFlow<List<DomainCrewEntity>>(emptyList())
+    private val listSeasons =
+        MutableStateFlow<ShowSeasonsListUiState>(ShowSeasonsListUiState.Loading)
     private val isError = MutableStateFlow(false)
     private val isRefreshing = MutableStateFlow(false)
 
     val showUiState: StateFlow<ShowUiStateView> = combine(
-        _showInformation,
-        _listPeoplesShow,
+        showInformation,
+        listPeoplesShow,
+        listSeasons,
         isError,
         isRefreshing,
-    ) { showInfoResult, listPeoplesShowResult, isRefreshingResult, isErrorResult ->
+    ) { showInfoResult, listPeoplesShowResult, listSeasonsResult, isRefreshingResult, isErrorResult ->
 
         val showInfo = when (showInfoResult) {
             is ShowInformationUiState.Error -> ShowInformationUiState.Error(message = showInfoResult.message)
@@ -54,9 +55,16 @@ class ShowViewModel @Inject constructor(
             )
         }
 
+        val listSeasonsShow = when (listSeasonsResult) {
+            is ShowSeasonsListUiState.Error -> ShowSeasonsListUiState.Error(message = listSeasonsResult.message)
+            ShowSeasonsListUiState.Loading -> ShowSeasonsListUiState.Loading
+            is ShowSeasonsListUiState.Success -> ShowSeasonsListUiState.Success(listSeasons = listSeasonsResult.listSeasons)
+        }
+
         ShowUiStateView(
             showInformation = showInfo,
             showPeoplesList = listPeopleShow,
+            showSeasonsList = listSeasonsShow,
             isError = isErrorResult,
             isRefreshing = isRefreshingResult
         )
@@ -66,6 +74,7 @@ class ShowViewModel @Inject constructor(
         initialValue = ShowUiStateView(
             showInformation = ShowInformationUiState.Loading,
             showPeoplesList = ShowPeoplesListUiState.Loading,
+            showSeasonsList = ShowSeasonsListUiState.Loading,
             isError = false,
             isRefreshing = false
         )
@@ -73,15 +82,15 @@ class ShowViewModel @Inject constructor(
 
     fun getShowInformation(showId: Int) =
         viewModelScope.launch {
-            _showInformation.update { return@update ShowInformationUiState.Loading }
+            showInformation.update { return@update ShowInformationUiState.Loading }
             showRepository.getShowInformation(showId = showId)
                 .onSuccess { show ->
-                    _showInformation.update {
+                    showInformation.update {
                         return@update ShowInformationUiState.Success(show = show)
                     }
                 }
                 .onException { exception ->
-                    _showInformation.update {
+                    showInformation.update {
                         return@update ShowInformationUiState.Error(
                             message = exception.message ?: "unknown error"
                         )
@@ -89,43 +98,61 @@ class ShowViewModel @Inject constructor(
                 }
         }
 
-
     fun getPeoplesShowInformation(showId: Int) {
         viewModelScope.launch {
-            showRepository.getCast(showId = showId)
+            showRepository.getListCastShow(showId = showId)
                 .onSuccess { cast ->
-                    _listsssssCast.value = cast
+                    listCast.value = cast
                 }.onException { exception ->
-                    _listPeoplesShow.update {
+                    listPeoplesShow.update {
                         return@update ShowPeoplesListUiState.Error(
                             message = exception.message ?: "unknown error cast information"
                         )
                     }
                 }
-            showRepository.getCrew(showId = showId)
+            showRepository.getListCrewShow(showId = showId)
                 .onSuccess { crew ->
-                    _listsssssCrew.value = crew
+                    listCrew.value = crew
                 }.onException { exception ->
-                    _listPeoplesShow.update {
+                    listPeoplesShow.update {
                         return@update ShowPeoplesListUiState.Error(
                             message = exception.message ?: "unknown error crew information"
                         )
                     }
                 }
-            _listPeoplesShow.update {
+            listPeoplesShow.update {
                 return@update ShowPeoplesListUiState.Success(
-                    castList = _listsssssCast.value,
-                    crewList = _listsssssCrew.value
+                    castList = listCast.value,
+                    crewList = listCrew.value
                 )
             }
         }
     }
+
+    fun getListSeasonsShow(showId: Int) =
+        viewModelScope.launch {
+            listSeasons.update { return@update ShowSeasonsListUiState.Loading }
+            showRepository.getListSeasonsShow(showId = showId)
+                .onSuccess { seasons ->
+                    listSeasons.update {
+                        return@update ShowSeasonsListUiState.Success(listSeasons = seasons)
+                    }
+                }
+                .onException { exception ->
+                    listSeasons.update {
+                        return@update ShowSeasonsListUiState.Error(
+                            message = exception.message ?: "error load seasons"
+                        )
+                    }
+                }
+        }
 }
 
 //общее состояние экрана деталей шоу
 data class ShowUiStateView(
     val showInformation: ShowInformationUiState,
     val showPeoplesList: ShowPeoplesListUiState,
+    val showSeasonsList: ShowSeasonsListUiState,
     val isError: Boolean,
     val isRefreshing: Boolean,
 )
@@ -147,6 +174,13 @@ sealed interface ShowPeoplesListUiState {
 
     data class Error(val message: String) : ShowPeoplesListUiState
     object Loading : ShowPeoplesListUiState
+}
+
+//сщстояние отображения сезонов шоу
+sealed interface ShowSeasonsListUiState {
+    data class Success(val listSeasons: List<DomainSeasonEntity>) : ShowSeasonsListUiState
+    data class Error(val message: String) : ShowSeasonsListUiState
+    object Loading : ShowSeasonsListUiState
 }
 
 private const val StopTimeoutMillis: Long = 5000

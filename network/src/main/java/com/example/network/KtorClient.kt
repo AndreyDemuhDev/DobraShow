@@ -2,12 +2,15 @@ package com.example.network
 
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
+import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
 import com.example.network.models.remote.RemoteCastModel
 import com.example.network.models.remote.RemoteCrewModel
+import com.example.network.models.remote.RemoteSeasonsModel
 import com.example.network.models.remote.RemoteShowModel
 import com.example.network.models.remote.toDomainCast
 import com.example.network.models.remote.toDomainCrew
+import com.example.network.models.remote.toDomainSeason
 import com.example.network.models.remote.toDomainShow
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -61,6 +64,14 @@ class KtorClient() {
             client.get("shows/$id/crew")
                 .body<List<RemoteCrewModel>>()
                 .map { it.toDomainCrew() }
+        }
+    }
+
+    suspend fun getListSeasonsShow(id: Int): ApiStatus<List<DomainSeasonEntity>> {
+        return safeApiCall {
+            client.get("shows/$id/seasons")
+                .body<List<RemoteSeasonsModel>>()
+                .map { it.toDomainSeason() }
         }
     }
 

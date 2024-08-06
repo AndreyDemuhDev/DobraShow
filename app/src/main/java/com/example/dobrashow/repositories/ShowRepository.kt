@@ -4,6 +4,7 @@ import com.example.network.ApiStatus
 import com.example.network.KtorClient
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
+import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
 import javax.inject.Inject
 
@@ -15,11 +16,15 @@ class ShowRepository @Inject constructor(
         return ktorClient.getShow(id = showId)
     }
 
-    suspend fun getCast(showId: Int): ApiStatus<List<DomainCastEntity>> {
+    suspend fun getListCastShow(showId: Int): ApiStatus<List<DomainCastEntity>> {
         return ktorClient.getCastShow(id = showId)
     }
 
-    suspend fun getCrew(showId: Int): ApiStatus<List<DomainCrewEntity>> {
+    suspend fun getListCrewShow(showId: Int): ApiStatus<List<DomainCrewEntity>> {
         return ktorClient.getCrewShow(id = showId)
+    }
+
+    suspend fun getListSeasonsShow(showId: Int): ApiStatus<List<DomainSeasonEntity>> {
+        return ktorClient.getListSeasonsShow(id = showId)
     }
 }

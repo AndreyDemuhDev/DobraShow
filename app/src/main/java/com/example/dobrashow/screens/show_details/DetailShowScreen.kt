@@ -28,11 +28,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CastAndCrewShowPager
+import com.example.dobrashow.ui.components.SeasonsItemCard
 import com.example.dobrashow.ui.components.ShowStatusComponent
 import com.example.network.models.domain.DomainShowEntity
 
@@ -48,6 +50,7 @@ fun DetailShowScreen(
     LaunchedEffect(key1 = Unit, block = {
         showViewModel.getShowInformation(showId)
         showViewModel.getPeoplesShowInformation(showId)
+        showViewModel.getListSeasonsShow(showId)
     })
 
     if (state.isError) {
@@ -56,7 +59,8 @@ fun DetailShowScreen(
 
     DetailsShowContent(
         showState = state.showInformation,
-        listPeoplesShow = state.showPeoplesList
+        listPeoplesShow = state.showPeoplesList,
+        listSeasons = state.showSeasonsList
     )
 
 }
@@ -65,16 +69,23 @@ fun DetailShowScreen(
 fun DetailsShowContent(
     showState: ShowInformationUiState,
     listPeoplesShow: ShowPeoplesListUiState,
+    listSeasons: ShowSeasonsListUiState,
     modifier: Modifier = Modifier
 ) {
     LazyColumn {
         item { ShowInformationState(showInfoUiState = showState, modifier = modifier) }
-        item { ShowPeoplesShowUiState(peoplesShow = listPeoplesShow) }
+        item { ShowPeoplesState(peoplesShow = listPeoplesShow) }
         item {
             Text(
                 text = "Seasons",
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
+            )
+        }
+        item {
+            ShowSeasonsState(
+                stateSeasons = listSeasons,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
     }
@@ -119,7 +130,7 @@ private fun ShowInformationState(
 }
 
 @Composable
-fun ShowPeoplesShowUiState(
+fun ShowPeoplesState(
     peoplesShow: ShowPeoplesListUiState,
     modifier: Modifier = Modifier
 ) {
@@ -137,6 +148,29 @@ fun ShowPeoplesShowUiState(
                 cast = peoplesShow.castList,
                 crew = peoplesShow.crewList,
                 modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun ShowSeasonsState(
+    stateSeasons: ShowSeasonsListUiState,
+    modifier: Modifier = Modifier
+) {
+    when (stateSeasons) {
+        is ShowSeasonsListUiState.Error -> {
+            Text(text = "Error seasons list")
+        }
+
+        ShowSeasonsListUiState.Loading -> {
+//            LoadingState()
+        }
+
+        is ShowSeasonsListUiState.Success -> {
+            SeasonsItemCard(
+                seasonItem = stateSeasons.listSeasons,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
             )
         }
     }
