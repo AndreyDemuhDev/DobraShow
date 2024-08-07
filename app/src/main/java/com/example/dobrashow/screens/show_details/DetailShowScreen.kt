@@ -1,6 +1,7 @@
 package com.example.dobrashow.screens.show_details
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,12 +31,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CastAndCrewShowPager
+import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.SeasonsItemCard
 import com.example.dobrashow.ui.components.ShowStatusComponent
 import com.example.network.models.domain.DomainShowEntity
@@ -43,6 +46,7 @@ fun DetailShowScreen(
     showId: Int,
     onClickSeason: (Int) -> Unit,
     onClickPerson: (Int) -> Unit,
+    onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
     showViewModel: ShowViewModel = hiltViewModel(),
 ) {
@@ -55,51 +59,54 @@ fun DetailShowScreen(
     })
 
     if (state.isError) {
-
+        //TODO
     }
 
-    DetailsShowContent(
+    SuccessDetailsShowStateContent(
         showState = state.showInformation,
         listPeoplesShow = state.showPeoplesList,
         listSeasons = state.showSeasonsList,
         onClickSeason = onClickSeason,
+        onClickBack = onClickBack
     )
-
 }
 
 @Composable
-fun DetailsShowContent(
+fun SuccessDetailsShowStateContent(
     showState: ShowInformationUiState,
     listPeoplesShow: ShowPeoplesListUiState,
     listSeasons: ShowSeasonsListUiState,
     onClickSeason: (Int) -> Unit,
+    onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn {
-        item { ShowInformationState(showInfoUiState = showState, modifier = modifier) }
-        item { ShowPeoplesState(peoplesShow = listPeoplesShow) }
-        item {
-            Text(
-                text = "Seasons",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
-            )
-        }
-        item {
-            ShowSeasonsState(
-                stateSeasons = listSeasons,
-                onClickSeason = onClickSeason,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+    Column(modifier = modifier) {
+        CustomTopBarComponent(title = "Details Show", onClickBack = onClickBack)
+        LazyColumn {
+            item { ShowInformationState(showInfoUiState = showState) }
+            item { ShowPeoplesState(peoplesShow = listPeoplesShow) }
+            item {
+                Text(
+                    text = "Seasons",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(start = 16.dp, top = 4.dp, bottom = 4.dp)
+                )
+            }
+            item {
+                ShowSeasonsState(
+                    stateSeasons = listSeasons,
+                    onClickSeason = onClickSeason,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
         }
     }
-
 }
 
 @Composable
 private fun ShowInformationState(
     showInfoUiState: ShowInformationUiState,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     when (showInfoUiState) {
         is ShowInformationUiState.Success -> {
@@ -136,7 +143,7 @@ private fun ShowInformationState(
 @Composable
 fun ShowPeoplesState(
     peoplesShow: ShowPeoplesListUiState,
-    modifier: Modifier = Modifier
+//    modifier: Modifier = Modifier
 ) {
     when (peoplesShow) {
         is ShowPeoplesListUiState.Error -> {
@@ -144,14 +151,14 @@ fun ShowPeoplesState(
         }
 
         ShowPeoplesListUiState.Loading -> {
-            LoadingState()
+            LoadingStateContent()
         }
 
         is ShowPeoplesListUiState.Success -> {
             CastAndCrewShowPager(
                 cast = peoplesShow.castList,
                 crew = peoplesShow.crewList,
-                modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
     }
@@ -173,11 +180,15 @@ fun ShowSeasonsState(
         }
 
         is ShowSeasonsListUiState.Success -> {
-            SeasonsItemCard(
-                seasonItem = stateSeasons.listSeasons,
-                onClickSeason = onClickSeason,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-            )
+            LazyRow(modifier = Modifier.padding(horizontal = 12.dp)) {
+                items(stateSeasons.listSeasons) { seasonItem ->
+                    SeasonsItemCard(
+                        seasonItem = seasonItem,
+                        onClickSeason = onClickSeason,
+                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -195,7 +206,7 @@ private fun ImageShowSection(
                 .aspectRatio(1f)
                 .heightIn(max = 400.dp),
             contentScale = ContentScale.FillBounds,
-            loading = { LoadingState() }
+            loading = { LoadingStateContent() }
         )
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
@@ -215,17 +226,10 @@ private fun ImageShowSection(
 
 @Composable
 private fun HeaderInformationShowSection(modifier: Modifier = Modifier) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+    Box(
+        contentAlignment = Alignment.TopEnd,
         modifier = modifier
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_arrow_back),
-            contentDescription = "back",
-            colorFilter = ColorFilter.tint(Color.White),
-            modifier = Modifier.size(36.dp)
-        )
         Image(
             painter = painterResource(id = R.drawable.ic_favorite_heart),
             contentDescription = "favorite",
@@ -288,9 +292,8 @@ fun InformationShowItem(
     }
 }
 
-
 @Composable
-fun LoadingState(
+fun LoadingStateContent(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {

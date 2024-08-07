@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,14 +30,15 @@ import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
-import com.example.dobrashow.screens.show_details.LoadingState
+import com.example.dobrashow.screens.show_details.LoadingStateContent
+import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.network.models.domain.DomainSeasonEntity
 
 
 @Composable
 fun SeasonDetailsScreen(
     seasonId: Int,
-    modifier: Modifier = Modifier,
+    onClickBack:()-> Unit,
     seasonViewModel: SeasonViewModel = hiltViewModel(),
 ) {
 
@@ -52,37 +52,39 @@ fun SeasonDetailsScreen(
         }
 
         SeasonUiState.Loading -> {
-            LoadingState()
+            LoadingStateContent()
         }
 
         is SeasonUiState.Success -> {
-            SeasonContent(season = state.season)
+            SuccessSeasonStateContent(season = state.season, onClickBack = onClickBack)
         }
     }
 }
 
 @Composable
-fun SeasonContent(
+fun SuccessSeasonStateContent(
     season: DomainSeasonEntity,
+    onClickBack: ()-> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn {
-        item { ImageSeasonSection(season = season) }
-        item { DescriptionSeason(season = season, modifier = Modifier.fillMaxWidth()) }
-        item {
-            ListEpisodesSeason(
-                season = season,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+    Column(modifier = modifier) {
+        CustomTopBarComponent(title = "Season Details", onClickBack = onClickBack)
+        LazyColumn {
+            item { ImageSeasonSection(season = season) }
+            item { DescriptionSeason(season = season, modifier = Modifier.fillMaxWidth()) }
+            item {
+                ListEpisodesSeason(
+                    season = season,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
         }
-
     }
 }
 
 @Composable
 fun ImageSeasonSection(
     season: DomainSeasonEntity,
-    modifier: Modifier = Modifier
 ) {
     AsyncImage(
         model = season.image.medium,
@@ -110,14 +112,13 @@ fun DescriptionSeason(
             text = "Premiere date: ${season.premiereDate}",
             style = MaterialTheme.typography.titleMedium
         )
-        if (season.summary.isNotEmpty()){
+        if (season.summary.isNotEmpty()) {
             Text(
                 text = season.summary,
                 style = MaterialTheme.typography.titleSmall,
                 textAlign = TextAlign.Justify
             )
         }
-
     }
 }
 

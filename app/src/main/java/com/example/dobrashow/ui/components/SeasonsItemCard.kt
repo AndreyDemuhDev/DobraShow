@@ -23,49 +23,46 @@ import com.example.network.models.domain.DomainSeasonEntity
 
 @Composable
 fun SeasonsItemCard(
-    seasonItem: List<DomainSeasonEntity>,
+    seasonItem: DomainSeasonEntity,
     onClickSeason: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    seasonItem.forEach { season ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier
-                .border(
-                    width = 1.dp,
-                    brush = Brush.verticalGradient(
-                        listOf(
-                            Color.Transparent,
-                            Color.Blue.copy(alpha = 0.5f)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                brush = Brush.verticalGradient(
+                    listOf(
+                        Color.Transparent,
+                        Color.Blue.copy(alpha = 0.5f)
+                    )
+                ),
+                shape = MaterialTheme.shapes.medium
+            )
+            .clickable { onClickSeason(seasonItem.id) }
+    ) {
+        Box() {
+            AsyncImage(
+                model = seasonItem.image.medium,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                error = painterResource(id = R.drawable.ic_no_image),
+                modifier = Modifier
+                    .size(width = 200.dp, height = 250.dp)
+                    .clip(
+                        shape = RoundedCornerShape(
+                            topStart = 15.dp,
+                            topEnd = 15.dp,
+                            bottomStart = 0.dp,
+                            bottomEnd = 0.dp
                         )
-                    ),
-                    shape = MaterialTheme.shapes.medium
-                )
-                .clickable { onClickSeason(season.id) }
-        ) {
-            Box() {
-                AsyncImage(
-                    model = season.image.medium,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.ic_no_image),
-                    modifier = Modifier
-                        .size(width = 200.dp, height = 250.dp)
-                        .clip(
-                            shape = RoundedCornerShape(
-                                topStart = 15.dp,
-                                topEnd = 15.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 0.dp
-                            )
-                        )
-                )
-            }
-            Text(
-                text = "Season ${season.number}",
-                style = MaterialTheme.typography.headlineMedium,
+                    )
             )
         }
+        Text(
+            text = "Season ${seasonItem.number}",
+            style = MaterialTheme.typography.headlineMedium,
+        )
     }
 }

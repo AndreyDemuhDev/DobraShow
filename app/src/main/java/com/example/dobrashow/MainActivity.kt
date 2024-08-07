@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
@@ -32,12 +34,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             DobraShowTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    NavHost(navController = navController, startDestination = "home_screen") {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home_screen",
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
                         composable(route = "home_screen") {
                             HomeScreen(onClickShow = { showId ->
-                                    navController.navigate("show_details/$showId")
-                                }
+                                navController.navigate("show_details/$showId")
+                            }
                             )
                         }
                         composable(
@@ -49,6 +55,7 @@ class MainActivity : ComponentActivity() {
                                 showId = showId,
                                 onClickSeason = { navController.navigate("seasons_details/$it") },
                                 onClickPerson = {},
+                                onClickBack = { navController.navigateUp() },
                                 modifier = Modifier.fillMaxSize()
                             )
                         }
@@ -57,7 +64,10 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument("seasonId") { type = NavType.IntType })
                         ) { backStackEntry ->
                             val currentShow = backStackEntry.arguments?.getInt("seasonId") ?: -1
-                            SeasonDetailsScreen(seasonId = currentShow)
+                            SeasonDetailsScreen(
+                                seasonId = currentShow,
+                                onClickBack = { navController.navigateUp() },
+                            )
                         }
                     }
                 }
