@@ -1,11 +1,9 @@
 package com.example.network
 
-import androidx.compose.ui.graphics.Color
 
-
-sealed class ShowStatus(val statusName: String, val colorStatus: Color) {
-    object Running: ShowStatus("Running", Color.Green)
-    object Ended: ShowStatus("Ended", Color.Red)
-    object Determined: ShowStatus("To Be Determined", Color.Blue)
-    object Unknown: ShowStatus("Unknown", Color.DarkGray)
+sealed class ShowStatus(val statusName: String) {
+    object Running: ShowStatus("Running")
+    object Ended: ShowStatus("Ended")
+    object Determined: ShowStatus("To Be Determined")
+    object Unknown: ShowStatus("Unknown")
 }
