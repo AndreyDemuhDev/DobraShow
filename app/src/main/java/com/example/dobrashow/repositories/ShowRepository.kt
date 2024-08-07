@@ -12,6 +12,11 @@ import javax.inject.Inject
 class ShowRepository @Inject constructor(
     private val ktorClient: KtorClient
 ) {
+
+    suspend fun getListShow(numberPage: Int): ApiStatus<List<DomainShowEntity>> {
+        return ktorClient.getListShow(pageNumber = numberPage)
+    }
+
     suspend fun getShowInformation(showId: Int): ApiStatus<DomainShowEntity> {
         return ktorClient.getShow(id = showId)
     }
