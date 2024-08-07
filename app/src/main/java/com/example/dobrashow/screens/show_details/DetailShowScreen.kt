@@ -2,6 +2,7 @@ package com.example.dobrashow.screens.show_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +34,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -111,6 +116,11 @@ private fun ShowInformationState(
     when (showInfoUiState) {
         is ShowInformationUiState.Success -> {
             Column(modifier = modifier) {
+
+                var expandedDescription by remember {
+                    mutableStateOf(false)
+                }
+
                 ImageShowSection(showInfoUiState.show)
                 Text(
                     text = "Story Line",
@@ -118,15 +128,21 @@ private fun ShowInformationState(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 16.dp, top = 10.dp)
                 )
-                Text(
-                    text = HtmlCompat.fromHtml(
-                        showInfoUiState.show.summary,
-                        HtmlCompat.FROM_HTML_MODE_COMPACT
+                Row {
+                    Text(
+                        text = HtmlCompat.fromHtml(
+                            showInfoUiState.show.summary,
+                            HtmlCompat.FROM_HTML_MODE_COMPACT
+                        ).toString().trim(),
+                        textAlign = TextAlign.Justify,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = if (!expandedDescription) 5 else Int.MAX_VALUE,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .clickable { expandedDescription = !expandedDescription }
                     )
-                        .toString().trim(),
-                    textAlign = TextAlign.Justify,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
+                }
+
             }
         }
 

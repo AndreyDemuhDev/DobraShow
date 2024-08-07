@@ -28,6 +28,7 @@ data class DomainSeasonEntity(
         val id: Long,
         val url: String,
         val name: String,
+        val airdate: String,
         val season: Long,
         val number: Long? = null,
         val runtime: Long,
