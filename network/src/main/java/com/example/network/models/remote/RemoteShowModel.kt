@@ -22,28 +22,28 @@ data class RemoteShowModel(
 ) {
     @Serializable
     data class ImageShow(
-        val medium: String,
-        val original: String,
+        val medium: String?,
+        val original: String?,
     )
 
     @Serializable
     data class NetworkShow(
         val country: CountryShow? = null,
-        val id: Int,
-        val name: String,
-        val officialSite: String
+        val id: Int?,
+        val name: String?,
+        val officialSite: String?
     )
 
     @Serializable
     data class CountryShow(
-        val code: String,
-        val name: String,
-        val timezone: String
+        val code: String? ,
+        val name: String?,
+        val timezone: String?
     )
 
     @Serializable
     data class RatingShow(
-        val average: Double,
+        val average: Double? = 0.0,
     )
 }
 

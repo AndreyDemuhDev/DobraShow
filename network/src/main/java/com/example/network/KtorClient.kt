@@ -75,6 +75,14 @@ class KtorClient() {
         }
     }
 
+    suspend fun getListShow(pageNumber: Int): ApiStatus<List<DomainShowEntity>> {
+        return safeApiCall {
+            client.get("shows?page=$pageNumber")
+                .body<List<RemoteShowModel>>()
+                .map { it.toDomainShow() }
+        }
+    }
+
     private inline fun <T> safeApiCall(apiCall: () -> T): ApiStatus<T> {
         return try {
             ApiStatus.SuccessStatus(data = apiCall())

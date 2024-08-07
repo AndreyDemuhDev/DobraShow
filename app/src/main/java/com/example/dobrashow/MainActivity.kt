@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.dobrashow.screens.home.HomeScreen
 import com.example.dobrashow.screens.show_details.DetailShowScreen
 import com.example.dobrashow.screens.season_details.SeasonDetailsScreen
 import com.example.dobrashow.ui.theme.DobraShowTheme
@@ -32,10 +33,20 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             DobraShowTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    NavHost(navController = navController, startDestination = "show_details") {
-                        composable(route = "show_details") {
+                    NavHost(navController = navController, startDestination = "home_screen") {
+                        composable(route = "home_screen") {
+                            HomeScreen(onClickShow = { showId ->
+                                    navController.navigate("show_details/$showId")
+                                }
+                            )
+                        }
+                        composable(
+                            route = "show_details/{showId}",
+                            arguments = listOf(navArgument("showId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val showId = backStackEntry.arguments?.getInt("showId") ?: -1
                             DetailShowScreen(
-                                showId = 5,
+                                showId = showId,
                                 onClick = { navController.navigate("seasons_show/$it") },
                                 modifier = Modifier.fillMaxSize()
                             )
