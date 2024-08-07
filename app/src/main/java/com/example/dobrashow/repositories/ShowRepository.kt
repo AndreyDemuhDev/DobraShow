@@ -32,4 +32,8 @@ class ShowRepository @Inject constructor(
     suspend fun getListSeasonsShow(showId: Int): ApiStatus<List<DomainSeasonEntity>> {
         return ktorClient.getListSeasonsShow(id = showId)
     }
+
+    suspend fun getSeasonInfo(seasonId: Int): ApiStatus<DomainSeasonEntity> {
+        return ktorClient.getSeasonInfo(seasonId = seasonId)
+    }
 }

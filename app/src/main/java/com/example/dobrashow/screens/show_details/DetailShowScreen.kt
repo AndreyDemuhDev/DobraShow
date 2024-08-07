@@ -41,7 +41,8 @@ import com.example.network.models.domain.DomainShowEntity
 @Composable
 fun DetailShowScreen(
     showId: Int,
-    onClick: (Int) -> Unit,
+    onClickSeason: (Int) -> Unit,
+    onClickPerson: (Int) -> Unit,
     modifier: Modifier = Modifier,
     showViewModel: ShowViewModel = hiltViewModel(),
 ) {
@@ -60,7 +61,8 @@ fun DetailShowScreen(
     DetailsShowContent(
         showState = state.showInformation,
         listPeoplesShow = state.showPeoplesList,
-        listSeasons = state.showSeasonsList
+        listSeasons = state.showSeasonsList,
+        onClickSeason = onClickSeason,
     )
 
 }
@@ -70,6 +72,7 @@ fun DetailsShowContent(
     showState: ShowInformationUiState,
     listPeoplesShow: ShowPeoplesListUiState,
     listSeasons: ShowSeasonsListUiState,
+    onClickSeason: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn {
@@ -85,6 +88,7 @@ fun DetailsShowContent(
         item {
             ShowSeasonsState(
                 stateSeasons = listSeasons,
+                onClickSeason = onClickSeason,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
@@ -156,6 +160,7 @@ fun ShowPeoplesState(
 @Composable
 fun ShowSeasonsState(
     stateSeasons: ShowSeasonsListUiState,
+    onClickSeason: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (stateSeasons) {
@@ -170,6 +175,7 @@ fun ShowSeasonsState(
         is ShowSeasonsListUiState.Success -> {
             SeasonsItemCard(
                 seasonItem = stateSeasons.listSeasons,
+                onClickSeason = onClickSeason,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
             )
         }
