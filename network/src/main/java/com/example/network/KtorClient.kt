@@ -83,6 +83,14 @@ class KtorClient() {
         }
     }
 
+    suspend fun getSeasonInfo(seasonId: Int): ApiStatus<DomainSeasonEntity> {
+        return safeApiCall {
+            client.get("seasons/$seasonId?embed=episodes")
+                .body<RemoteSeasonsModel>()
+                .toDomainSeason()
+        }
+    }
+
     private inline fun <T> safeApiCall(apiCall: () -> T): ApiStatus<T> {
         return try {
             ApiStatus.SuccessStatus(data = apiCall())

@@ -47,16 +47,17 @@ class MainActivity : ComponentActivity() {
                             val showId = backStackEntry.arguments?.getInt("showId") ?: -1
                             DetailShowScreen(
                                 showId = showId,
-                                onClick = { navController.navigate("seasons_show/$it") },
+                                onClickSeason = { navController.navigate("seasons_details/$it") },
+                                onClickPerson = {},
                                 modifier = Modifier.fillMaxSize()
                             )
                         }
                         composable(
-                            route = "seasons_show/{showId}",
-                            arguments = listOf(navArgument("showId") { type = NavType.IntType })
+                            route = "seasons_details/{seasonId}",
+                            arguments = listOf(navArgument("seasonId") { type = NavType.IntType })
                         ) { backStackEntry ->
-                            val currentShow = backStackEntry.arguments?.getInt("showId") ?: -1
-                            SeasonDetailsScreen(showId = currentShow)
+                            val currentShow = backStackEntry.arguments?.getInt("seasonId") ?: -1
+                            SeasonDetailsScreen(seasonId = currentShow)
                         }
                     }
                 }

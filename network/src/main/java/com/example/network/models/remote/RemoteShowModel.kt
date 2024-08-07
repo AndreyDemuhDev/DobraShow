@@ -36,7 +36,7 @@ data class RemoteShowModel(
 
     @Serializable
     data class CountryShow(
-        val code: String? ,
+        val code: String?,
         val name: String?,
         val timezone: String?
     )
