@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.dobrashow.utils.toColor
 import com.example.network.ShowStatus
 
 @Composable
@@ -22,7 +23,7 @@ fun ShowStatusComponent(
         modifier = modifier
             .border(
                 width = 2.dp,
-                color = showStatus.colorStatus,
+                color = showStatus.toColor(),
                 shape = MaterialTheme.shapes.medium
             )
             .padding(vertical = 4.dp, horizontal = 8.dp)
