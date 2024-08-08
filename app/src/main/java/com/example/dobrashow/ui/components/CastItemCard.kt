@@ -1,5 +1,6 @@
 package com.example.dobrashow.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,11 +24,14 @@ import com.example.network.models.domain.DomainCrewEntity
 @Composable
 fun CastItemCard(
     cast: DomainCastEntity,
+    onClickPerson: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.size(width = 160.dp, height = 210.dp)
+        modifier = modifier
+            .size(width = 160.dp, height = 210.dp)
+            .clickable { onClickPerson() }
     ) {
         AsyncImage(
             model = cast.person.image.medium,
