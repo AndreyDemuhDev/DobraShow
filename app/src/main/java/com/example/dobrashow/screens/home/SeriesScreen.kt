@@ -24,15 +24,15 @@ import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.ShowItemCard
 
 @Composable
-fun HomeScreen(
+fun SeriesScreen(
     onClickShow: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
+    seriesViewModel: HomeViewModel = hiltViewModel(),
 ) {
 
-    val viewState by viewModel.listShowState.collectAsState()
+    val viewState by seriesViewModel.listShowState.collectAsState()
 
-    LaunchedEffect(key1 = Unit, block = { viewModel.initialPage() })
+    LaunchedEffect(key1 = Unit, block = { seriesViewModel.initialPage() })
 
     val scrollState = rememberLazyGridState()
     val fetchNextPage: Boolean by remember {
@@ -46,7 +46,7 @@ fun HomeScreen(
     }
 
     LaunchedEffect(key1 = fetchNextPage, block = {
-        if (fetchNextPage) viewModel.fetchNextPage()
+        if (fetchNextPage) seriesViewModel.fetchNextPage()
     })
 
     when (val state = viewState) {
@@ -59,7 +59,7 @@ fun HomeScreen(
         }
 
         is HomeUiState.Success -> {
-            SuccessStateShowsContent(
+            SuccessStateSeriesContent(
                 scrollState = scrollState,
                 state = state,
                 onClickShow = onClickShow
@@ -69,7 +69,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun SuccessStateShowsContent(
+private fun SuccessStateSeriesContent(
     scrollState: LazyGridState,
     state: HomeUiState.Success,
     onClickShow: (Int) -> Unit
