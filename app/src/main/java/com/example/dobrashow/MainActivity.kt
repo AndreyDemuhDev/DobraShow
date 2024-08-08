@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.dobrashow.screens.home.HomeScreen
+import com.example.dobrashow.screens.person_details.PersonDetailsScreen
 import com.example.dobrashow.screens.show_details.DetailShowScreen
 import com.example.dobrashow.screens.season_details.SeasonDetailsScreen
 import com.example.dobrashow.ui.theme.DobraShowTheme
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                             DetailShowScreen(
                                 showId = showId,
                                 onClickSeason = { navController.navigate("seasons_details/$it") },
-                                onClickPerson = {},
+                                onClickPerson = { navController.navigate("people_details/$it") },
                                 onClickBack = { navController.navigateUp() },
                                 modifier = Modifier.fillMaxSize()
                             )
@@ -67,6 +67,19 @@ class MainActivity : ComponentActivity() {
                             SeasonDetailsScreen(
                                 seasonId = currentShow,
                                 onClickBack = { navController.navigateUp() },
+                            )
+                        }
+                        composable(
+                            route = "people_details/{personId}",
+                            arguments = listOf(navArgument("personId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val currentPeople = backStackEntry.arguments?.getInt("personId") ?: -1
+                            PersonDetailsScreen(
+                                personId = currentPeople,
+                                onClickShow = { navController.navigate("show_details/$it") },
+                                onClickCrew = { navController.navigate("show_details/$it") },
+                                onClickBack = { navController.navigateUp() },
+                                modifier = Modifier.fillMaxSize()
                             )
                         }
                     }

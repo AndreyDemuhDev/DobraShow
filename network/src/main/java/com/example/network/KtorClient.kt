@@ -2,14 +2,17 @@ package com.example.network
 
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
+import com.example.network.models.domain.DomainPersonEntity
 import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
 import com.example.network.models.remote.RemoteCastModel
 import com.example.network.models.remote.RemoteCrewModel
+import com.example.network.models.remote.RemotePersonModel
 import com.example.network.models.remote.RemoteSeasonsModel
 import com.example.network.models.remote.RemoteShowModel
 import com.example.network.models.remote.toDomainCast
 import com.example.network.models.remote.toDomainCrew
+import com.example.network.models.remote.toDomainPerson
 import com.example.network.models.remote.toDomainSeason
 import com.example.network.models.remote.toDomainShow
 import io.ktor.client.HttpClient
@@ -88,6 +91,14 @@ class KtorClient() {
             client.get("seasons/$seasonId?embed=episodes")
                 .body<RemoteSeasonsModel>()
                 .toDomainSeason()
+        }
+    }
+
+    suspend fun getPersonInfo(personId: Int): ApiStatus<DomainPersonEntity> {
+        return safeApiCall {
+            client.get("people/$personId?embed[]=crewcredits&embed[]=castcredits")
+                .body<RemotePersonModel>()
+                .toDomainPerson()
         }
     }
 

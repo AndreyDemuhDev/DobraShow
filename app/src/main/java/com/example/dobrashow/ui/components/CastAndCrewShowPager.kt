@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 
@@ -29,6 +28,7 @@ import com.example.network.models.domain.DomainCrewEntity
 fun CastAndCrewShowPager(
     cast: List<DomainCastEntity>,
     crew: List<DomainCrewEntity>,
+    onClickPerson: (Int)-> Unit,
     modifier: Modifier = Modifier
 ) {
     val tabItems = listOf("Cast", "Crew")
@@ -67,6 +67,7 @@ fun CastAndCrewShowPager(
                     items(cast) { item ->
                         CastItemCard(
                             cast = item,
+                            onClickPerson = { onClickPerson(item.person.id) },
                             modifier = Modifier.padding(horizontal = 4.dp)
                         )
                     }
@@ -76,6 +77,7 @@ fun CastAndCrewShowPager(
                     items(crew) { item ->
                         CrewItemCard(
                             crew = item,
+                            onClickPerson = { onClickPerson(item.person.id) },
                             modifier = Modifier.padding(horizontal = 4.dp)
                         )
                     }

@@ -1,7 +1,6 @@
 package com.example.dobrashow.screens.show_details
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -72,6 +71,7 @@ fun DetailShowScreen(
         listPeoplesShow = state.showPeoplesList,
         listSeasons = state.showSeasonsList,
         onClickSeason = onClickSeason,
+        onClickPerson = onClickPerson,
         onClickBack = onClickBack
     )
 }
@@ -82,6 +82,7 @@ fun SuccessDetailsShowStateContent(
     listPeoplesShow: ShowPeoplesListUiState,
     listSeasons: ShowSeasonsListUiState,
     onClickSeason: (Int) -> Unit,
+    onClickPerson: (Int) -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -89,7 +90,7 @@ fun SuccessDetailsShowStateContent(
         CustomTopBarComponent(title = "Details Show", onClickBack = onClickBack)
         LazyColumn {
             item { ShowInformationState(showInfoUiState = showState) }
-            item { ShowPeoplesState(peoplesShow = listPeoplesShow) }
+            item { ShowPeoplesState(peoplesShow = listPeoplesShow, onClickPerson = onClickPerson) }
             item {
                 Text(
                     text = "Seasons",
@@ -159,6 +160,7 @@ private fun ShowInformationState(
 @Composable
 fun ShowPeoplesState(
     peoplesShow: ShowPeoplesListUiState,
+    onClickPerson: (Int) -> Unit,
 //    modifier: Modifier = Modifier
 ) {
     when (peoplesShow) {
@@ -174,6 +176,7 @@ fun ShowPeoplesState(
             CastAndCrewShowPager(
                 cast = peoplesShow.castList,
                 crew = peoplesShow.crewList,
+                onClickPerson = onClickPerson,
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
