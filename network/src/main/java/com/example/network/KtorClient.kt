@@ -5,16 +5,19 @@ import com.example.network.models.domain.DomainCrewEntity
 import com.example.network.models.domain.DomainPersonEntity
 import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
+import com.example.network.models.domain.DomainSimplePersonEntity
 import com.example.network.models.remote.RemoteCastModel
 import com.example.network.models.remote.RemoteCrewModel
 import com.example.network.models.remote.RemotePersonModel
 import com.example.network.models.remote.RemoteSeasonsModel
 import com.example.network.models.remote.RemoteShowModel
+import com.example.network.models.remote.RemoteSimplePersonElement
 import com.example.network.models.remote.toDomainCast
 import com.example.network.models.remote.toDomainCrew
 import com.example.network.models.remote.toDomainPerson
 import com.example.network.models.remote.toDomainSeason
 import com.example.network.models.remote.toDomainShow
+import com.example.network.models.remote.toDomainSimplePerson
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -99,6 +102,14 @@ class KtorClient() {
             client.get("people/$personId?embed[]=crewcredits&embed[]=castcredits")
                 .body<RemotePersonModel>()
                 .toDomainPerson()
+        }
+    }
+
+    suspend fun getListPersons(pageNumber: Int): ApiStatus<List<DomainSimplePersonEntity>> {
+        return safeApiCall {
+            client.get("people?page=$pageNumber")
+                .body<List<RemoteSimplePersonElement>>()
+                .map { it.toDomainSimplePerson() }
         }
     }
 

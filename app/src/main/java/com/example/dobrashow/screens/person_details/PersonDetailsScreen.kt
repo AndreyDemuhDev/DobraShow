@@ -43,20 +43,20 @@ fun PersonDetailsScreen(
     personViewModel: PersonViewModel = hiltViewModel()
 ) {
 
-    val state by personViewModel.personUiState.collectAsState()
+    val state by personViewModel.personDetailUiState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = { personViewModel.getPeopleInfo(personId = personId) })
 
     when (val stateUi = state) {
-        is PersonUiState.Error -> {
+        is PersonDetailUiState.Error -> {
             Text(text = "Error person screen")
         }
 
-        PersonUiState.Loading -> {
+        PersonDetailUiState.Loading -> {
             Text(text = "Loading person screen")
         }
 
-        is PersonUiState.Success -> {
+        is PersonDetailUiState.Success -> {
             SuccessPersonStateContent(
                 person = stateUi.person,
                 onClickShow = onClickShow,
@@ -110,7 +110,7 @@ fun PersonImage(imageUrl: String, modifier: Modifier = Modifier) {
     AsyncImage(
         model = imageUrl,
         contentDescription = "Character image",
-        error = painterResource(id = R.drawable.ic_no_image),
+        error = painterResource(id = R.drawable.ic_no_photo),
         contentScale = ContentScale.Crop,
         modifier = modifier
             .aspectRatio(1f)
