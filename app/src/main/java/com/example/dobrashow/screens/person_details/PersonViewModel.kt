@@ -18,20 +18,20 @@ class PersonViewModel @Inject constructor(
     private val showRepository: ShowRepository
 ) : ViewModel() {
 
-    private val _personUiState = MutableStateFlow<PersonUiState>(PersonUiState.Loading)
-    val personUiState: StateFlow<PersonUiState> = _personUiState.asStateFlow()
+    private val _personDetailUiState = MutableStateFlow<PersonDetailUiState>(PersonDetailUiState.Loading)
+    val personDetailUiState: StateFlow<PersonDetailUiState> = _personDetailUiState.asStateFlow()
 
 
     fun getPeopleInfo(personId: Int) =
         viewModelScope.launch {
-            _personUiState.update { return@update PersonUiState.Loading }
+            _personDetailUiState.update { return@update PersonDetailUiState.Loading }
             showRepository.getInfoPerson(personId = personId).onSuccess { person ->
-                _personUiState.update {
-                    return@update PersonUiState.Success(person = person)
+                _personDetailUiState.update {
+                    return@update PersonDetailUiState.Success(person = person)
                 }
             }.onException { exception ->
-                _personUiState.update {
-                    return@update PersonUiState.Error(
+                _personDetailUiState.update {
+                    return@update PersonDetailUiState.Error(
                         message = exception.message ?: "error load info person"
                     )
                 }
@@ -40,8 +40,8 @@ class PersonViewModel @Inject constructor(
 }
 
 
-sealed interface PersonUiState {
-    data class Success(val person: DomainPersonEntity) : PersonUiState
-    data class Error(val message: String) : PersonUiState
-    object Loading : PersonUiState
+sealed interface PersonDetailUiState {
+    data class Success(val person: DomainPersonEntity) : PersonDetailUiState
+    data class Error(val message: String) : PersonDetailUiState
+    object Loading : PersonDetailUiState
 }

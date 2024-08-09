@@ -1,4 +1,4 @@
-package com.example.dobrashow.screens.home
+package com.example.dobrashow.screens.persons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,62 +21,66 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
-import com.example.dobrashow.ui.components.ShowItemCard
+import com.example.dobrashow.ui.components.PersonCardItem
 
 @Composable
-fun SeriesScreen(
-    onClickShow: (Int) -> Unit,
+fun PersonsScreen(
+    onClickPerson: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    seriesViewModel: HomeViewModel = hiltViewModel(),
+    personsViewModel: PersonsViewModel = hiltViewModel()
 ) {
 
-    val viewState by seriesViewModel.listShowState.collectAsState()
+    val viewState by personsViewModel.listPersonsState.collectAsState()
 
-    LaunchedEffect(key1 = Unit, block = { seriesViewModel.initialPage() })
+    LaunchedEffect(key1 = Unit, block = { personsViewModel.initialPersonsPage() })
 
     val scrollState = rememberLazyGridState()
     val fetchNextPage: Boolean by remember {
         derivedStateOf {
-            val currentShowCount = (viewState as? HomeUiState.Success)?.listShow?.size
+            val currentPersonCount = (viewState as? PersonsUiState.Success)?.listPersons?.size
                 ?: return@derivedStateOf false
-            val lastDisplayedIndexShow = scrollState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
-                ?: return@derivedStateOf false
-            return@derivedStateOf lastDisplayedIndexShow >= currentShowCount - 10
+            val lastDisplayedIndexPersons =
+                scrollState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                    ?: return@derivedStateOf false
+            return@derivedStateOf lastDisplayedIndexPersons >= currentPersonCount - 10
         }
     }
 
     LaunchedEffect(key1 = fetchNextPage, block = {
-        if (fetchNextPage) seriesViewModel.fetchNextPage()
+        if (fetchNextPage) personsViewModel.fetchNextPage()
     })
 
+
     when (val state = viewState) {
-        is HomeUiState.Error -> {
-            Text(text = "Error load show list")
+        is PersonsUiState.Error -> {
+            Text(text = "Error load list persons")
         }
 
-        HomeUiState.Loading -> {
+        PersonsUiState.Loading -> {
             LoadingStateContent()
         }
 
-        is HomeUiState.Success -> {
-            SuccessStateSeriesContent(
+        is PersonsUiState.Success -> {
+            SuccessPersonsStateContent(
                 scrollState = scrollState,
-                state = state,
-                onClickShow = onClickShow
+                personsState = state,
+                onClickPerson = onClickPerson
             )
         }
     }
+
 }
 
 @Composable
-private fun SuccessStateSeriesContent(
+fun SuccessPersonsStateContent(
     scrollState: LazyGridState,
-    state: HomeUiState.Success,
-    onClickShow: (Int) -> Unit
+    personsState: PersonsUiState.Success,
+    onClickPerson: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column {
         CustomTopBarComponent(
-            title = "All shows",
+            title = "All persons",
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         LazyVerticalGrid(
@@ -86,13 +90,14 @@ private fun SuccessStateSeriesContent(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             content = {
-                items(items = state.listShow, key = { it.id }) { show ->
-                    ShowItemCard(
-                        show = show,
-                        onClickShow = { onClickShow(show.id) },
+                items(items = personsState.listPersons, key = { it.id }) { person ->
+                    PersonCardItem(
+                        person = person,
+                        onClickPerson = { onClickPerson(person.id.toInt()) },
                     )
                 }
             }
         )
     }
 }
+

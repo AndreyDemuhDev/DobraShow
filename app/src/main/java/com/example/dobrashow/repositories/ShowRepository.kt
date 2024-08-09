@@ -7,6 +7,7 @@ import com.example.network.models.domain.DomainCrewEntity
 import com.example.network.models.domain.DomainPersonEntity
 import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
+import com.example.network.models.domain.DomainSimplePersonEntity
 import javax.inject.Inject
 
 
@@ -40,5 +41,9 @@ class ShowRepository @Inject constructor(
 
     suspend fun getInfoPerson(personId: Int): ApiStatus<DomainPersonEntity> {
         return ktorClient.getPersonInfo(personId = personId)
+    }
+
+    suspend fun getListPersons(pageNumber: Int): ApiStatus<List<DomainSimplePersonEntity>> {
+        return ktorClient.getListPersons(pageNumber = pageNumber)
     }
 }
