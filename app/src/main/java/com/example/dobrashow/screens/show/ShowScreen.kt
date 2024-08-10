@@ -1,5 +1,6 @@
-package com.example.dobrashow.screens.series
+package com.example.dobrashow.screens.show
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,72 +22,74 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
+import com.example.dobrashow.ui.components.SearchFieldComponent
 import com.example.dobrashow.ui.components.ShowItemCard
 
 @Composable
 fun SeriesScreen(
     onClickShow: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    seriesViewModel: HomeViewModel = hiltViewModel(),
+    showViewModel: HomeViewModel = hiltViewModel(),
 ) {
 
-    val viewState by seriesViewModel.listSeriesState.collectAsState()
+    val viewState by showViewModel.listShowState.collectAsState()
 
-    LaunchedEffect(key1 = Unit, block = { seriesViewModel.initialPage() })
+    LaunchedEffect(key1 = Unit, block = { showViewModel.initialPage() })
 
     val scrollState = rememberLazyGridState()
     val fetchNextPage: Boolean by remember {
         derivedStateOf {
-            val currentSeriesCount = (viewState as? SeriesUiState.Success)?.listShow?.size
+            val currentShowCount = (viewState as? ShowUiState.Success)?.listShow?.size
                 ?: return@derivedStateOf false
-            val lastDisplayedIndexSeries = scrollState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+            val lastDisplayedIndexShow = scrollState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
                 ?: return@derivedStateOf false
-            return@derivedStateOf lastDisplayedIndexSeries >= currentSeriesCount - 10
+            return@derivedStateOf lastDisplayedIndexShow >= currentShowCount - 10
         }
     }
+    Log.d("MyLog", "FetchNextPage $fetchNextPage")
 
     LaunchedEffect(key1 = fetchNextPage, block = {
-        if (fetchNextPage) seriesViewModel.fetchNextPage()
+        if (fetchNextPage) showViewModel.fetchNextPage()
     })
 
     when (val state = viewState) {
-        is SeriesUiState.Error -> {
+        is ShowUiState.Error -> {
             Text(text = "Error load show list")
         }
 
-        SeriesUiState.Loading -> {
+        ShowUiState.Loading -> {
             LoadingStateContent()
         }
 
-        is SeriesUiState.Success -> {
-            SuccessStateSeriesContent(
+        is ShowUiState.Success -> {
+            SuccessStateShowContent(
                 scrollState = scrollState,
                 state = state,
-                onClickShow = onClickShow
+                onClickShow = onClickShow,
             )
         }
     }
 }
 
 @Composable
-private fun SuccessStateSeriesContent(
+private fun SuccessStateShowContent(
     scrollState: LazyGridState,
-    state: SeriesUiState.Success,
-    onClickShow: (Int) -> Unit
+    state: ShowUiState.Success,
+    onClickShow: (Int) -> Unit,
 ) {
     Column {
         CustomTopBarComponent(
-            title = "All series",
+            title = "All shows",
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         LazyVerticalGrid(
             state = scrollState,
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(all = 16.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             content = {
-                items(items = state.listShow, key = { it.id }) { show ->
+                items(items = state.listShow, key = { show -> show.id }) { show ->
                     ShowItemCard(
                         show = show,
                         onClickShow = { onClickShow(show.id) },

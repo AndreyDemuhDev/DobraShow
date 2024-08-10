@@ -28,9 +28,12 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 
 class KtorClient() {
+    @OptIn(ExperimentalSerializationApi::class)
     private val client = HttpClient(OkHttp) {
         defaultRequest { url("https://api.tvmaze.com/") }
 
@@ -41,6 +44,7 @@ class KtorClient() {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
+                explicitNulls = false
             })
         }
 
@@ -110,6 +114,14 @@ class KtorClient() {
             client.get("people?page=$pageNumber")
                 .body<List<RemoteSimplePersonElement>>()
                 .map { it.toDomainSimplePerson() }
+        }
+    }
+
+    suspend fun searchShow(query: String): ApiStatus<List<DomainShowEntity>> {
+        return safeApiCall {
+            client.get("search/shows?q=$query")
+                .body<List<RemoteShowModel>>()
+                .map { it.toDomainShow() }
         }
     }
 
