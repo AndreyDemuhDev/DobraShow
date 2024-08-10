@@ -26,9 +26,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.dobrashow.navigation.NavScreenDestination
-import com.example.dobrashow.screens.series.SeriesScreen
+import com.example.dobrashow.screens.show.SeriesScreen
 import com.example.dobrashow.screens.person_details.PersonDetailsScreen
 import com.example.dobrashow.screens.persons.PersonsScreen
+import com.example.dobrashow.screens.search.SearchScreen
 import com.example.dobrashow.screens.show_details.DetailShowScreen
 import com.example.dobrashow.screens.season_details.SeasonDetailsScreen
 import com.example.dobrashow.ui.theme.DobraShowTheme
@@ -135,7 +136,7 @@ class MainActivity : ComponentActivity() {
                             PersonsScreen(onClickPerson = { navController.navigate("people_details/$it") })
                         }
                         composable(route = NavScreenDestination.Search.route) {
-                            Text(text = "Search screen")
+                            SearchScreen(onClickShow = {navController.navigate("show_details/$it")})
                         }
                     }
                 }

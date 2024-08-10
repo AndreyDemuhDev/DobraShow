@@ -3,8 +3,6 @@ package com.example.dobrashow.screens.persons
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dobrashow.repositories.ShowRepository
-import com.example.dobrashow.screens.series.SeriesUiState
-import com.example.network.models.domain.DomainPersonEntity
 import com.example.network.models.domain.DomainSimplePersonEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +58,8 @@ class PersonsViewModel @Inject constructor(
 
 
 sealed interface PersonsUiState {
-    data class Success(val listPersons: List<DomainSimplePersonEntity>) : PersonsUiState
+    data class Success(val listPersons: List<DomainSimplePersonEntity> = emptyList()) :
+        PersonsUiState
     data class Error(val message: String) : PersonsUiState
     object Loading : PersonsUiState
 }

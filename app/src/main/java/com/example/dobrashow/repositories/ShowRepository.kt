@@ -46,4 +46,8 @@ class ShowRepository @Inject constructor(
     suspend fun getListPersons(pageNumber: Int): ApiStatus<List<DomainSimplePersonEntity>> {
         return ktorClient.getListPersons(pageNumber = pageNumber)
     }
+
+    suspend fun searchShow(query: String): ApiStatus<List<DomainShowEntity>> {
+        return ktorClient.searchShow(query = query)
+    }
 }
