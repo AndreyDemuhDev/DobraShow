@@ -32,6 +32,7 @@ import com.example.dobrashow.screens.persons.PersonsScreen
 import com.example.dobrashow.screens.search.SearchScreen
 import com.example.dobrashow.screens.show_details.DetailShowScreen
 import com.example.dobrashow.screens.season_details.SeasonDetailsScreen
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.dobrashow.ui.theme.DobraShowTheme
 import com.example.network.KtorClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
                 NavScreenDestination.Search
             )
             var selectedIndex by remember { mutableIntStateOf(0) }
-            DobraShowTheme {
+            AppTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
@@ -65,7 +66,7 @@ class MainActivity : ComponentActivity() {
                                         Icon(
                                             painter = painterResource(id = screen.icon),
                                             contentDescription = null,
-                                            modifier = Modifier.size(24.dp)
+                                            modifier = Modifier.size(AppTheme.size.large)
                                         )
                                     },
                                     label = { Text(text = screen.title) },
@@ -136,7 +137,7 @@ class MainActivity : ComponentActivity() {
                             PersonsScreen(onClickPerson = { navController.navigate("people_details/$it") })
                         }
                         composable(route = NavScreenDestination.Search.route) {
-                            SearchScreen(onClickShow = {navController.navigate("show_details/$it")})
+                            SearchScreen(onClickShow = { navController.navigate("show_details/$it") })
                         }
                     }
                 }

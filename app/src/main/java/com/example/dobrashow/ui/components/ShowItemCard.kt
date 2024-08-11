@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainShowEntity
 
 @Composable
@@ -26,7 +27,7 @@ fun ShowItemCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        border = BorderStroke(width = 2.dp, color = Color.Blue.copy(alpha = 0.7f)),
+        border = BorderStroke(width = 2.dp, color = AppTheme.colorScheme.primary),
         elevation = CardDefaults.cardElevation(4.dp),
         modifier = modifier
             .size(width = 250.dp, height = 270.dp)

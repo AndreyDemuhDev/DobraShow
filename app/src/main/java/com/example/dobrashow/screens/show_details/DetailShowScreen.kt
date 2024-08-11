@@ -43,6 +43,7 @@ import com.example.dobrashow.ui.components.CastAndCrewShowPager
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.SeasonsItemCard
 import com.example.dobrashow.ui.components.ShowStatusComponent
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainShowEntity
 
 @Composable
@@ -95,14 +96,18 @@ fun SuccessDetailsShowStateContent(
                 Text(
                     text = "Seasons",
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(start = 16.dp, top = 4.dp, bottom = 4.dp)
+                    modifier = Modifier.padding(
+                        start = AppTheme.size.medium,
+                        top = AppTheme.size.extraSmall,
+                        bottom = AppTheme.size.extraSmall
+                    )
                 )
             }
             item {
                 ShowSeasonsState(
                     stateSeasons = listSeasons,
                     onClickSeason = onClickSeason,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = AppTheme.size.medium)
                 )
             }
         }
@@ -127,7 +132,10 @@ private fun ShowInformationState(
                     text = "Story Line",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 16.dp, top = 10.dp)
+                    modifier = Modifier.padding(
+                        start = AppTheme.size.medium,
+                        top = AppTheme.size.normal
+                    )
                 )
                 Row {
                     Text(
@@ -139,7 +147,7 @@ private fun ShowInformationState(
                         overflow = TextOverflow.Ellipsis,
                         maxLines = if (!expandedDescription) 5 else Int.MAX_VALUE,
                         modifier = Modifier
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = AppTheme.size.medium)
                             .clickable { expandedDescription = !expandedDescription }
                     )
                 }
@@ -177,7 +185,10 @@ fun ShowPeoplesState(
                 cast = peoplesShow.castList,
                 crew = peoplesShow.crewList,
                 onClickPerson = onClickPerson,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                modifier = Modifier.padding(
+                    horizontal = AppTheme.size.small,
+                    vertical = AppTheme.size.extraSmall
+                )
             )
         }
     }
@@ -199,12 +210,15 @@ fun ShowSeasonsState(
         }
 
         is ShowSeasonsListUiState.Success -> {
-            LazyRow(modifier = Modifier.padding(horizontal = 12.dp)) {
+            LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.normal)) {
                 items(stateSeasons.listSeasons) { seasonItem ->
                     SeasonsItemCard(
                         seasonItem = seasonItem,
                         onClickSeason = onClickSeason,
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp)
+                        modifier = Modifier.padding(
+                            horizontal = AppTheme.size.extraSmall,
+                            vertical = AppTheme.size.small
+                        )
                     )
                 }
             }
@@ -231,7 +245,7 @@ private fun ImageShowSection(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .heightIn(min = 400.dp)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = AppTheme.size.medium)
         ) {
             HeaderInformationShowSection(
                 modifier = Modifier
@@ -305,7 +319,7 @@ fun InformationShowItem(
             )
             ShowStatusComponent(
                 showStatus = show.status,
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = AppTheme.size.small)
             )
         }
     }
