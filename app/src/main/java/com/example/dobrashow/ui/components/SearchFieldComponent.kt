@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.dobrashow.R
+import com.example.dobrashow.ui.theme.AppTheme
 
 @Composable
 fun SearchFieldComponent(
@@ -42,18 +43,18 @@ fun SearchFieldComponent(
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.background,
-                shape = MaterialTheme.shapes.extraLarge
+                shape = AppTheme.shape.large
             )
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.primary,
-                shape = MaterialTheme.shapes.extraLarge
+                shape = AppTheme.shape.large
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
             value = queryShow, onValueChange = { queryShow = it },
-            placeholder = { Text(text = "Search") },
+            placeholder = { Text(text = "Search", style = AppTheme.typography.bodyNormal) },
             singleLine = true,
             maxLines = 1,
             colors = TextFieldDefaults.colors(
@@ -67,13 +68,13 @@ fun SearchFieldComponent(
                         painter = painterResource(id = R.drawable.ic_search),
                         contentDescription = "search",
                         modifier = Modifier
-                            .padding(end = 8.dp)
+                            .padding(end = AppTheme.size.dp8)
                             .size(38.dp)
                             .background(
                                 color = MaterialTheme.colorScheme.secondary,
                                 shape = MaterialTheme.shapes.extraLarge
                             )
-                            .padding(6.dp)
+                            .padding(all = AppTheme.size.dp8)
                             .clickable { onSearch(queryShow) },
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.background)
                     )
@@ -103,7 +104,7 @@ fun SearchFieldComponent(
                 )
                 .width(40.dp)
                 .border(
-                    width = 1.dp,
+                    width = AppTheme.size.dp1,
                     color = MaterialTheme.colorScheme.primary,
                     shape = MaterialTheme.shapes.extraLarge
                 )

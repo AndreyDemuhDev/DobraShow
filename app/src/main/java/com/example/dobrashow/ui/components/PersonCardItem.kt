@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainPersonEntity
 import com.example.network.models.domain.DomainSimplePersonEntity
 
@@ -43,12 +44,10 @@ fun PersonCardItem(
         },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(
-            topStart = 40.dp,
-            topEnd = 40.dp,
-            bottomStart = 0.dp,
-            bottomEnd = 0.dp
+            topStart = AppTheme.size.dp24 * 2,
+            topEnd = AppTheme.size.dp24 * 2,
         ),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+        colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.onBackground)
     ) {
         Column {
             AsyncImage(
@@ -56,17 +55,19 @@ fun PersonCardItem(
                     id = R.drawable.ic_no_photo
                 ),
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth().heightIn(max = 250.dp)
-                    .padding(all = 4.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 250.dp)
+                    .padding(all = AppTheme.size.dp4)
                     .clip(
                         RoundedCornerShape(
-                            topStart = 40.dp,
-                            topEnd = 40.dp
+                            topStart = AppTheme.size.dp24 * 2,
+                            topEnd = AppTheme.size.dp24 * 2,
                         )
                     )
             )
             Text(
-                text = person.name, style = MaterialTheme.typography.titleLarge,
+                text = person.name, style = AppTheme.typography.titleNormal,
                 modifier = Modifier
                     .fillMaxWidth()
                     .basicMarquee(),

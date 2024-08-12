@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 
@@ -50,7 +51,7 @@ fun CastAndCrewShowPager(
                 onClick = { selectedTabIndex = index },
                 text = {
                     Text(
-                        text = tabItems[index], style = MaterialTheme.typography.titleMedium
+                        text = tabItems[index], style = AppTheme.typography.bodyLarge
                     )
                 }
             )
@@ -63,22 +64,22 @@ fun CastAndCrewShowPager(
     ) { index ->
         Box(modifier = Modifier.fillMaxWidth()) {
             if (index == 0) {
-                LazyRow(modifier = Modifier.padding(horizontal = 12.dp)) {
+                LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
                     items(cast) { item ->
                         CastItemCard(
                             cast = item,
                             onClickPerson = { onClickPerson(item.person.id) },
-                            modifier = Modifier.padding(horizontal = 4.dp)
+                            modifier = Modifier.padding(horizontal = AppTheme.size.dp4)
                         )
                     }
                 }
             } else {
-                LazyRow(modifier = Modifier.padding(horizontal = 12.dp)) {
+                LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
                     items(crew) { item ->
                         CrewItemCard(
                             crew = item,
                             onClickPerson = { onClickPerson(item.person.id) },
-                            modifier = Modifier.padding(horizontal = 4.dp)
+                            modifier = Modifier.padding(horizontal = AppTheme.size.dp4)
                         )
                     }
                 }

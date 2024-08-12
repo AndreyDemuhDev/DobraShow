@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 
@@ -35,23 +36,23 @@ fun CastItemCard(
     ) {
         AsyncImage(
             model = cast.person.image.medium,
-            contentDescription = "",
+            contentDescription = null,
             contentScale = ContentScale.Crop,
             placeholder = painterResource(id = R.drawable.ic_no_image),
             modifier = Modifier
-                .padding(top = 4.dp)
+                .padding(top = AppTheme.size.dp4)
                 .size(130.dp)
                 .clip(CircleShape)
         )
         Text(
             text = cast.person.name,
-            style = MaterialTheme.typography.bodyLarge,
+            style = AppTheme.typography.bodyNormal,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         Text(
             text = "as " + "'" + cast.character.name + "'",
-            style = MaterialTheme.typography.titleSmall,
+            style = AppTheme.typography.bodySmall,
             textAlign = TextAlign.Center
         )
     }

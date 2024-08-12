@@ -66,10 +66,10 @@ class MainActivity : ComponentActivity() {
                                         Icon(
                                             painter = painterResource(id = screen.icon),
                                             contentDescription = null,
-                                            modifier = Modifier.size(AppTheme.size.large)
+                                            modifier = Modifier.size(AppTheme.size.dp24)
                                         )
                                     },
-                                    label = { Text(text = screen.title) },
+                                    label = { Text(text = screen.title, style = AppTheme.typography.labelNormal) },
                                     selected = index == selectedIndex,
                                     onClick = {
                                         selectedIndex = index

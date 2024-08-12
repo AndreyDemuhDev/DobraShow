@@ -1,8 +1,5 @@
 package com.example.dobrashow.navigation
 
-import androidx.annotation.DrawableRes
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import com.example.dobrashow.R
 
 sealed class NavScreenDestination(

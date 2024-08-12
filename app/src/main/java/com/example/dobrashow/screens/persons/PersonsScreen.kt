@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.PersonCardItem
+import com.example.dobrashow.ui.theme.AppTheme
 
 @Composable
 fun PersonsScreen(
@@ -81,14 +82,14 @@ fun SuccessPersonsStateContent(
     Column {
         CustomTopBarComponent(
             title = "All persons",
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
         )
         LazyVerticalGrid(
             state = scrollState,
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(all = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(all = AppTheme.size.dp16),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
             content = {
                 items(items = personsState.listPersons, key = { it.id }) { person ->
                     PersonCardItem(

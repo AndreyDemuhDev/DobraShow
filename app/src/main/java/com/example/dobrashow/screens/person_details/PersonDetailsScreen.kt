@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CustomTopBarComponent
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainPersonEntity
 
 @Composable
@@ -116,7 +117,7 @@ fun PersonImage(imageUrl: String, modifier: Modifier = Modifier) {
             .aspectRatio(1f)
             .clip(MaterialTheme.shapes.small)
             .border(
-                width = 1.dp,
+                width = AppTheme.size.dp1,
                 brush = Brush.verticalGradient(listOf(Color.Transparent, Color.Blue)),
                 shape = MaterialTheme.shapes.small
             ),
@@ -130,17 +131,16 @@ fun DescriptionPerson(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.Start,
-        modifier = modifier.padding(vertical = 8.dp)
+        modifier = modifier.padding(vertical = AppTheme.size.dp2)
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleSmall
+            style = AppTheme.typography.titleSmall
         )
         Text(
             text = description,
-            style = MaterialTheme.typography.titleLarge,
+            style = AppTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
     }
@@ -153,28 +153,27 @@ fun CastShow(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(text = "Cast", style = MaterialTheme.typography.headlineSmall)
+        Text(text = "Cast", style = AppTheme.typography.titleLarge)
         person.embedded.castcredits.forEach { personShow ->
             val linkShow = personShow.linksCast.show.href.substringAfterLast("/")
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(vertical = 4.dp)
+                    .padding(vertical = AppTheme.size.dp4)
                     .clickable { onClickShow(linkShow.toInt()) }
             ) {
                 Text(
                     text = personShow.linksCast.show.name,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = AppTheme.typography.bodyLarge,
                     modifier = Modifier.weight(0.5f)
                 )
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(AppTheme.size.dp10))
                 Text(
                     text = personShow.linksCast.character.name,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    style = AppTheme.typography.bodyNormal,
                 )
             }
-            HorizontalDivider(thickness = 1.dp, color = Color.Yellow.copy(alpha = 0.5f))
+            HorizontalDivider(thickness = AppTheme.size.dp1, color = Color.Yellow.copy(alpha = 0.5f))
         }
     }
 }
@@ -186,28 +185,27 @@ fun CrewShow(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(text = "Crew", style = MaterialTheme.typography.headlineSmall)
+        Text(text = "Crew", style = AppTheme.typography.titleLarge)
         person.embedded.crewcredits.forEach { personCrew ->
             val linkCrew = personCrew.links.show.href.substringAfterLast("/")
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(vertical = 4.dp)
+                    .padding(vertical = AppTheme.size.dp4)
                     .clickable { onClickCrew(linkCrew.toInt()) }
             ) {
                 Text(
                     text = personCrew.links.show.name,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = AppTheme.typography.bodyLarge,
                     modifier = Modifier.weight(0.5f)
                 )
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(AppTheme.size.dp10))
                 Text(
                     text = personCrew.type,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    style = AppTheme.typography.bodyNormal,
                 )
             }
-            HorizontalDivider(thickness = 1.dp, color = Color.Blue.copy(alpha = 0.5f))
+            HorizontalDivider(thickness = AppTheme.size.dp1, color = Color.Blue.copy(alpha = 0.5f))
         }
     }
 }
