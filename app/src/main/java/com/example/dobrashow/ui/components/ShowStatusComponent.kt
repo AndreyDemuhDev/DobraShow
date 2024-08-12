@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.dobrashow.utils.toColor
 import com.example.network.ShowStatus
 
@@ -22,16 +23,16 @@ fun ShowStatusComponent(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .border(
-                width = 2.dp,
+                width = AppTheme.size.dp2,
                 color = showStatus.toColor(),
                 shape = MaterialTheme.shapes.medium
             )
-            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .padding(vertical = AppTheme.size.dp4, horizontal = AppTheme.size.dp8)
     ) {
         Text(
             text = "Status: ${showStatus.statusName}",
-            color = Color.White,
-            style = MaterialTheme.typography.titleSmall
+            style = AppTheme.typography.bodyNormal,
+            color = AppTheme.colorScheme.text
         )
     }
 }

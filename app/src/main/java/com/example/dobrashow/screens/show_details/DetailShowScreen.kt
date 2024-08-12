@@ -95,11 +95,11 @@ fun SuccessDetailsShowStateContent(
             item {
                 Text(
                     text = "Seasons",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTheme.typography.titleNormal,
                     modifier = Modifier.padding(
-                        start = AppTheme.size.medium,
-                        top = AppTheme.size.extraSmall,
-                        bottom = AppTheme.size.extraSmall
+                        start = AppTheme.size.dp16,
+                        top = AppTheme.size.dp4,
+                        bottom = AppTheme.size.dp4
                     )
                 )
             }
@@ -107,7 +107,7 @@ fun SuccessDetailsShowStateContent(
                 ShowSeasonsState(
                     stateSeasons = listSeasons,
                     onClickSeason = onClickSeason,
-                    modifier = Modifier.padding(horizontal = AppTheme.size.medium)
+                    modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
                 )
             }
         }
@@ -130,11 +130,11 @@ private fun ShowInformationState(
                 ImageShowSection(showInfoUiState.show)
                 Text(
                     text = "Story Line",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTheme.typography.titleNormal,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(
-                        start = AppTheme.size.medium,
-                        top = AppTheme.size.normal
+                        start = AppTheme.size.dp16,
+                        top = AppTheme.size.dp10
                     )
                 )
                 Row {
@@ -143,11 +143,12 @@ private fun ShowInformationState(
                             showInfoUiState.show.summary,
                             HtmlCompat.FROM_HTML_MODE_COMPACT
                         ).toString().trim(),
+                        style = AppTheme.typography.bodySmall,
                         textAlign = TextAlign.Justify,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = if (!expandedDescription) 5 else Int.MAX_VALUE,
                         modifier = Modifier
-                            .padding(horizontal = AppTheme.size.medium)
+                            .padding(horizontal = AppTheme.size.dp16)
                             .clickable { expandedDescription = !expandedDescription }
                     )
                 }
@@ -186,8 +187,8 @@ fun ShowPeoplesState(
                 crew = peoplesShow.crewList,
                 onClickPerson = onClickPerson,
                 modifier = Modifier.padding(
-                    horizontal = AppTheme.size.small,
-                    vertical = AppTheme.size.extraSmall
+                    horizontal = AppTheme.size.dp8,
+                    vertical = AppTheme.size.dp4
                 )
             )
         }
@@ -210,14 +211,14 @@ fun ShowSeasonsState(
         }
 
         is ShowSeasonsListUiState.Success -> {
-            LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.normal)) {
+            LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
                 items(stateSeasons.listSeasons) { seasonItem ->
                     SeasonsItemCard(
                         seasonItem = seasonItem,
                         onClickSeason = onClickSeason,
                         modifier = Modifier.padding(
-                            horizontal = AppTheme.size.extraSmall,
-                            vertical = AppTheme.size.small
+                            horizontal = AppTheme.size.dp4,
+                            vertical = AppTheme.size.dp2
                         )
                     )
                 }
@@ -245,12 +246,12 @@ private fun ImageShowSection(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .heightIn(min = 400.dp)
-                .padding(horizontal = AppTheme.size.medium)
+                .padding(horizontal = AppTheme.size.dp16)
         ) {
             HeaderInformationShowSection(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 45.dp)
+                    .padding(top = AppTheme.size.dp24 * 2)
             )
             InformationShowItem(show = show, modifier = Modifier.align(Alignment.Start))
         }
@@ -267,7 +268,7 @@ private fun HeaderInformationShowSection(modifier: Modifier = Modifier) {
             painter = painterResource(id = R.drawable.ic_favorite_heart),
             contentDescription = "favorite",
             colorFilter = ColorFilter.tint(Color.White),
-            modifier = Modifier.size(36.dp)
+            modifier = Modifier.size(AppTheme.size.dp24 * 1.5f)
         )
     }
 }
@@ -284,24 +285,24 @@ fun InformationShowItem(
     ) {
         Text(
             text = show.name,
-            style = MaterialTheme.typography.headlineMedium,
-            color = Color.White
+            style = AppTheme.typography.titleLarge,
+            color = AppTheme.colorScheme.text
         )
         Row {
             Text(
                 text = show.genres.joinToString(separator = ", "),
-                style = MaterialTheme.typography.titleSmall,
-                color = Color.White
+                style = AppTheme.typography.bodyLarge,
+                color = AppTheme.colorScheme.text
             )
             Text(
                 text = " • " + show.premiered.substring(startIndex = 0, endIndex = 4),
-                style = MaterialTheme.typography.titleSmall,
-                color = Color.White
+                style = AppTheme.typography.bodyLarge,
+                color = AppTheme.colorScheme.text
             )
             Text(
                 text = " • " + show.network.country.code,
-                style = MaterialTheme.typography.titleSmall,
-                color = Color.White
+                style = AppTheme.typography.bodyLarge,
+                color = AppTheme.colorScheme.text
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -309,17 +310,17 @@ fun InformationShowItem(
                 painter = painterResource(id = R.drawable.ic_rating_star),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(Color.Yellow),
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(AppTheme.size.dp24)
             )
             Text(
                 text = show.rating.average.toString(),
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White,
-                modifier = Modifier.padding(start = 2.dp)
+                style = AppTheme.typography.bodyLarge,
+                color = AppTheme.colorScheme.text,
+                modifier = Modifier.padding(start = AppTheme.size.dp2)
             )
             ShowStatusComponent(
                 showStatus = show.status,
-                modifier = Modifier.padding(start = AppTheme.size.small)
+                modifier = Modifier.padding(start = AppTheme.size.dp12)
             )
         }
     }
@@ -332,8 +333,7 @@ fun LoadingStateContent(
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(100.dp),
+                .size(AppTheme.size.dp24)
         )
     }
 }

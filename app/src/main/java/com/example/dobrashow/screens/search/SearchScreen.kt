@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.SearchFieldComponent
 import com.example.dobrashow.ui.components.ShowItemCard
+import com.example.dobrashow.ui.theme.AppTheme
 
 @Composable
 fun SearchScreen(
@@ -60,16 +61,16 @@ private fun SuccessStateShowContent(
     Column {
         CustomTopBarComponent(
             title = "Search shows",
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
         )
-        SearchFieldComponent(onSearch = onSearch, modifier = Modifier.padding(vertical = 8.dp))
+        SearchFieldComponent(onSearch = onSearch, modifier = Modifier.padding(vertical = AppTheme.size.dp8))
 
         LazyVerticalGrid(
             state = scrollState,
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = AppTheme.size.dp16),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
             content = {
                 items(items = state.listShow) { show ->
                     ShowItemCard(

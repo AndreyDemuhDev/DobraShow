@@ -27,8 +27,8 @@ fun ShowItemCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        border = BorderStroke(width = 2.dp, color = AppTheme.colorScheme.primary),
-        elevation = CardDefaults.cardElevation(4.dp),
+        border = BorderStroke(width = AppTheme.size.dp2, color = AppTheme.colorScheme.primary),
+        elevation = CardDefaults.cardElevation(AppTheme.size.dp4),
         modifier = modifier
             .size(width = 250.dp, height = 270.dp)
             .clickable { onClickShow() }

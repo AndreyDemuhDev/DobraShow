@@ -34,35 +34,44 @@ private val typography = AppTypography(
     titleLarge = TextStyle(
         fontFamily = RedRose,
         fontWeight = FontWeight.Bold,
-        fontSize = 26.sp
+        fontSize = 28.sp
     ),
     titleNormal = TextStyle(
         fontFamily = RedRose,
         fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp
     ),
+    titleSmall = TextStyle(
+        fontFamily = RedRose,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp
+    ),
     bodyLarge = TextStyle(
         fontFamily = RedRose,
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp
+        fontSize = 18.sp
     ),
     bodyNormal = TextStyle(
         fontFamily = RedRose,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp
+        fontSize = 16.sp
     ),
     bodySmall = TextStyle(
         fontFamily = RedRose,
         fontSize = 16.sp
     ),
-    labelNormal = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = RedRose,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp
     ),
+    labelNormal = TextStyle(
+        fontFamily = RedRose,
+        fontSize = 14.sp
+    ),
     labelSmall = TextStyle(
         fontFamily = RedRose,
-        fontSize = 12.sp
+        fontSize = 14.sp
     ),
 )
 
@@ -73,11 +82,14 @@ private val shapes = AppShape(
 )
 
 private val size = AppSize(
-    large = 24.dp,
-    medium = 16.dp,
-    normal = 12.dp,
-    small = 8.dp,
-    extraSmall = 4.dp,
+    dp24 = 24.dp,
+    dp16 = 16.dp,
+    dp12 = 12.dp,
+    dp10 = 10.dp,
+    dp8 = 8.dp,
+    dp4 = 4.dp,
+    dp2 = 2.dp,
+    dp1 = 1.dp
 )
 
 @Composable

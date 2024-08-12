@@ -19,9 +19,11 @@ data class AppColorsScheme(
 data class AppTypography(
     val titleLarge: TextStyle,       //шрифт для заголовков
     val titleNormal: TextStyle,
+    val titleSmall: TextStyle,
     val bodyLarge: TextStyle,        //шрифт для больших текстов
     val bodyNormal: TextStyle,
     val bodySmall: TextStyle,
+    val labelLarge: TextStyle,       //шрифт для текста внутри компонентов
     val labelNormal: TextStyle,       //шрифт для текста внутри компонентов
     val labelSmall: TextStyle,
 )
@@ -33,11 +35,14 @@ data class AppShape(
 )
 
 data class AppSize(
-    val large: Dp,
-    val medium: Dp,
-    val normal: Dp,
-    val small: Dp,
-    val extraSmall: Dp,
+    val dp1: Dp,
+    val dp2: Dp,
+    val dp4: Dp,
+    val dp8: Dp,
+    val dp10: Dp,
+    val dp12: Dp,
+    val dp16: Dp,
+    val dp24: Dp,
 )
 
 val LocalAppColorScheme = staticCompositionLocalOf {
@@ -55,9 +60,11 @@ val LocalAppTypography = staticCompositionLocalOf {
     AppTypography(
         titleLarge = TextStyle.Default,
         titleNormal = TextStyle.Default,
+        titleSmall = TextStyle.Default,
         bodyLarge = TextStyle.Default,
         bodyNormal = TextStyle.Default,
         bodySmall = TextStyle.Default,
+        labelLarge = TextStyle.Default,
         labelNormal = TextStyle.Default,
         labelSmall = TextStyle.Default,
     )
@@ -73,10 +80,13 @@ val LocalAppShape = staticCompositionLocalOf {
 
 val LocalAppSize = staticCompositionLocalOf {
     AppSize(
-        large = Dp.Unspecified,
-        medium = Dp.Unspecified,
-        normal = Dp.Unspecified,
-        small = Dp.Unspecified,
-        extraSmall = Dp.Unspecified
+        dp1 = Dp.Unspecified,
+        dp2 = Dp.Unspecified,
+        dp4 = Dp.Unspecified,
+        dp8 = Dp.Unspecified,
+        dp10 = Dp.Unspecified,
+        dp12 = Dp.Unspecified,
+        dp16 = Dp.Unspecified,
+        dp24 = Dp.Unspecified,
     )
 }

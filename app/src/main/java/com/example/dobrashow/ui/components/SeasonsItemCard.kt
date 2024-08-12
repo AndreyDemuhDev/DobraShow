@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainSeasonEntity
 
 @Composable
@@ -31,7 +32,7 @@ fun SeasonsItemCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .border(
-                width = 1.dp,
+                width = AppTheme.size.dp1,
                 brush = Brush.verticalGradient(
                     listOf(
                         Color.Transparent,
@@ -52,17 +53,15 @@ fun SeasonsItemCard(
                     .size(width = 200.dp, height = 250.dp)
                     .clip(
                         shape = RoundedCornerShape(
-                            topStart = 15.dp,
-                            topEnd = 15.dp,
-                            bottomStart = 0.dp,
-                            bottomEnd = 0.dp
+                            topStart = AppTheme.size.dp16,
+                            topEnd = AppTheme.size.dp16,
                         )
                     )
             )
         }
         Text(
             text = "Season ${seasonItem.number}",
-            style = MaterialTheme.typography.headlineMedium,
+            style = AppTheme.typography.titleLarge,
         )
     }
 }

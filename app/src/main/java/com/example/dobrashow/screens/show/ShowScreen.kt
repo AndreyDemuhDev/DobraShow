@@ -81,14 +81,14 @@ private fun SuccessStateShowContent(
     Column {
         CustomTopBarComponent(
             title = "All shows",
-            modifier = Modifier.padding(horizontal = AppTheme.size.medium)
+            modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
         )
         LazyVerticalGrid(
             state = scrollState,
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(horizontal = AppTheme.size.medium),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.size.small),
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.size.medium),
+            contentPadding = PaddingValues(horizontal = AppTheme.size.dp16),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.size.dp16),
             content = {
                 items(items = state.listShow, key = { show -> show.id }) { show ->
                     ShowItemCard(

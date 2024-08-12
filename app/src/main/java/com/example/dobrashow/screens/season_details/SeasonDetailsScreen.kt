@@ -1,5 +1,6 @@
 package com.example.dobrashow.screens.season_details
 
+import android.text.Html
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -42,6 +43,7 @@ import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
+import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainSeasonEntity
 
 
@@ -85,10 +87,9 @@ fun SuccessSeasonStateContent(
             item { DescriptionSeason(season = season, modifier = Modifier.fillMaxWidth()) }
             stickyHeader { SeasonHeader(season = season, modifier = Modifier.fillMaxWidth()) }
             items(season.listEpisodes.episodes) { episode ->
-
                 ListEpisodesSeason(
                     episode = episode,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
                 )
             }
         }
@@ -117,7 +118,7 @@ fun SeasonHeader(
 ) {
     Text(
         text = "Season ${season.number}",
-        style = MaterialTheme.typography.headlineMedium,
+        style = AppTheme.typography.titleNormal,
         textAlign = TextAlign.Center,
         modifier = modifier.background(MaterialTheme.colorScheme.surface)
     )
@@ -131,16 +132,16 @@ fun DescriptionSeason(
     Column(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier.padding(horizontal = AppTheme.size.dp16)
     ) {
         Text(
             text = "Premiere date: ${season.premiereDate}",
-            style = MaterialTheme.typography.titleMedium
+            style = AppTheme.typography.bodyLarge,
         )
         if (season.summary.isNotEmpty()) {
             Text(
-                text = season.summary,
-                style = MaterialTheme.typography.titleSmall,
+                text = Html.fromHtml(season.summary, HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
+                style = AppTheme.typography.bodySmall,
                 textAlign = TextAlign.Justify
             )
         }
@@ -155,9 +156,9 @@ fun ListEpisodesSeason(
     var expanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
-            .padding(vertical = 4.dp)
+            .padding(vertical = AppTheme.size.dp4)
             .border(
-                width = 2.dp,
+                width = AppTheme.size.dp2,
                 brush = Brush.horizontalGradient(listOf(Color.Transparent, Color.Blue)),
                 shape = MaterialTheme.shapes.medium
             )
@@ -169,26 +170,26 @@ fun ListEpisodesSeason(
                 )
             )
     ) {
-        Column(modifier = Modifier.padding(all = 6.dp)) {
-            Row {
+        Column(modifier = Modifier.padding(all = AppTheme.size.dp8)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = "Episode: ${episode.number}",
-                    style = MaterialTheme.typography.titleLarge
+                    style = AppTheme.typography.titleLarge
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = episode.airdate, style = MaterialTheme.typography.titleMedium)
+                Text(text = episode.airdate, style = AppTheme.typography.titleNormal)
             }
-            Text(text = episode.name, style = MaterialTheme.typography.headlineSmall)
+            Text(text = episode.name, style = AppTheme.typography.titleSmall)
             if (episode.summary.isNotEmpty()) {
-                Row {
-                    Text(text = "Show Description")
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = "Show Description", style = AppTheme.typography.labelNormal)
                     Image(
                         painter = if (!expanded) painterResource(id = R.drawable.ic_arrow_down) else painterResource(
                             id = R.drawable.ic_arrow_up
                         ),
                         contentDescription = "arrow_down",
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(AppTheme.size.dp24)
                             .clickable { expanded = !expanded }
                     )
                 }
@@ -197,7 +198,9 @@ fun ListEpisodesSeason(
                         text = HtmlCompat.fromHtml(
                             episode.summary,
                             HtmlCompat.FROM_HTML_MODE_LEGACY
-                        ).toString(), maxLines = 1
+                        ).toString(),
+                        maxLines = 1,
+                        style = AppTheme.typography.titleSmall
                     )
                 }
             }
