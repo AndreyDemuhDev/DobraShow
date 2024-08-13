@@ -7,22 +7,27 @@ sealed class NavScreenDestination(
     val route: String,
     val icon: Int,
 ) {
-    object Series : NavScreenDestination(
+    data object Series : NavScreenDestination(
         title = "Series",
         route = "series",
-        icon = R.drawable.ic_clapperboard
+        icon = R.drawable.ic_clapperboard,
     )
 
-    object Persons : NavScreenDestination(
+    data object Persons : NavScreenDestination(
         title = "Persons",
         route = "persons",
-        icon = R.drawable.ic_persons
+        icon = R.drawable.ic_persons,
     )
 
-    object Search : NavScreenDestination(
+    data object Search : NavScreenDestination(
         title = "Search",
         route = "search",
-        icon = R.drawable.ic_search
+        icon = R.drawable.ic_search,
     )
-
 }
+
+val tabs = listOf(
+    NavScreenDestination.Series,
+    NavScreenDestination.Persons,
+    NavScreenDestination.Search
+)
