@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.coil.compose)
     //Navigation
     implementation(libs.navigation)
+    implementation("dev.chrisbanes.haze:haze-materials:0.9.0-alpha06")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

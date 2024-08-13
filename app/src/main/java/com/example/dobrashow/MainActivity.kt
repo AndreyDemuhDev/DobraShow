@@ -32,6 +32,7 @@ import com.example.dobrashow.screens.persons.PersonsScreen
 import com.example.dobrashow.screens.search.SearchScreen
 import com.example.dobrashow.screens.show_details.DetailShowScreen
 import com.example.dobrashow.screens.season_details.SeasonDetailsScreen
+import com.example.dobrashow.screens.show_details.DetailShowScreen2
 import com.example.dobrashow.ui.theme.AppTheme
 import com.example.dobrashow.ui.theme.DobraShowTheme
 import com.example.network.KtorClient
@@ -102,7 +103,7 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument("showId") { type = NavType.IntType })
                         ) { backStackEntry ->
                             val showId = backStackEntry.arguments?.getInt("showId") ?: -1
-                            DetailShowScreen(
+                            DetailShowScreen2(
                                 showId = showId,
                                 onClickSeason = { navController.navigate("seasons_details/$it") },
                                 onClickPerson = { navController.navigate("people_details/$it") },
