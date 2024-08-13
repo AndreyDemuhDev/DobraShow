@@ -3,6 +3,7 @@ package com.example.dobrashow.ui.theme
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.createRippleModifierNode
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -99,13 +100,13 @@ fun AppTheme(
 ) {
 
     val colorScheme = if (isDarkMode) darkColorTheme else lightColorTheme
-    val rippleIndication = rememberRipple()
+//    val rippleIndication = createRippleModifierNode()
     CompositionLocalProvider(
         LocalAppColorScheme provides colorScheme,
         LocalAppTypography provides typography,
         LocalAppShape provides shapes,
         LocalAppSize provides size,
-        LocalIndication provides rippleIndication,
+//        LocalIndication provides rippleIndication,
         content = content
     )
 
