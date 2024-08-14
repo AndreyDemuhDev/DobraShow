@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ShowViewModel @Inject constructor(
+class DetailsShowViewModel @Inject constructor(
     private val showRepository: ShowRepository
 ) : ViewModel() {
 
@@ -162,7 +162,7 @@ data class ShowUiStateView(
 sealed interface ShowInformationUiState {
     data class Success(val show: DomainShowEntity) : ShowInformationUiState
     data class Error(val message: String) : ShowInformationUiState
-    object Loading : ShowInformationUiState
+    data object Loading : ShowInformationUiState
 }
 
 //состояние отображающее информацию об актерах шоу
@@ -173,14 +173,14 @@ sealed interface ShowPeoplesListUiState {
     ) : ShowPeoplesListUiState
 
     data class Error(val message: String) : ShowPeoplesListUiState
-    object Loading : ShowPeoplesListUiState
+    data object Loading : ShowPeoplesListUiState
 }
 
 //сщстояние отображения сезонов шоу
 sealed interface ShowSeasonsListUiState {
     data class Success(val listSeasons: List<DomainSeasonEntity>) : ShowSeasonsListUiState
     data class Error(val message: String) : ShowSeasonsListUiState
-    object Loading : ShowSeasonsListUiState
+    data object Loading : ShowSeasonsListUiState
 }
 
 private const val StopTimeoutMillis: Long = 5000
