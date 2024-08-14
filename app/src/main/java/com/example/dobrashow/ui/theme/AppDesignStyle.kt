@@ -14,6 +14,7 @@ data class AppColorsScheme(
     val onPrimary: Color,           //оттенок основного цвета
     val text: Color,                //цвет текста
     val onText: Color,              //оттенок текста
+    val transparent: Color,              //прозрачный
 )
 
 data class AppTypography(
@@ -53,6 +54,7 @@ val LocalAppColorScheme = staticCompositionLocalOf {
         onPrimary = Color.Unspecified,
         text = Color.Unspecified,
         onText = Color.Unspecified,
+        transparent = Color.Unspecified,
     )
 }
 

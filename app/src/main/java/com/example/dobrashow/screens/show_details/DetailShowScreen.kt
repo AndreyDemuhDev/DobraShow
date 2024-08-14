@@ -1,37 +1,47 @@
 package com.example.dobrashow.screens.show_details
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -40,11 +50,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CastAndCrewShowPager
-import com.example.dobrashow.ui.components.CustomTopBarComponent
+import com.example.dobrashow.ui.components.InfoBottomSheet
 import com.example.dobrashow.ui.components.SeasonsItemCard
 import com.example.dobrashow.ui.components.ShowStatusComponent
 import com.example.dobrashow.ui.theme.AppTheme
-import com.example.network.models.domain.DomainShowEntity
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.hazeChild
 
 @Composable
 fun DetailShowScreen(
@@ -53,7 +65,7 @@ fun DetailShowScreen(
     onClickPerson: (Int) -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
-    showViewModel: ShowViewModel = hiltViewModel(),
+    showViewModel: DetailsShowViewModel = hiltViewModel(),
 ) {
     val state by showViewModel.showUiState.collectAsState()
 
@@ -67,18 +79,19 @@ fun DetailShowScreen(
         //TODO
     }
 
-    SuccessDetailsShowStateContent(
+    DetailsShowStateContent(
         showState = state.showInformation,
         listPeoplesShow = state.showPeoplesList,
         listSeasons = state.showSeasonsList,
         onClickSeason = onClickSeason,
         onClickPerson = onClickPerson,
-        onClickBack = onClickBack
+        onClickBack = onClickBack,
+        modifier = modifier
     )
 }
 
 @Composable
-fun SuccessDetailsShowStateContent(
+fun DetailsShowStateContent(
     showState: ShowInformationUiState,
     listPeoplesShow: ShowPeoplesListUiState,
     listSeasons: ShowSeasonsListUiState,
@@ -87,90 +100,257 @@ fun SuccessDetailsShowStateContent(
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        CustomTopBarComponent(title = "Details Show", onClickBack = onClickBack)
-        LazyColumn {
-            item { ShowInformationState(showInfoUiState = showState) }
-            item { ShowPeoplesState(peoplesShow = listPeoplesShow, onClickPerson = onClickPerson) }
-            item {
-                Text(
-                    text = "Seasons",
-                    style = AppTheme.typography.titleNormal,
-                    modifier = Modifier.padding(
-                        start = AppTheme.size.dp16,
-                        top = AppTheme.size.dp4,
-                        bottom = AppTheme.size.dp4
-                    )
-                )
-            }
-            item {
-                ShowSeasonsState(
-                    stateSeasons = listSeasons,
-                    onClickSeason = onClickSeason,
-                    modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
-                )
-            }
+    val hazeState = remember { HazeState() }
+    when (showState) {
+        is ShowInformationUiState.Error -> {
+            Text(text = "Error")
+        }
+
+        ShowInformationUiState.Loading -> {
+            Text(text = "Loading")
+        }
+
+        is ShowInformationUiState.Success -> {
+            SuccessShowInformationState(
+                listPeoplesShow = listPeoplesShow,
+                listSeasons = listSeasons,
+                onClickPerson = onClickPerson,
+                onClickSeason = onClickSeason,
+                onClickBack = onClickBack,
+                showState = showState,
+//                hazeState = hazeState,
+                modifier = modifier,
+            )
         }
     }
 }
 
 @Composable
-private fun ShowInformationState(
-    showInfoUiState: ShowInformationUiState,
-    modifier: Modifier = Modifier
+@OptIn(ExperimentalMaterial3Api::class)
+private fun SuccessShowInformationState(
+    showState: ShowInformationUiState.Success,
+//    hazeState: HazeState,
+    onClickBack: () -> Unit,
+    listPeoplesShow: ShowPeoplesListUiState,
+    listSeasons: ShowSeasonsListUiState,
+    onClickPerson: (Int) -> Unit,
+    onClickSeason: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    when (showInfoUiState) {
-        is ShowInformationUiState.Success -> {
-            Column(modifier = modifier) {
+    val sheetState = rememberModalBottomSheetState()
+    var isSheetOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val hazeState = remember { HazeState() }
+    Box(modifier = modifier.background(color = AppTheme.colorScheme.transparent)) {
+        SubcomposeAsyncImage(
+            model = showState.show.image.original, contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds,
+            loading = { LoadingStateContent() },
+        )
+        IconButton(
+            onClick = onClickBack,
+            modifier = Modifier
+                .padding(all = AppTheme.size.dp8)
 
-                var expandedDescription by remember {
-                    mutableStateOf(false)
-                }
-
-                ImageShowSection(showInfoUiState.show)
-                Text(
-                    text = "Story Line",
-                    style = AppTheme.typography.titleNormal,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(
-                        start = AppTheme.size.dp16,
-                        top = AppTheme.size.dp10
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_arrow_back),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(Color.White),
+                modifier = Modifier.size(AppTheme.size.dp24 * 1.5f),
+            )
+        }
+        Box(
+            contentAlignment = Alignment.BottomCenter,
+            modifier = modifier.background(AppTheme.colorScheme.transparent).hazeChild(hazeState)
+        ) {
+            Column(
+                modifier = Modifier.padding(all=AppTheme.size.dp8)
+                    .clip(RoundedCornerShape(AppTheme.size.dp16))
+                    .hazeChild(hazeState,
+                        style = HazeStyle(
+                            tint = AppTheme.colorScheme.text.copy(alpha = .3f),
+                            blurRadius = 50.dp
+                        )
                     )
-                )
-                Row {
-                    Text(
-                        text = HtmlCompat.fromHtml(
-                            showInfoUiState.show.summary,
-                            HtmlCompat.FROM_HTML_MODE_COMPACT
-                        ).toString().trim(),
-                        style = AppTheme.typography.bodySmall,
-                        textAlign = TextAlign.Justify,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = if (!expandedDescription) 5 else Int.MAX_VALUE,
-                        modifier = Modifier
-                            .padding(horizontal = AppTheme.size.dp16)
-                            .clickable { expandedDescription = !expandedDescription }
+            ) {
+                DescriptionShowSection(showState)
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = AppTheme.size.dp8, vertical = AppTheme.size.dp4)
+                ) {
+                    FunctionalItemCard(
+                        title = "Add",
+                        icon = painterResource(id = R.drawable.ic_bookmark),
+                        onClick = { /*TODO*/ })
+                    FunctionalItemCard(
+                        title = "Share",
+                        icon = painterResource(id = R.drawable.ic_share),
+                        onClick = { /*TODO*/ })
+                    FunctionalItemCard(
+                        title = "URL",
+                        icon = painterResource(id = R.drawable.ic_world),
+                        onClick = { /*TODO*/ })
+                    FunctionalItemCard(
+                        title = "Info",
+                        icon = painterResource(id = R.drawable.ic_info),
+                        onClick = { isSheetOpen = true })
+                }
+                if (isSheetOpen) {
+                    InfoBottomSheet(
+                        peoplesShow = listPeoplesShow,
+                        seasonsShow = listSeasons,
+                        onClickPerson = onClickPerson,
+                        onClickSeason = onClickSeason,
+                        sheetState = sheetState,
+                        onDismiss = { isSheetOpen = false },
                     )
                 }
-
             }
-        }
-
-        is ShowInformationUiState.Error -> {
-            Text(text = "Ошибка загрузки")
-        }
-
-        ShowInformationUiState.Loading -> {
-            Text(text = "Loading show information")
         }
     }
 }
+
+
+@Composable
+private fun DescriptionShowSection(
+    showState: ShowInformationUiState.Success,
+    modifier: Modifier = Modifier,
+) {
+    var expandedDescription by remember {
+        mutableStateOf(false)
+    }
+
+    Column(modifier = modifier) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.padding(horizontal = AppTheme.size.dp8)
+        ) {
+            Text(
+                text = showState.show.name,
+                style = AppTheme.typography.titleLarge,
+                color = AppTheme.colorScheme.text
+            )
+            Row {
+                Text(
+                    text = showState.show.genres.joinToString(separator = ", "),
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colorScheme.text
+                )
+                Text(
+                    text = " • " + showState.show.premiered.substring(
+                        startIndex = 0,
+                        endIndex = 4
+                    ),
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colorScheme.text
+                )
+                Text(
+                    text = " • " + showState.show.network.country.code,
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colorScheme.text
+                )
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_rating_star),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(Color.Yellow),
+                    modifier = Modifier.size(AppTheme.size.dp24)
+                )
+                Text(
+                    text = showState.show.rating.average.toString(),
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colorScheme.text,
+                    modifier = Modifier.padding(start = AppTheme.size.dp2)
+                )
+                ShowStatusComponent(
+                    showStatus = showState.show.status,
+                    modifier = Modifier.padding(start = AppTheme.size.dp12)
+                )
+            }
+            Text(
+                text = HtmlCompat.fromHtml(
+                    showState.show.summary,
+                    HtmlCompat.FROM_HTML_MODE_COMPACT
+                ).toString().trim(),
+                style = AppTheme.typography.bodySmall,
+                color = AppTheme.colorScheme.text,
+                textAlign = TextAlign.Justify,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = if (!expandedDescription) 5 else Int.MAX_VALUE,
+                modifier = Modifier
+                    .clickable {
+                        expandedDescription = !expandedDescription
+                    }
+            )
+        }
+    }
+}
+
+@Composable
+fun FunctionalItemCard(
+    title: String,
+    icon: Painter,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val hazeState = remember { HazeState() }
+    Box(contentAlignment = Alignment.Center,
+        modifier = modifier
+            .width(90.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .hazeChild(
+                state = hazeState,
+                style = HazeStyle(
+                    backgroundColor = MaterialTheme.colorScheme.background,
+                    tint = Color.Black.copy(alpha = .3f),
+                    blurRadius = 30.dp,
+                )
+            )
+            .border(
+                width = 2.dp,
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.White.copy(alpha = .5f),
+                        Color.White.copy(alpha = .2f),
+                    ),
+                ),
+                shape = RoundedCornerShape(10.dp)
+            )
+            .clickable { onClick() }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(all = AppTheme.size.dp8)
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = title,
+                tint = AppTheme.colorScheme.text,
+                modifier = Modifier.size(AppTheme.size.dp24 * 2)
+            )
+            Spacer(modifier = Modifier.height(AppTheme.size.dp4))
+            Text(
+                text = title,
+                style = AppTheme.typography.bodyNormal,
+                color = AppTheme.colorScheme.text
+            )
+        }
+    }
+}
+
 
 @Composable
 fun ShowPeoplesState(
     peoplesShow: ShowPeoplesListUiState,
     onClickPerson: (Int) -> Unit,
-//    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
 ) {
     when (peoplesShow) {
         is ShowPeoplesListUiState.Error -> {
@@ -186,7 +366,7 @@ fun ShowPeoplesState(
                 cast = peoplesShow.castList,
                 crew = peoplesShow.crewList,
                 onClickPerson = onClickPerson,
-                modifier = Modifier.padding(
+                modifier = modifier.padding(
                     horizontal = AppTheme.size.dp8,
                     vertical = AppTheme.size.dp4
                 )
@@ -197,11 +377,11 @@ fun ShowPeoplesState(
 
 @Composable
 fun ShowSeasonsState(
-    stateSeasons: ShowSeasonsListUiState,
+    seasonsShow: ShowSeasonsListUiState,
     onClickSeason: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    when (stateSeasons) {
+    when (seasonsShow) {
         is ShowSeasonsListUiState.Error -> {
             Text(text = "Error seasons list")
         }
@@ -211,8 +391,15 @@ fun ShowSeasonsState(
         }
 
         is ShowSeasonsListUiState.Success -> {
-            LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
-                items(stateSeasons.listSeasons) { seasonItem ->
+            Column {
+                Text(
+                    text = "Seasons",
+                    style = AppTheme.typography.titleLarge,
+                    modifier = Modifier.padding(start = AppTheme.size.dp16)
+                )
+            }
+            LazyRow(modifier = modifier.padding(horizontal = AppTheme.size.dp12)) {
+                items(seasonsShow.listSeasons) { seasonItem ->
                     SeasonsItemCard(
                         seasonItem = seasonItem,
                         onClickSeason = onClickSeason,
@@ -227,104 +414,6 @@ fun ShowSeasonsState(
     }
 }
 
-
-@Composable
-private fun ImageShowSection(
-    show: DomainShowEntity,
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier.fillMaxSize()) {
-        SubcomposeAsyncImage(
-            model = show.image.medium, contentDescription = null,
-            modifier = Modifier
-                .aspectRatio(1f)
-                .heightIn(max = 400.dp),
-            contentScale = ContentScale.FillBounds,
-            loading = { LoadingStateContent() }
-        )
-        Column(
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .heightIn(min = 400.dp)
-                .padding(horizontal = AppTheme.size.dp16)
-        ) {
-            HeaderInformationShowSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = AppTheme.size.dp24 * 2)
-            )
-            InformationShowItem(show = show, modifier = Modifier.align(Alignment.Start))
-        }
-    }
-}
-
-@Composable
-private fun HeaderInformationShowSection(modifier: Modifier = Modifier) {
-    Box(
-        contentAlignment = Alignment.TopEnd,
-        modifier = modifier
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_favorite_heart),
-            contentDescription = "favorite",
-            colorFilter = ColorFilter.tint(Color.White),
-            modifier = Modifier.size(AppTheme.size.dp24 * 1.5f)
-        )
-    }
-}
-
-@Composable
-fun InformationShowItem(
-    show: DomainShowEntity,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-    ) {
-        Text(
-            text = show.name,
-            style = AppTheme.typography.titleLarge,
-            color = AppTheme.colorScheme.text
-        )
-        Row {
-            Text(
-                text = show.genres.joinToString(separator = ", "),
-                style = AppTheme.typography.bodyLarge,
-                color = AppTheme.colorScheme.text
-            )
-            Text(
-                text = " • " + show.premiered.substring(startIndex = 0, endIndex = 4),
-                style = AppTheme.typography.bodyLarge,
-                color = AppTheme.colorScheme.text
-            )
-            Text(
-                text = " • " + show.network.country.code,
-                style = AppTheme.typography.bodyLarge,
-                color = AppTheme.colorScheme.text
-            )
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_rating_star),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(Color.Yellow),
-                modifier = Modifier.size(AppTheme.size.dp24)
-            )
-            Text(
-                text = show.rating.average.toString(),
-                style = AppTheme.typography.bodyLarge,
-                color = AppTheme.colorScheme.text,
-                modifier = Modifier.padding(start = AppTheme.size.dp2)
-            )
-            ShowStatusComponent(
-                showStatus = show.status,
-                modifier = Modifier.padding(start = AppTheme.size.dp12)
-            )
-        }
-    }
-}
 
 @Composable
 fun LoadingStateContent(

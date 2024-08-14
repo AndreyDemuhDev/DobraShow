@@ -20,6 +20,7 @@ private val darkColorTheme = AppColorsScheme(
     onPrimary = Color(0xFF82B1FF),
     text = Color.White,
     onText = Color(0xFFB1A7A7),
+    transparent = Color(0x00000000),
 )
 
 private val lightColorTheme = AppColorsScheme(
@@ -29,6 +30,7 @@ private val lightColorTheme = AppColorsScheme(
     onPrimary = Color(0xFF82B1FF),
     text = Color.White,
     onText = Color(0xFFB1A7A7),
+    transparent = Color(0x00000000),
 )
 
 private val typography = AppTypography(
