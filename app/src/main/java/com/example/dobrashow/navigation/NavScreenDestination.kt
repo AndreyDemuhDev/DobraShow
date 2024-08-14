@@ -8,8 +8,8 @@ sealed class NavScreenDestination(
     val icon: Int,
 ) {
     data object Series : NavScreenDestination(
-        title = "Series",
-        route = "series",
+        title = "Shows",
+        route = "shows",
         icon = R.drawable.ic_clapperboard,
     )
 
@@ -25,9 +25,3 @@ sealed class NavScreenDestination(
         icon = R.drawable.ic_search,
     )
 }
-
-val tabs = listOf(
-    NavScreenDestination.Series,
-    NavScreenDestination.Persons,
-    NavScreenDestination.Search
-)
