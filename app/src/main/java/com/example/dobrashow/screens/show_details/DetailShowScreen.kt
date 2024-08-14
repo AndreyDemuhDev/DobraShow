@@ -1,5 +1,6 @@
 package com.example.dobrashow.screens.show_details
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,12 +18,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -54,9 +55,7 @@ import com.example.dobrashow.ui.components.InfoBottomSheet
 import com.example.dobrashow.ui.components.SeasonsItemCard
 import com.example.dobrashow.ui.components.ShowStatusComponent
 import com.example.dobrashow.ui.theme.AppTheme
-import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.HazeStyle
-import dev.chrisbanes.haze.hazeChild
+
 
 @Composable
 fun DetailShowScreen(
@@ -100,7 +99,7 @@ fun DetailsShowStateContent(
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val hazeState = remember { HazeState() }
+
     when (showState) {
         is ShowInformationUiState.Error -> {
             Text(text = "Error")
@@ -141,7 +140,6 @@ private fun SuccessShowInformationState(
     var isSheetOpen by rememberSaveable {
         mutableStateOf(false)
     }
-    val hazeState = remember { HazeState() }
     Box(modifier = modifier.background(color = AppTheme.colorScheme.transparent)) {
         SubcomposeAsyncImage(
             model = showState.show.image.original, contentDescription = null,
@@ -149,30 +147,41 @@ private fun SuccessShowInformationState(
             contentScale = ContentScale.FillBounds,
             loading = { LoadingStateContent() },
         )
-        IconButton(
-            onClick = onClickBack,
-            modifier = Modifier
-                .padding(all = AppTheme.size.dp8)
+        OutlinedIconButton(
+            onClick = { onClickBack() },
+            shape = CircleShape,
 
+            border = BorderStroke(
+                width = AppTheme.size.dp1,
+                color = Color.White.copy(alpha = 0.4f),
+            ),
+            modifier = Modifier
+                .padding(16.dp)
+                .size(50.dp)
+                .clip(CircleShape)
+                .background(Color.White.copy(alpha = 0.1f))
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_arrow_back),
+                painter = painterResource(id = R.drawable.ic_back),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier.size(AppTheme.size.dp24 * 1.5f),
+                modifier = Modifier.size(40.dp),
             )
         }
         Box(
             contentAlignment = Alignment.BottomCenter,
-            modifier = modifier.background(AppTheme.colorScheme.transparent).hazeChild(hazeState)
+            modifier = modifier
+                .background(AppTheme.colorScheme.transparent)
         ) {
             Column(
-                modifier = Modifier.padding(all=AppTheme.size.dp8)
-                    .clip(RoundedCornerShape(AppTheme.size.dp16))
-                    .hazeChild(hazeState,
-                        style = HazeStyle(
-                            tint = AppTheme.colorScheme.text.copy(alpha = .3f),
-                            blurRadius = 50.dp
+                modifier = Modifier
+                    .background(
+                        brush = Brush.verticalGradient(
+                            listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.8f),
+                                Color.Black.copy(alpha = 1f),
+                            )
                         )
                     )
             ) {
@@ -299,28 +308,15 @@ fun FunctionalItemCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val hazeState = remember { HazeState() }
     Box(contentAlignment = Alignment.Center,
         modifier = modifier
             .width(90.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .hazeChild(
-                state = hazeState,
-                style = HazeStyle(
-                    backgroundColor = MaterialTheme.colorScheme.background,
-                    tint = Color.Black.copy(alpha = .3f),
-                    blurRadius = 30.dp,
-                )
-            )
+            .clip(RoundedCornerShape(15.dp))
+            .background(Color.White.copy(alpha = 0.1f))
             .border(
-                width = 2.dp,
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.White.copy(alpha = .5f),
-                        Color.White.copy(alpha = .2f),
-                    ),
-                ),
-                shape = RoundedCornerShape(10.dp)
+                width = AppTheme.size.dp1,
+                color = Color.White.copy(alpha = 0.2f),
+                shape = RoundedCornerShape(15.dp)
             )
             .clickable { onClick() }
     ) {

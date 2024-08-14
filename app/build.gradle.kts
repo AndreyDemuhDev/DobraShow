@@ -79,8 +79,6 @@ dependencies {
     implementation(libs.coil.compose)
     //Navigation
     implementation(libs.navigation)
-    //Haze
-    implementation(libs.haze)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

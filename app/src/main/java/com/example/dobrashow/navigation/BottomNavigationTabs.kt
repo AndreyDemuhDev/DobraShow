@@ -1,8 +1,11 @@
 package com.example.dobrashow.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -13,39 +16,33 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.dobrashow.ui.theme.AppTheme
-import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.hazeChild
 
 
 @Composable
 fun BottomNavigationTabs(
-    hazeState: HazeState,
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
     NavigationBar(
-        containerColor = Color.Transparent,
-        modifier = Modifier
-            .hazeChild(state = hazeState)
-            .fillMaxWidth()
+//        containerColor = AppTheme.colorScheme.transparent,
+        modifier = modifier
+            .clip(RoundedCornerShape(15.dp))
+            .background(Color.White.copy(alpha = 0.1f))
             .border(
-                width = AppTheme.size.dp2,
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.White.copy(alpha = .8f),
-                        Color.White.copy(alpha = .2f),
-                    ),
-                ),
-                shape = RoundedCornerShape(24.dp)
-            ),
+                width = AppTheme.size.dp1,
+                color = Color.White.copy(alpha = 0.2f),
+                shape = RoundedCornerShape(15.dp)
+            )
     ) {
         tabs.forEachIndexed { index, screen ->
             NavigationBarItem(

@@ -5,9 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,7 +25,6 @@ import com.example.dobrashow.screens.show_details.DetailShowScreen
 import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.KtorClient
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.haze.HazeState
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,21 +38,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            val hazeState = remember { HazeState() }
             AppTheme {
                 Scaffold(
-                    bottomBar = { BottomNavigationTabs(hazeState, navController) }
+                    bottomBar = {
+                        BottomNavigationTabs(
+                            navController = navController,
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                        )
+                    }
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
                         startDestination = NavScreenDestination.Series.route,
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier
+                            .padding(innerPadding)
                     ) {
                         composable(route = NavScreenDestination.Series.route) {
                             ShowsScreen(
                                 onClickShow = { showId ->
                                     navController.navigate("show_details/$showId")
-                                }
+                                },
+                                modifier = Modifier
                             )
                         }
                         composable(
