@@ -11,21 +11,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 private val darkColorTheme = AppColorsScheme(
-    background = Color.White,
+    background = Color(0xFF000000),
     onBackground = Color(0xFFD3CECE),
-    primary = Color.Blue,
-    onPrimary = Color(0xFF82B1FF),
-    text = Color.White,
+    primary = Color(0xFFFFFF4C),
+    onPrimary = Color(0xFFFFFF8D),
+    text = Color(0xFFE7DEDE),
     onText = Color(0xFFB1A7A7),
     transparent = Color(0x00000000),
 )
 
 private val lightColorTheme = AppColorsScheme(
-    background = Color.Black,
+    background = Color(0xFF000000),
     onBackground = Color(0xFF686868),
-    primary = Color.Blue,
-    onPrimary = Color(0xFF82B1FF),
-    text = Color.White,
+    primary = Color(0xFFFFFF4C),
+    onPrimary = Color(0xFFFFFF8D),
+    text = Color(0xFFE7DEDE),
     onText = Color(0xFFB1A7A7),
     transparent = Color(0x00000000),
 )

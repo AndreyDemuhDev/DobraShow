@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             AppTheme {
                 Scaffold(
+                    containerColor = AppTheme.colorScheme.background,
                     bottomBar = { BottomNavigationTabs(navController)}
                 ) { innerPadding ->
                     AppNavigation(navController, innerPadding)
