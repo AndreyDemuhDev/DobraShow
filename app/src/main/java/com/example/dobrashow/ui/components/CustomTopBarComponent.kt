@@ -2,6 +2,7 @@ package com.example.dobrashow.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,8 +30,14 @@ fun CustomTopBarComponent(
                     )
                 }
             }
-            Text(text = title, style = AppTheme.typography.titleLarge)
+            Text(text = title,
+                color = AppTheme.colorScheme.text,
+                style = AppTheme.typography.titleLarge)
         }
-        HorizontalDivider(thickness = AppTheme.size.dp2)
+        HorizontalDivider(
+            thickness = AppTheme.size.dp2,
+            color = AppTheme.colorScheme.primary,
+            modifier = Modifier.padding(bottom = AppTheme.size.dp8)
+        )
     }
 }
