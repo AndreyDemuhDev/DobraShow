@@ -38,20 +38,21 @@ fun PersonCardItem(
     ElevatedCard(
         modifier = modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
-            indication = null
-        ) {
-            onClickPerson()
-        },
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(
-            topStart = AppTheme.size.dp24 * 2,
-            topEnd = AppTheme.size.dp24 * 2,
+            indication = null,
+            onClick = { onClickPerson() }
         ),
-        colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.onBackground)
+        elevation = CardDefaults.cardElevation(defaultElevation = AppTheme.size.dp4),
+        shape = RoundedCornerShape(
+            topStart = AppTheme.size.dp24*3,
+            topEnd = AppTheme.size.dp24*3,
+        ),
+        colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.primary)
     ) {
         Column {
             AsyncImage(
-                model = person.image?.medium, contentDescription = null, error = painterResource(
+                model = person.image?.medium,
+                contentDescription = null,
+                error = painterResource(
                     id = R.drawable.ic_no_photo
                 ),
                 contentScale = ContentScale.Crop,
@@ -61,17 +62,19 @@ fun PersonCardItem(
                     .padding(all = AppTheme.size.dp4)
                     .clip(
                         RoundedCornerShape(
-                            topStart = AppTheme.size.dp24 * 2,
-                            topEnd = AppTheme.size.dp24 * 2,
+                            topStart = AppTheme.size.dp24*3,
+                            topEnd = AppTheme.size.dp24*3,
                         )
                     )
             )
             Text(
-                text = person.name, style = AppTheme.typography.titleNormal,
+                text = person.name,
+                style = AppTheme.typography.titleNormal,
                 modifier = Modifier
                     .fillMaxWidth()
                     .basicMarquee(),
                 textAlign = TextAlign.Center,
+                color = AppTheme.colorScheme.background
             )
         }
     }

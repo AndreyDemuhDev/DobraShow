@@ -1,8 +1,10 @@
 package com.example.dobrashow.screens.person_details
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -61,7 +64,7 @@ fun PersonDetailsScreen(
             SuccessPersonStateContent(
                 person = stateUi.person,
                 onClickShow = onClickShow,
-                onClickCrew= onClickCrew,
+                onClickCrew = onClickCrew,
                 onClickBack = onClickBack,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -86,9 +89,24 @@ fun SuccessPersonStateContent(
             modifier = modifier
         ) {
             item { PersonImage(imageUrl = person.image.medium) }
-            item { DescriptionPerson(title = "Name", description = person.name) }
-            item { DescriptionPerson(title = "Birthday", description = person.birthday) }
-            item { DescriptionPerson(title = "Country", description = person.country.name) }
+            item {
+                if (person.name.isNotEmpty()) DescriptionPerson(
+                    title = "Name",
+                    description = person.name
+                )
+            }
+            item {
+                if (person.birthday.isNotEmpty()) DescriptionPerson(
+                    title = "Birthday",
+                    description = person.birthday
+                )
+            }
+            item {
+                if (person.country.name.isNotEmpty()) DescriptionPerson(
+                    title = "Country",
+                    description = person.country.name
+                )
+            }
             item {
                 if (person.embedded.castcredits.isNotEmpty()) CastShow(
                     person = person,
@@ -115,10 +133,15 @@ fun PersonImage(imageUrl: String, modifier: Modifier = Modifier) {
         contentScale = ContentScale.Crop,
         modifier = modifier
             .aspectRatio(1f)
-            .clip(MaterialTheme.shapes.small)
+            .clip(AppTheme.shape.small)
             .border(
                 width = AppTheme.size.dp1,
-                brush = Brush.verticalGradient(listOf(Color.Transparent, Color.Blue)),
+                brush = Brush.verticalGradient(
+                    listOf(
+                        AppTheme.colorScheme.transparent,
+                        AppTheme.colorScheme.primary
+                    )
+                ),
                 shape = MaterialTheme.shapes.small
             ),
     )
@@ -136,12 +159,14 @@ fun DescriptionPerson(
     ) {
         Text(
             text = title,
-            style = AppTheme.typography.titleSmall
+            style = AppTheme.typography.titleSmall,
+            color = AppTheme.colorScheme.text
         )
         Text(
             text = description,
             style = AppTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = AppTheme.colorScheme.text
         )
     }
 }
@@ -152,8 +177,22 @@ fun CastShow(
     onClickShow: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        Text(text = "Cast", style = AppTheme.typography.titleLarge)
+    Column(
+        modifier = modifier
+            .clip(AppTheme.shape.small)
+            .background(AppTheme.colorScheme.primary.copy(alpha = 0.1f))
+            .border(
+                width = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.primary.copy(alpha = 0.2f),
+                shape = AppTheme.shape.small
+            )
+            .padding(start = AppTheme.size.dp4)
+    ) {
+        Text(
+            text = "Cast",
+            style = AppTheme.typography.titleLarge,
+            color = AppTheme.colorScheme.text
+        )
         person.embedded.castcredits.forEach { personShow ->
             val linkShow = personShow.linksCast.show.href.substringAfterLast("/")
             Row(
@@ -165,15 +204,19 @@ fun CastShow(
                 Text(
                     text = personShow.linksCast.show.name,
                     style = AppTheme.typography.bodyLarge,
-                    modifier = Modifier.weight(0.5f)
+                    color = AppTheme.colorScheme.text,
                 )
                 Spacer(modifier = Modifier.width(AppTheme.size.dp10))
                 Text(
-                    text = personShow.linksCast.character.name,
+                    text = "(${personShow.linksCast.character.name})",
                     style = AppTheme.typography.bodyNormal,
+                    color = AppTheme.colorScheme.text
                 )
             }
-            HorizontalDivider(thickness = AppTheme.size.dp1, color = Color.Yellow.copy(alpha = 0.5f))
+            HorizontalDivider(
+                thickness = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.primary.copy(alpha = 0.5f)
+            )
         }
     }
 }
@@ -184,8 +227,22 @@ fun CrewShow(
     onClickCrew: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        Text(text = "Crew", style = AppTheme.typography.titleLarge)
+    Column(
+        modifier = modifier
+            .clip(AppTheme.shape.small)
+            .background(AppTheme.colorScheme.primary.copy(alpha = 0.1f))
+            .border(
+                width = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.primary.copy(alpha = 0.2f),
+                shape = AppTheme.shape.small
+            )
+            .padding(start = AppTheme.size.dp4)
+    ) {
+        Text(
+            text = "Crew",
+            style = AppTheme.typography.titleLarge,
+            color = AppTheme.colorScheme.text
+        )
         person.embedded.crewcredits.forEach { personCrew ->
             val linkCrew = personCrew.links.show.href.substringAfterLast("/")
             Row(
@@ -197,15 +254,19 @@ fun CrewShow(
                 Text(
                     text = personCrew.links.show.name,
                     style = AppTheme.typography.bodyLarge,
-                    modifier = Modifier.weight(0.5f)
+                    color = AppTheme.colorScheme.text,
                 )
                 Spacer(modifier = Modifier.width(AppTheme.size.dp10))
                 Text(
-                    text = personCrew.type,
+                    text = "(${personCrew.type})",
                     style = AppTheme.typography.bodyNormal,
+                    color = AppTheme.colorScheme.text
                 )
             }
-            HorizontalDivider(thickness = AppTheme.size.dp1, color = Color.Blue.copy(alpha = 0.5f))
+            HorizontalDivider(
+                thickness = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
+            )
         }
     }
 }

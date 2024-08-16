@@ -10,8 +10,7 @@ data class RemoteSimplePersonElement(
     val id: Long?,
     val name: String?,
     val image: RemotePersonModel.ImagePerson? = null,
-
-    )
+)
 
 fun RemoteSimplePersonElement.toDomainSimplePerson(): DomainSimplePersonEntity {
     return DomainSimplePersonEntity(
