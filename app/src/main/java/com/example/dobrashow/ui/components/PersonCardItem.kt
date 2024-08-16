@@ -43,8 +43,10 @@ fun PersonCardItem(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = AppTheme.size.dp4),
         shape = RoundedCornerShape(
-            topStart = AppTheme.size.dp24*3,
-            topEnd = AppTheme.size.dp24*3,
+            topStart = AppTheme.size.dp16,
+            topEnd = AppTheme.size.dp16,
+            bottomEnd = AppTheme.size.dp8,
+            bottomStart = AppTheme.size.dp8
         ),
         colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.primary)
     ) {
@@ -62,8 +64,10 @@ fun PersonCardItem(
                     .padding(all = AppTheme.size.dp4)
                     .clip(
                         RoundedCornerShape(
-                            topStart = AppTheme.size.dp24*3,
-                            topEnd = AppTheme.size.dp24*3,
+                            topStart = AppTheme.size.dp16,
+                            topEnd = AppTheme.size.dp16,
+                            bottomEnd = AppTheme.size.dp8,
+                            bottomStart = AppTheme.size.dp8
                         )
                     )
             )
