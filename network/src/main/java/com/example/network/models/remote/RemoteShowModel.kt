@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteShowModel(
-    val id: Int? = -1,
+    val id: Int? = null,
     val name: String? = "unknown name",                     //название
     val ended: String? = "unknown ended",                   //дата завершения
     val genres: List<String>? = emptyList(),                //жанры

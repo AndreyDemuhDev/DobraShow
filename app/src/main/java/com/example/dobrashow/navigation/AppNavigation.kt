@@ -48,37 +48,43 @@ fun AppNavigation(
             route = "show_details/{showId}",
             arguments = listOf(navArgument("showId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val showId = backStackEntry.arguments?.getInt("showId") ?: -1
-            DetailShowScreen(
-                showId = showId,
-                onClickSeason = { navController.navigate("seasons_details/$it") },
-                onClickPerson = { navController.navigate("people_details/$it") },
-                onClickBack = { navController.navigateUp() },
-                modifier = Modifier.fillMaxSize()
-            )
+            val showId = backStackEntry.arguments?.getInt("showId")
+            showId?.let {
+                DetailShowScreen(
+                    showId = it,
+                    onClickSeason = { navController.navigate("seasons_details/$it") },
+                    onClickPerson = { navController.navigate("people_details/$it") },
+                    onClickBack = { navController.navigateUp() },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
         composable(
             route = "seasons_details/{seasonId}",
             arguments = listOf(navArgument("seasonId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val currentShow = backStackEntry.arguments?.getInt("seasonId") ?: -1
-            SeasonDetailsScreen(
-                seasonId = currentShow,
-                onClickBack = { navController.navigateUp() },
-            )
+            val currentShow = backStackEntry.arguments?.getInt("seasonId")
+            currentShow?.let {
+                SeasonDetailsScreen(
+                    seasonId = it,
+                    onClickBack = { navController.navigateUp() },
+                )
+            }
         }
         composable(
             route = "people_details/{personId}",
             arguments = listOf(navArgument("personId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val currentPeople = backStackEntry.arguments?.getInt("personId") ?: -1
-            PersonDetailsScreen(
-                personId = currentPeople,
-                onClickShow = { navController.navigate("show_details/$it") },
-                onClickCrew = { navController.navigate("show_details/$it") },
-                onClickBack = { navController.navigateUp() },
-                modifier = Modifier.fillMaxSize()
-            )
+            val currentPeople = backStackEntry.arguments?.getInt("personId")
+            currentPeople?.let {
+                PersonDetailsScreen(
+                    personId = it,
+                    onClickShow = { navController.navigate("show_details/$it") },
+                    onClickCrew = { navController.navigate("show_details/$it") },
+                    onClickBack = { navController.navigateUp() },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
     }
 }

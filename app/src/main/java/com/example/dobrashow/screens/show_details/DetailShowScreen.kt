@@ -312,10 +312,10 @@ fun FunctionalItemCard(
         modifier = modifier
             .width(90.dp)
             .clip(RoundedCornerShape(15.dp))
-            .background(Color.White.copy(alpha = 0.1f))
+            .background(AppTheme.colorScheme.primary.copy(alpha = 0.1f))
             .border(
                 width = AppTheme.size.dp1,
-                color = Color.White.copy(alpha = 0.2f),
+                color = AppTheme.colorScheme.primary.copy(alpha = 0.2f),
                 shape = RoundedCornerShape(15.dp)
             )
             .clickable { onClick() }

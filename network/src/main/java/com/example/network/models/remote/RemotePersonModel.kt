@@ -19,8 +19,8 @@ data class RemotePersonModel(
 ) {
     @Serializable
     data class Embedded(
-        val castcredits: List<Castcredit?>,
-        val crewcredits: List<Crewcredit?>
+        val castcredits: List<Castcredit?> = emptyList(),
+        val crewcredits: List<Crewcredit?> = emptyList()
     )
 
     @Serializable
