@@ -2,11 +2,13 @@ package com.example.network.models.remote
 
 import com.example.network.models.domain.DomainShowEntity
 import com.example.network.ShowStatus
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteShowModel(
-    val id: Int? = null,
+    @SerialName("id")
+    val id: Int?,
     val name: String? = "unknown name",                     //название
     val ended: String? = "unknown ended",                   //дата завершения
     val genres: List<String>? = emptyList(),                //жанры
@@ -56,7 +58,7 @@ fun RemoteShowModel.toDomainShow(): DomainShowEntity {
         else -> ShowStatus.Unknown
     }
     return DomainShowEntity(
-        id = id ?: -1,
+        id = id ?: 4,
         name = name ?: "unknown name",
         ended = ended ?: "unknown",
         genres = genres ?: emptyList(),

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.theme.AppTheme
+import com.example.network.models.domain.DomainSearchShowEntity
 import com.example.network.models.domain.DomainShowEntity
 
 @Composable
