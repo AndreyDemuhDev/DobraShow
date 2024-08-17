@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dobrashow.repositories.ShowRepository
 import com.example.dobrashow.screens.show.ShowUiState
+import com.example.network.models.domain.DomainSearchShowEntity
 import com.example.network.models.domain.DomainShowEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,7 +43,7 @@ class SearchViewModel @Inject constructor(
 
 
 sealed interface SearchUiState {
-    data class Success(val listShow: List<DomainShowEntity> = emptyList()) : SearchUiState
+    data class Success(val listShow: List<DomainSearchShowEntity> = emptyList()) : SearchUiState
     data class Error(val message: String) : SearchUiState
     object Empty : SearchUiState
 }

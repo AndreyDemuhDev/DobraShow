@@ -48,23 +48,6 @@ class HomeViewModel @Inject constructor(
                 }
             }.onException { }
         }
-
-
-    fun searchShow(query: String) =
-        viewModelScope.launch {
-            showRepository.searchShow(query = query).onSuccess { listShow ->
-                _listShowState.update {
-                    return@update ShowUiState.Success(listShow = listShow)
-                }
-            }.onException { exception ->
-                _listShowState.update {
-                    return@update ShowUiState.Error(
-                        message = exception.message ?: "error search show"
-                    )
-                }
-            }
-        }
-
 }
 
 

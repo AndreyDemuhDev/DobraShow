@@ -1,14 +1,17 @@
 package com.example.dobrashow.screens.search
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.SearchFieldComponent
+import com.example.dobrashow.ui.components.SearchShowItemCard
 import com.example.dobrashow.ui.components.ShowItemCard
 import com.example.dobrashow.ui.theme.AppTheme
 
@@ -28,8 +32,6 @@ fun SearchScreen(
     showViewModel: SearchViewModel = hiltViewModel()
 ) {
     val viewState by showViewModel.listSearchShowState.collectAsState()
-
-    val scrollState = rememberLazyGridState()
 
     when (val state = viewState) {
         is SearchUiState.Error -> {
@@ -42,7 +44,6 @@ fun SearchScreen(
 
         is SearchUiState.Success -> {
             SuccessStateShowContent(
-                scrollState = scrollState,
                 state = state,
                 onClickShow = onClickShow,
                 onSearch = { showViewModel.searchShow(it) }
@@ -53,7 +54,6 @@ fun SearchScreen(
 
 @Composable
 private fun SuccessStateShowContent(
-    scrollState: LazyGridState,
     state: SearchUiState.Success,
     onClickShow: (Int) -> Unit,
     onSearch: (String) -> Unit,
@@ -63,19 +63,21 @@ private fun SuccessStateShowContent(
             title = "Search shows",
             modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
         )
-        SearchFieldComponent(onSearch = onSearch, modifier = Modifier.padding(vertical = AppTheme.size.dp8))
+        SearchFieldComponent(
+            onSearch = onSearch,
+            modifier = Modifier.padding(vertical = AppTheme.size.dp8)
+        )
 
-        LazyVerticalGrid(
-            state = scrollState,
-            columns = GridCells.Fixed(2),
+        LazyColumn(
             contentPadding = PaddingValues(horizontal = AppTheme.size.dp16),
             verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
+            modifier = Modifier.padding(vertical = AppTheme.size.dp8),
             content = {
+                Log.d("MyLog", "listShows ${state.listShow}")
                 items(items = state.listShow) { show ->
-                    ShowItemCard(
+                    SearchShowItemCard(
                         show = show,
-                        onClickShow = { onClickShow(show.id) },
+                        onClickShow = { show.searchShows?.id?.let { onClickShow(it) } },
                     )
                 }
             }

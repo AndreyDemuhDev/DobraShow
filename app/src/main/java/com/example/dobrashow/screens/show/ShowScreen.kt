@@ -90,7 +90,7 @@ private fun SuccessStateShowContent(
             verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.size.dp16),
             content = {
-                items(items = state.listShow, key = { show -> show.id }) { show ->
+                items(items = state.listShow, key = { show -> show.id}) { show ->
                     ShowItemCard(
                         show = show,
                         onClickShow = { onClickShow(show.id) },

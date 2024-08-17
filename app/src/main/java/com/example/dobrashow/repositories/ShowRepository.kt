@@ -5,6 +5,7 @@ import com.example.network.KtorClient
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 import com.example.network.models.domain.DomainPersonEntity
+import com.example.network.models.domain.DomainSearchShowEntity
 import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
 import com.example.network.models.domain.DomainSimplePersonEntity
@@ -47,7 +48,7 @@ class ShowRepository @Inject constructor(
         return ktorClient.getListPersons(pageNumber = pageNumber)
     }
 
-    suspend fun searchShow(query: String): ApiStatus<List<DomainShowEntity>> {
+    suspend fun searchShow(query: String): ApiStatus<List<DomainSearchShowEntity>> {
         return ktorClient.searchShow(query = query)
     }
 }
