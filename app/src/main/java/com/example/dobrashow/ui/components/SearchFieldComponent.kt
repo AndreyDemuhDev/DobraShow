@@ -42,12 +42,12 @@ fun SearchFieldComponent(
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.background,
+                color = AppTheme.colorScheme.background,
                 shape = AppTheme.shape.large
             )
             .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.primary,
+                width = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.primary,
                 shape = AppTheme.shape.large
             ),
         verticalAlignment = Alignment.CenterVertically
@@ -58,10 +58,10 @@ fun SearchFieldComponent(
             singleLine = true,
             maxLines = 1,
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.background,
-                focusedIndicatorColor = MaterialTheme.colorScheme.background
+                unfocusedIndicatorColor = AppTheme.colorScheme.background,
+                focusedIndicatorColor = AppTheme.colorScheme.background
             ),
-            shape = MaterialTheme.shapes.extraLarge,
+            shape = AppTheme.shape.large,
             trailingIcon = {
 //                if (queryShow.isEmpty()) {
                     Image(
@@ -71,12 +71,12 @@ fun SearchFieldComponent(
                             .padding(end = AppTheme.size.dp8)
                             .size(38.dp)
                             .background(
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = MaterialTheme.shapes.extraLarge
+                                color = AppTheme.colorScheme.onText,
+                                shape = AppTheme.shape.large
                             )
                             .padding(all = AppTheme.size.dp8)
                             .clickable { onSearch(queryShow) },
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.background)
+                        colorFilter = ColorFilter.tint(AppTheme.colorScheme.primary)
                     )
 //                } else {
 //                    Image(
@@ -99,14 +99,14 @@ fun SearchFieldComponent(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = MaterialTheme.colorScheme.background,
-                    shape = MaterialTheme.shapes.small
+                    color = AppTheme.colorScheme.background,
+                    shape = AppTheme.shape.small
                 )
                 .width(40.dp)
                 .border(
                     width = AppTheme.size.dp1,
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = MaterialTheme.shapes.extraLarge
+                    color = AppTheme.colorScheme.primary,
+                    shape = AppTheme.shape.large
                 )
         )
     }
