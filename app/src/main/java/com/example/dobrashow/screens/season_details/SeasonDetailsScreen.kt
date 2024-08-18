@@ -9,7 +9,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,11 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -101,7 +98,7 @@ fun ImageSeasonSection(
     season: DomainSeasonEntity,
 ) {
     AsyncImage(
-        model = season.image.medium,
+        model = season.image.original,
         contentDescription = null,
         error = painterResource(id = R.drawable.ic_no_image),
         contentScale = ContentScale.FillWidth,
@@ -119,8 +116,9 @@ fun SeasonHeader(
     Text(
         text = "Season ${season.number}",
         style = AppTheme.typography.titleNormal,
+        color = AppTheme.colorScheme.text,
         textAlign = TextAlign.Center,
-        modifier = modifier.background(MaterialTheme.colorScheme.surface)
+        modifier = modifier.background(AppTheme.colorScheme.background)
     )
 }
 
@@ -130,18 +128,20 @@ fun DescriptionSeason(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(horizontal = AppTheme.size.dp16)
+        modifier = modifier.padding(horizontal = AppTheme.size.dp16, vertical = AppTheme.size.dp4)
     ) {
         Text(
             text = "Premiere date: ${season.premiereDate}",
+            color = AppTheme.colorScheme.text,
             style = AppTheme.typography.bodyLarge,
         )
         if (season.summary.isNotEmpty()) {
             Text(
-                text = Html.fromHtml(season.summary, HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
+                text = Html.fromHtml(season.summary, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                    .trim(),
                 style = AppTheme.typography.bodySmall,
+                color = AppTheme.colorScheme.text,
                 textAlign = TextAlign.Justify
             )
         }
@@ -156,13 +156,18 @@ fun ListEpisodesSeason(
     var expanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
-            .padding(vertical = AppTheme.size.dp4)
+            .padding(bottom = AppTheme.size.dp4)
             .border(
                 width = AppTheme.size.dp2,
-                brush = Brush.horizontalGradient(listOf(Color.Transparent, Color.Blue)),
-                shape = MaterialTheme.shapes.medium
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        AppTheme.colorScheme.transparent,
+                        AppTheme.colorScheme.primary
+                    )
+                ),
+                shape = AppTheme.shape.medium
             )
-            .clip(MaterialTheme.shapes.medium)
+            .clip(AppTheme.shape.medium)
             .animateContentSize(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioLowBouncy,
@@ -174,20 +179,34 @@ fun ListEpisodesSeason(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = "Episode: ${episode.number}",
+                    color = AppTheme.colorScheme.text,
                     style = AppTheme.typography.titleLarge
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = episode.airdate, style = AppTheme.typography.titleNormal)
+                Text(
+                    text = episode.airdate,
+                    style = AppTheme.typography.titleNormal,
+                    color = AppTheme.colorScheme.text,
+                )
             }
-            Text(text = episode.name, style = AppTheme.typography.titleSmall)
+            Text(
+                text = episode.name,
+                style = AppTheme.typography.titleSmall,
+                color = AppTheme.colorScheme.text,
+            )
             if (episode.summary.isNotEmpty()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "Show Description", style = AppTheme.typography.labelNormal)
+                    Text(
+                        text = "Show Description",
+                        style = AppTheme.typography.labelNormal,
+                        color = AppTheme.colorScheme.text,
+                    )
                     Image(
                         painter = if (!expanded) painterResource(id = R.drawable.ic_arrow_down) else painterResource(
                             id = R.drawable.ic_arrow_up
                         ),
                         contentDescription = "arrow_down",
+                        colorFilter = ColorFilter.tint(AppTheme.colorScheme.text),
                         modifier = Modifier
                             .size(AppTheme.size.dp24)
                             .clickable { expanded = !expanded }
@@ -199,6 +218,7 @@ fun ListEpisodesSeason(
                             episode.summary,
                             HtmlCompat.FROM_HTML_MODE_LEGACY
                         ).toString(),
+                        color = AppTheme.colorScheme.text,
                         maxLines = 1,
                         style = AppTheme.typography.titleSmall
                     )

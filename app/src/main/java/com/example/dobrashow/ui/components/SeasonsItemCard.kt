@@ -35,11 +35,11 @@ fun SeasonsItemCard(
                 width = AppTheme.size.dp1,
                 brush = Brush.verticalGradient(
                     listOf(
-                        Color.Transparent,
-                        Color.Blue.copy(alpha = 0.5f)
+                        AppTheme.colorScheme.transparent,
+                        AppTheme.colorScheme.primary.copy(alpha = 0.5f)
                     )
                 ),
-                shape = MaterialTheme.shapes.medium
+                shape = AppTheme.shape.medium
             )
             .clickable { onClickSeason(seasonItem.id) }
     ) {
@@ -61,6 +61,7 @@ fun SeasonsItemCard(
         }
         Text(
             text = "Season ${seasonItem.number}",
+            color = AppTheme.colorScheme.primary,
             style = AppTheme.typography.titleLarge,
         )
     }

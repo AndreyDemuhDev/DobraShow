@@ -26,7 +26,8 @@ fun CustomTopBarComponent(
                 IconButton(onClick = { onClickBack() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = "arrow_back"
+                        contentDescription = "arrow_back",
+                        tint = AppTheme.colorScheme.text
                     )
                 }
             }
