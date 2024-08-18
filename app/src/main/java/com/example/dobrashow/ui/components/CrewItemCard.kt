@@ -47,12 +47,14 @@ fun CrewItemCard(
         Text(
             text = crew.person.name,
             style = AppTheme.typography.bodyNormal,
+            color = AppTheme.colorScheme.text,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         Text(
             text = crew.type,
             style = AppTheme.typography.bodySmall,
+            color = AppTheme.colorScheme.text,
             textAlign = TextAlign.Center
         )
     }

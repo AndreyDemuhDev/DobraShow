@@ -11,6 +11,9 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +22,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.dobrashow.ui.theme.AppTheme
 import com.example.network.models.domain.DomainCastEntity
@@ -29,7 +33,7 @@ import com.example.network.models.domain.DomainCrewEntity
 fun CastAndCrewShowPager(
     cast: List<DomainCastEntity>,
     crew: List<DomainCrewEntity>,
-    onClickPerson: (Int)-> Unit,
+    onClickPerson: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val tabItems = listOf("Cast", "Crew")
@@ -44,14 +48,27 @@ fun CastAndCrewShowPager(
             selectedTabIndex = pagerState.currentPage
         }
     }
-    TabRow(selectedTabIndex = selectedTabIndex, modifier = modifier) {
+    TabRow(
+        selectedTabIndex = selectedTabIndex,
+        containerColor = AppTheme.colorScheme.background,
+        indicator = { tabPositions ->
+            SecondaryIndicator(
+                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                color = AppTheme.colorScheme.primary
+            )
+        },
+        modifier = modifier
+    ) {
         tabItems.forEachIndexed { index, _ ->
             Tab(
                 selected = selectedTabIndex == index,
                 onClick = { selectedTabIndex = index },
                 text = {
                     Text(
-                        text = tabItems[index], style = AppTheme.typography.bodyLarge
+                        text = tabItems[index],
+                        style = AppTheme.typography.bodyLarge,
+                        fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal,
+                        color = if (selectedTabIndex == index) AppTheme.colorScheme.primary else AppTheme.colorScheme.text
                     )
                 }
             )

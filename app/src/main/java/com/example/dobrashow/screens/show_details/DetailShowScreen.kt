@@ -391,6 +391,7 @@ fun ShowSeasonsState(
                 Text(
                     text = "Seasons",
                     style = AppTheme.typography.titleLarge,
+                    color = AppTheme.colorScheme.text,
                     modifier = Modifier.padding(start = AppTheme.size.dp16)
                 )
             }
