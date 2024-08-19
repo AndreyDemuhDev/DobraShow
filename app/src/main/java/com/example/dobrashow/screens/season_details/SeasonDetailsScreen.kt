@@ -41,6 +41,7 @@ import com.example.dobrashow.R
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.theme.AppTheme
+import com.example.dobrashow.utils.dateConverter
 import com.example.network.models.domain.DomainSeasonEntity
 
 
@@ -132,7 +133,7 @@ fun DescriptionSeason(
         modifier = modifier.padding(horizontal = AppTheme.size.dp16, vertical = AppTheme.size.dp4)
     ) {
         Text(
-            text = "Premiere date: ${season.premiereDate}",
+            text = "Premiere date: ${dateConverter(season.premiereDate)}",
             color = AppTheme.colorScheme.text,
             style = AppTheme.typography.bodyLarge,
         )
