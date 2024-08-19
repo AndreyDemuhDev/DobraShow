@@ -35,6 +35,7 @@ import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.theme.AppTheme
+import com.example.dobrashow.utils.dateConverter
 import com.example.network.models.domain.DomainPersonEntity
 
 @Composable
@@ -98,7 +99,7 @@ fun SuccessPersonStateContent(
             item {
                 if (person.birthday.isNotEmpty()) DescriptionPerson(
                     title = "Birthday",
-                    description = person.birthday
+                    description = dateConverter(person.birthday)
                 )
             }
             item {
