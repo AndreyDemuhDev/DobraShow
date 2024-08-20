@@ -218,9 +218,8 @@ fun ListEpisodesSeason(
                         text = HtmlCompat.fromHtml(
                             episode.summary,
                             HtmlCompat.FROM_HTML_MODE_LEGACY
-                        ).toString(),
+                        ).toString().trim(),
                         color = AppTheme.colorScheme.text,
-                        maxLines = 1,
                         style = AppTheme.typography.titleSmall
                     )
                 }
