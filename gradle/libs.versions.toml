@@ -16,6 +16,7 @@ kotlinSerializationJson = '1.6.2'
 ktor = "2.3.12"
 coil = "2.7.0"
 navigation = "2.7.7"
+room = "2.6.1"
 
 [libraries]
 
@@ -56,6 +57,9 @@ ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
