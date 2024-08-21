@@ -6,76 +6,73 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemotePersonModel(
-    @SerialName("_embedded")
-    val embedded: Embedded?,
-    val birthday: String?,
-    val country: CountryPerson?,
-    val deathday: String?,
-    val gender: String?,
-    val id: Int?,
-    val image: ImagePerson?,
-    val name: String?,
-    val url: String?
+    @SerialName("_embedded") val embedded: Embedded?,
+    @SerialName("birthday") val birthday: String?,
+    @SerialName("country") val country: CountryPerson?,
+    @SerialName("deathday") val deathday: String?,
+    @SerialName("gender") val gender: String?,
+    @SerialName("id") val id: Int?,
+    @SerialName("image") val image: ImagePerson?,
+    @SerialName("name") val name: String?,
+    @SerialName("url") val url: String?
 ) {
     @Serializable
     data class Embedded(
-        val castcredits: List<Castcredit?> = emptyList(),
-        val crewcredits: List<Crewcredit?> = emptyList()
+        @SerialName("castcredits") val castcredits: List<Castcredit?> = emptyList(),
+        @SerialName("crewcredits") val crewcredits: List<Crewcredit?> = emptyList()
     )
 
     @Serializable
     data class Castcredit(
-        @SerialName("_links")
-        val linksCast: LinksCast?,
-        val self: Boolean?,
-        val voice: Boolean?
+        @SerialName("_links") val linksCast: LinksCast?,
+        @SerialName("self") val self: Boolean?,
+        @SerialName("voice") val voice: Boolean?
     ) {
         @Serializable
         data class LinksCast(
-            val character: Character?,
-            val show: ShowPerson?
+            @SerialName("character") val character: Character?,
+            @SerialName("show") val show: ShowPerson?
         ) {
             @Serializable
             data class Character(
-                val href: String?,       //ссылка на шоу
-                val name: String?        //наименование шоу
+                @SerialName("href") val href: String?,       //ссылка на шоу
+                @SerialName("name") val name: String?        //наименование шоу
             )
 
             @Serializable
             data class ShowPerson(
-                val href: String?,       //ссылка на шоу
-                val name: String?        //наименование шоу
+                @SerialName("href") val href: String?,       //ссылка на шоу
+                @SerialName("name") val name: String?        //наименование шоу
             )
         }
     }
 
     @Serializable
     data class Crewcredit(
-        @SerialName("_links")
-        val links: LinksCrew?,          //ссылка на шоу
-        val type: String?
+        @SerialName("_links") val links: LinksCrew?,          //ссылка на шоу
+        @SerialName("type") val type: String?
     ) {
         @Serializable
         data class LinksCrew(
-            val show: ShowPerson?         //шоу
+            @SerialName("show") val show: ShowPerson?         //шоу
         ) {
             @Serializable
             data class ShowPerson(
-                val href: String?,       //ссылка на шоу
-                val name: String?       //наименование шоу
+                @SerialName("href") val href: String?,       //ссылка на шоу
+                @SerialName("name") val name: String?       //наименование шоу
             )
         }
     }
 
     @Serializable
     data class CountryPerson(
-        val name: String?,
+        @SerialName("name") val name: String?,
     )
 
     @Serializable
     data class ImagePerson(
-        val medium: String?,
-        val original: String?
+        @SerialName("medium") val medium: String?,
+        @SerialName("original") val original: String?
     )
 }
 

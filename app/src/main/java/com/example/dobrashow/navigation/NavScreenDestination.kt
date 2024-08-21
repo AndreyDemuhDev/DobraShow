@@ -7,7 +7,7 @@ sealed class NavScreenDestination(
     val route: String,
     val icon: Int,
 ) {
-    data object Series : NavScreenDestination(
+    data object Shows : NavScreenDestination(
         title = "Shows",
         route = "shows",
         icon = R.drawable.ic_clapperboard,
@@ -23,5 +23,11 @@ sealed class NavScreenDestination(
         title = "Search",
         route = "search",
         icon = R.drawable.ic_search,
+    )
+
+    data object Favorite : NavScreenDestination(
+        title = "Favorite",
+        route = "favorite",
+        icon = R.drawable.ic_bookmark,
     )
 }

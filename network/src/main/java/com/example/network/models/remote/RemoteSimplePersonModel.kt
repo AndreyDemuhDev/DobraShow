@@ -7,17 +7,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteSimplePersonElement(
-    val id: Long?,
-    val name: String?,
-    val image: RemotePersonModel.ImagePerson? = null,
+    @SerialName("id") val id: Long?,
+    @SerialName("name") val name: String?,
+    @SerialName("image") val image: RemotePersonModel.ImagePerson? = null,
 )
 
 fun RemoteSimplePersonElement.toDomainSimplePerson(): DomainSimplePersonEntity {
     return DomainSimplePersonEntity(
         id = id ?: 0,
-        name = name ?: "unknow name",
+        name = name ?: "unknown name",
         image = DomainPersonEntity.ImagePerson(
-            medium = image?.medium ?: "unknow image person",
+            medium = image?.medium ?: "unknown image person",
             original = image?.original ?: "unknown image person"
         )
     )

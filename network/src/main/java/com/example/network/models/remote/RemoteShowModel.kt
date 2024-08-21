@@ -7,45 +7,44 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteShowModel(
-    @SerialName("id")
-    val id: Int?,
-    val name: String? = "unknown name",                     //название
-    val ended: String? = "unknown ended",                   //дата завершения
-    val genres: List<String>? = emptyList(),                //жанры
-    val image: ImageShow? = null,                           //постер
-    val language: String? = "unknown language",             //язык
-    val network: NetworkShow? = null,                       //инфа о производителе
-    val officialSite: String? = "unknown official site",    //ссылка на офф сайт
-    val premiered: String? = "unknown premiered",           //дата премьеры
-    val rating: RatingShow? = null,                         //рейтинг
-    val status: String? = "unknown status",                 //статус (завершен, выпускается)
-    val summary: String? = "unknown summary",               //описание
-    val url: String? = "unknown url",                       //ссылка на сайт
+    @SerialName("id") val id: Int?,
+    @SerialName("name") val name: String? = "unknown name",                             //название
+    @SerialName("ended") val ended: String? = "unknown ended",                          //дата завершения
+    @SerialName("genres") val genres: List<String>? = emptyList(),                      //жанры
+    @SerialName("image") val image: ImageShow? = null,                                  //постер
+    @SerialName("language") val language: String? = "unknown language",                 //язык
+    @SerialName("network") val network: NetworkShow? = null,                            //инфа о производителе
+    @SerialName("officialSite") val officialSite: String? = "unknown official site",    //ссылка на офф сайт
+    @SerialName("premiered") val premiered: String? = "unknown premiered",              //дата премьеры
+    @SerialName("rating") val rating: RatingShow? = null,                               //рейтинг
+    @SerialName("status") val status: String? = "unknown status",                       //статус (завершен, выпускается)
+    @SerialName("summary") val summary: String? = "unknown summary",                    //описание
+    @SerialName("url") val url: String? = "unknown url",                                //ссылка на сайт
 ) {
     @Serializable
     data class ImageShow(
-        val medium: String?,
-        val original: String?,
+        @SerialName("medium") val medium: String?,
+        @SerialName("original") val original: String?,
     )
 
     @Serializable
     data class NetworkShow(
-        val country: CountryShow? = null,
-        val id: Int?,
-        val name: String?,
-        val officialSite: String?
+        @SerialName("country") val country: CountryShow? = null,
+        @SerialName("id") val id: Int?,
+        @SerialName("name") val name: String?,
+        @SerialName("officialSite") val officialSite: String?
     )
 
     @Serializable
     data class CountryShow(
-        val code: String?,
-        val name: String?,
-        val timezone: String?
+        @SerialName("code") val code: String?,
+        @SerialName("name") val name: String?,
+        @SerialName("timezone") val timezone: String?
     )
 
     @Serializable
     data class RatingShow(
-        val average: Double? = 0.0,
+        @SerialName("average") val average: Double? = 0.0,
     )
 }
 
