@@ -1,42 +1,43 @@
 package com.example.network.models.remote
 
 import com.example.network.models.domain.DomainCastEntity
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteCastModel(
-    val person: PersonShow,
-    val character: CharacterShow
+    @SerialName("person") val person: PersonShow,
+    @SerialName("character") val character: CharacterShow
 ) {
     @Serializable
     data class PersonShow(
-        val id: Int,
-        val birthday: String?,
-        val country: CountryPerson? = null,
-        val deathday: String?,
-        val gender: String?,
-        val image: ImagePerson? = null,
-        val name: String,
-        val url: String,
+        @SerialName("id") val id: Int,
+        @SerialName("birthday") val birthday: String?,
+        @SerialName("country") val country: CountryPerson? = null,
+        @SerialName("deathday") val deathday: String?,
+        @SerialName("gender") val gender: String?,
+        @SerialName("image") val image: ImagePerson? = null,
+        @SerialName("name") val name: String,
+        @SerialName("url") val url: String,
     )
 
     @Serializable
     data class CharacterShow(
-        val id: Int,
-        val image: ImagePerson? = null,
-        val name: String,
-        val url: String
+        @SerialName("id") val id: Int,
+        @SerialName("image") val image: ImagePerson? = null,
+        @SerialName("name") val name: String,
+        @SerialName("url") val url: String
     )
 
     @Serializable
     data class CountryPerson(
-        val name: String,
+        @SerialName("name") val name: String,
     )
 
     @Serializable
     data class ImagePerson(
-        val medium: String,
-        val original: String
+        @SerialName("medium") val medium: String,
+        @SerialName("original") val original: String
     )
 }
 
@@ -45,7 +46,7 @@ fun RemoteCastModel.toDomainCast(): DomainCastEntity {
     return DomainCastEntity(
         person = DomainCastEntity.PersonShow(
             id = person.id,
-            birthday = person.birthday?: "unknown date birthday",
+            birthday = person.birthday ?: "unknown date birthday",
             country = DomainCastEntity.CountryPerson(
                 name = person.country?.name ?: "unknown name country"
             ),

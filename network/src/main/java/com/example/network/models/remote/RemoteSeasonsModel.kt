@@ -7,41 +7,40 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteSeasonsModel(
-    val id: Int,
-    val endDate: String? = "unknown end date season",
-    val episodeOrder: Int? = -1,
-    val image: ImageSeasons? = null,
-    val name: String? = "unknown name season",
-    val number: Int? = -1,
-    val premiereDate: String? = "unknown premiere date season",
-    val summary: String? = "empty summary season",
-    val url: String? = "unknown url season",
-    @SerialName("_embedded")
-    val listEpisodes: RemoteEmbedded? = null
+    @SerialName("id") val id: Int,
+    @SerialName("endDate") val endDate: String? = "unknown end date season",
+    @SerialName("episodeOrder") val episodeOrder: Int? = -1,
+    @SerialName("image") val image: ImageSeasons? = null,
+    @SerialName("name") val name: String? = "unknown name season",
+    @SerialName("number") val number: Int? = -1,
+    @SerialName("premiereDate") val premiereDate: String? = "unknown premiere date season",
+    @SerialName("summary") val summary: String? = "empty summary season",
+    @SerialName("url") val url: String? = "unknown url season",
+    @SerialName("_embedded") val listEpisodes: RemoteEmbedded? = null
 ) {
     @Serializable
     data class ImageSeasons(
-        val medium: String?,
-        val original: String?
+        @SerialName("medium") val medium: String?,
+        @SerialName("original") val original: String?
     )
 
     @Serializable
     data class RemoteEmbedded(
-        val episodes: List<RemoteEpisode>
+        @SerialName("episodes") val episodes: List<RemoteEpisode>
     )
 
     @Serializable
     data class RemoteEpisode(
-        val id: Long?,
-        val url: String?,
-        val name: String?,
-        val airdate: String?,
-        val season: Long?,
-        val number: Long? = null,
-        val runtime: Long?,
-        val rating: RemoteShowModel.RatingShow? = null,
-        val image: RemoteShowModel.ImageShow? = null,
-        val summary: String?,
+        @SerialName("id") val id: Long?,
+        @SerialName("url") val url: String?,
+        @SerialName("name") val name: String?,
+        @SerialName("airdate") val airdate: String?,
+        @SerialName("season") val season: Long?,
+        @SerialName("number") val number: Long? = null,
+        @SerialName("runtime") val runtime: Long?,
+        @SerialName("rating") val rating: RemoteShowModel.RatingShow? = null,
+        @SerialName("image") val image: RemoteShowModel.ImageShow? = null,
+        @SerialName("summary") val summary: String?,
     )
 }
 

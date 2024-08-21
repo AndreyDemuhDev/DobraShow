@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.dobrashow.screens.favorite.FavoriteScreen
 import com.example.dobrashow.screens.person_details.PersonDetailsScreen
 import com.example.dobrashow.screens.persons.PersonsScreen
 import com.example.dobrashow.screens.search.SearchScreen
@@ -25,11 +26,11 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavScreenDestination.Series.route,
+        startDestination = NavScreenDestination.Shows.route,
         modifier = Modifier.padding(innerPadding)
     ) {
         //экраны для bottom navigation bar
-        composable(route = NavScreenDestination.Series.route) {
+        composable(route = NavScreenDestination.Shows.route) {
             ShowsScreen(
                 onClickShow = { showId ->
                     navController.navigate("show_details/$showId")
@@ -38,10 +39,13 @@ fun AppNavigation(
             )
         }
         composable(route = NavScreenDestination.Persons.route) {
-            PersonsScreen(onClickPerson = { navController.navigate("people_details/$it") })
+            PersonsScreen(onClickPerson = { navController.navigate(NavScreenDestination.Persons.route) })
         }
         composable(route = NavScreenDestination.Search.route) {
-            SearchScreen(onClickShow = { navController.navigate("show_details/$it") })
+            SearchScreen(onClickShow = { navController.navigate(NavScreenDestination.Search.route) })
+        }
+        composable(route = NavScreenDestination.Favorite.route) {
+            FavoriteScreen()
         }
         //экраны не включенные в навигационную панель bottom navigation bar
         composable(
@@ -92,14 +96,16 @@ fun AppNavigation(
 
 //табы навигационной панели
 val tabs = listOf(
-    NavScreenDestination.Series,
+    NavScreenDestination.Shows,
     NavScreenDestination.Persons,
-    NavScreenDestination.Search
+    NavScreenDestination.Search,
+    NavScreenDestination.Favorite,
 )
 
 //навигационные графы
 val bottomBarRoutes = setOf(
-    NavScreenDestination.Series.route,
+    NavScreenDestination.Shows.route,
     NavScreenDestination.Persons.route,
-    NavScreenDestination.Search.route
+    NavScreenDestination.Search.route,
+    NavScreenDestination.Favorite.route,
 )

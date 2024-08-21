@@ -2,12 +2,13 @@ package com.example.network.models.remote
 
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteCrewModel(
-    val person: RemoteCastModel.PersonShow,
-    val type: String
+    @SerialName("person") val person: RemoteCastModel.PersonShow,
+    @SerialName("type") val type: String
 )
 
 fun RemoteCrewModel.toDomainCrew(): DomainCrewEntity {

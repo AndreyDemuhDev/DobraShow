@@ -5,8 +5,7 @@ import kotlinx.serialization.*
 
 @Serializable
 data class RemoteSearchShowModel(
-    @SerialName("show")
-    val searchShows: RemoteShowModel? = null
+    @SerialName("show") val searchShows: RemoteShowModel? = null
 )
 
 fun RemoteSearchShowModel.toDomainSearchShowEntity(): DomainSearchShowEntity {
