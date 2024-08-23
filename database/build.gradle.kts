@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
+//    alias(libs.plugins.ksp)
 }
 
 android {
@@ -37,5 +37,5 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+//    ksp(libs.androidx.room.compiler)
 }

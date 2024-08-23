@@ -2,7 +2,7 @@ package com.example.dobrashow.screens.show_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dobrashow.repositories.ShowRepository
+import com.example.shows_data.repositories.ShowRepository
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 import com.example.network.models.domain.DomainSeasonEntity
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsShowViewModel @Inject constructor(
-    private val showRepository: ShowRepository
+    private val showRepository: com.example.shows_data.repositories.ShowRepository
 ) : ViewModel() {
 
     private val showInformation =
