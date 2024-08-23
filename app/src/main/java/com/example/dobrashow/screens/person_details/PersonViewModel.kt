@@ -2,7 +2,7 @@ package com.example.dobrashow.screens.person_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dobrashow.repositories.ShowRepository
+import com.example.shows_data.repositories.ShowRepository
 import com.example.network.models.domain.DomainPersonEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonViewModel @Inject constructor(
-    private val showRepository: ShowRepository
+    private val showRepository: com.example.shows_data.repositories.ShowRepository
 ) : ViewModel() {
 
     private val _personDetailUiState = MutableStateFlow<PersonDetailUiState>(PersonDetailUiState.Loading)

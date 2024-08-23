@@ -36,6 +36,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.javax.inject)
 
     implementation(project(":database"))
     implementation(project(":network"))

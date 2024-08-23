@@ -1,5 +1,6 @@
-package com.example.dobrashow.repositories
+package com.example.shows_data.repositories
 
+import com.example.database.ShowsDatabase
 import com.example.network.ApiStatus
 import com.example.network.KtorClient
 import com.example.network.models.domain.DomainCastEntity
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 
 class ShowRepository @Inject constructor(
-    private val ktorClient: KtorClient
+    private val ktorClient: KtorClient,
+//    private val database: ShowsDatabase,
 ) {
 
     suspend fun getListShow(numberPage: Int): ApiStatus<List<DomainShowEntity>> {
@@ -51,4 +53,12 @@ class ShowRepository @Inject constructor(
     suspend fun searchShow(query: String): ApiStatus<List<DomainSearchShowEntity>> {
         return ktorClient.searchShow(query = query)
     }
+
+}
+
+
+sealed class RequestStatus<E>(protected val data: E?) {
+    class InProgress<E>(data: E?) : RequestStatus<E>(data = data)
+    class Success<E>(data: E?) : RequestStatus<E>(data = data)
+    class Error<E>(data: E?) : RequestStatus<E>(data = data)
 }

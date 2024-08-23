@@ -2,7 +2,7 @@ package com.example.dobrashow.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dobrashow.repositories.ShowRepository
+import com.example.shows_data.repositories.ShowRepository
 import com.example.dobrashow.screens.show.ShowUiState
 import com.example.network.models.domain.DomainSearchShowEntity
 import com.example.network.models.domain.DomainShowEntity
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val showRepository: ShowRepository
+    private val showRepository: com.example.shows_data.repositories.ShowRepository
 ) : ViewModel() {
 
     private val _listSearchShowState = MutableStateFlow<SearchUiState>(SearchUiState.Success())
