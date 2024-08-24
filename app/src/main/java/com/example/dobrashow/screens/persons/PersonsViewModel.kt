@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonsViewModel @Inject constructor(
-    private val showRepository: com.example.shows_data.repositories.ShowRepository
+    private val showRepository: ShowRepository
 ) : ViewModel() {
 
     private val _listPersonsState = MutableStateFlow<PersonsUiState>(PersonsUiState.Loading)

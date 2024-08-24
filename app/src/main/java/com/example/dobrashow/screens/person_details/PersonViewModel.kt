@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonViewModel @Inject constructor(
-    private val showRepository: com.example.shows_data.repositories.ShowRepository
+    private val showRepository: ShowRepository
 ) : ViewModel() {
 
     private val _personDetailUiState = MutableStateFlow<PersonDetailUiState>(PersonDetailUiState.Loading)
