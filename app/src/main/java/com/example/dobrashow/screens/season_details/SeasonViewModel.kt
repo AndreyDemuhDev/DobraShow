@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SeasonViewModel @Inject constructor(
-    private val showRepository: com.example.shows_data.repositories.ShowRepository
+    private val showRepository: ShowRepository
 ) : ViewModel() {
 
     private val _seasonState = MutableStateFlow<SeasonUiState>(SeasonUiState.Loading)

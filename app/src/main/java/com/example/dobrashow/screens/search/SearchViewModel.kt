@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val showRepository: com.example.shows_data.repositories.ShowRepository
+    private val showRepository: ShowRepository
 ) : ViewModel() {
 
     private val _listSearchShowState = MutableStateFlow<SearchUiState>(SearchUiState.Success())
