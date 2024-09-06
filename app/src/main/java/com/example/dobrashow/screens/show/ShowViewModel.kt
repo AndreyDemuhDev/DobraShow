@@ -2,8 +2,8 @@ package com.example.dobrashow.screens.show
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shows_data.repositories.ShowRepository
 import com.example.network.models.domain.DomainShowEntity
+import com.example.shows_data.repositories.ShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val showRepository: com.example.shows_data.repositories.ShowRepository
+    private val showRepository: ShowRepository
 ) : ViewModel() {
 
     private val _listShowState = MutableStateFlow<ShowUiState>(ShowUiState.Loading)
@@ -30,8 +30,8 @@ class HomeViewModel @Inject constructor(
                 fetchedShowPage.clear()
                 fetchedShowPage.add(showPage)
                 _listShowState.update { return@update ShowUiState.Success(listShow = showPage) }
-            }.onException {
-                //TODO
+            }.onFailure{
+                TODO("Need implementation")
             }
         }
 
@@ -46,7 +46,9 @@ class HomeViewModel @Inject constructor(
                         (currentState as? ShowUiState.Success)?.listShow ?: emptyList()
                     return@update ShowUiState.Success(listShow = currentShows + showPage)
                 }
-            }.onException { }
+            }.onFailure {
+                TODO("Need implementation")
+            }
         }
 }
 

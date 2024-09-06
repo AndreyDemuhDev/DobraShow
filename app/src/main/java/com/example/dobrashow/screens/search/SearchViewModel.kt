@@ -29,7 +29,7 @@ class SearchViewModel @Inject constructor(
                 _listSearchShowState.update {
                     return@update SearchUiState.Success(listShow = listShow)
                 }
-            }.onException { exception ->
+            }.onFailure { exception ->
                 _listSearchShowState.update {
                     return@update SearchUiState.Error(
                         message = exception.message ?: "error search show"

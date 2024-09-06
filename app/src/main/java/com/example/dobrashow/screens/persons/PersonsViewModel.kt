@@ -31,7 +31,7 @@ class PersonsViewModel @Inject constructor(
                 _listPersonsState.update {
                     return@update PersonsUiState.Success(listPersons = listPersons)
                 }
-            }.onException {
+            }.onFailure {
                 _listPersonsState.update {
                     return@update PersonsUiState.Error(message = "Error load list persons")
                 }
@@ -48,8 +48,8 @@ class PersonsViewModel @Inject constructor(
                         (currentState as? PersonsUiState.Success)?.listPersons ?: emptyList()
                     return@update PersonsUiState.Success(listPersons = currentPersons + personPage)
                 }
-            }.onException {
-                //TODO
+            }.onFailure {
+                TODO("Need implementation")
             }
         }
 

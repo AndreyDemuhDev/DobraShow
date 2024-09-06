@@ -38,6 +38,7 @@ import kotlinx.serialization.serializer
 class KtorClient() {
     @OptIn(ExperimentalSerializationApi::class)
     private val client = HttpClient(OkHttp) {
+
         defaultRequest { url("https://api.tvmaze.com/") }
 
         install(Logging) {
@@ -54,8 +55,8 @@ class KtorClient() {
     }
     private var showCache = mutableMapOf<Int, DomainShowEntity>()
 
-    suspend fun getShow(id: Int): ApiStatus<DomainShowEntity> {
-        showCache[id]?.let { return ApiStatus.SuccessStatus(it) }
+    suspend fun getShow(id: Int): Result<DomainShowEntity> {
+        showCache[id]?.let { return Result.success(it) }
         return safeApiCall {
             client.get("shows/$id")
                 .body<RemoteShowModel>()
@@ -64,7 +65,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun getCastShow(id: Int): ApiStatus<List<DomainCastEntity>> {
+    suspend fun getCastShow(id: Int): Result<List<DomainCastEntity>> {
         return safeApiCall {
             client.get("shows/$id/cast")
                 .body<List<RemoteCastModel>>()
@@ -72,7 +73,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun getCrewShow(id: Int): ApiStatus<List<DomainCrewEntity>> {
+    suspend fun getCrewShow(id: Int): Result<List<DomainCrewEntity>> {
         return safeApiCall {
             client.get("shows/$id/crew")
                 .body<List<RemoteCrewModel>>()
@@ -80,7 +81,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun getListSeasonsShow(id: Int): ApiStatus<List<DomainSeasonEntity>> {
+    suspend fun getListSeasonsShow(id: Int): Result<List<DomainSeasonEntity>> {
         return safeApiCall {
             client.get("shows/$id/seasons")
                 .body<List<RemoteSeasonsModel>>()
@@ -88,7 +89,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun getListShow(pageNumber: Int): ApiStatus<List<DomainShowEntity>> {
+    suspend fun getListShow(pageNumber: Int): Result<List<DomainShowEntity>> {
         return safeApiCall {
             client.get("shows?page=$pageNumber")
                 .body<List<RemoteShowModel>>()
@@ -96,7 +97,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun getSeasonInfo(seasonId: Int): ApiStatus<DomainSeasonEntity> {
+    suspend fun getSeasonInfo(seasonId: Int): Result<DomainSeasonEntity> {
         return safeApiCall {
             client.get("seasons/$seasonId?embed=episodes")
                 .body<RemoteSeasonsModel>()
@@ -104,7 +105,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun getPersonInfo(personId: Int): ApiStatus<DomainPersonEntity> {
+    suspend fun getPersonInfo(personId: Int): Result<DomainPersonEntity> {
         return safeApiCall {
             client.get("people/$personId?embed[]=crewcredits&embed[]=castcredits")
                 .body<RemotePersonModel>()
@@ -112,7 +113,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun getListPersons(pageNumber: Int): ApiStatus<List<DomainSimplePersonEntity>> {
+    suspend fun getListPersons(pageNumber: Int): Result<List<DomainSimplePersonEntity>> {
         return safeApiCall {
             client.get("people?page=$pageNumber")
                 .body<List<RemoteSimplePersonElement>>()
@@ -120,7 +121,7 @@ class KtorClient() {
         }
     }
 
-    suspend fun searchShow(query: String): ApiStatus<List<DomainSearchShowEntity>> {
+    suspend fun searchShow(query: String): Result<List<DomainSearchShowEntity>> {
         return safeApiCall {
             client.get("search/shows?q=$query")
                 .body<List<RemoteSearchShowModel>>()
@@ -128,12 +129,14 @@ class KtorClient() {
         }
     }
 
-    private inline fun <T> safeApiCall(apiCall: () -> T): ApiStatus<T> {
-        return try {
-            ApiStatus.SuccessStatus(data = apiCall())
-        } catch (exception: Exception) {
-            ApiStatus.ExceptionStatus(exception = exception)
-        }
+}
+
+//функция для обработки данных получаемых из сети
+private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
+    return try {
+        Result.success(value = apiCall())
+    } catch (exception: Exception) {
+        Result.failure(exception = exception)
     }
 }
 

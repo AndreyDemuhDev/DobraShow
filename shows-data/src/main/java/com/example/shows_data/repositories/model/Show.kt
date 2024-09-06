@@ -1,5 +1,7 @@
 package com.example.shows_data.repositories.model
 
+//"промежуточный" класс данных моделей
+
 data class Shows(
     val id: Int,
     val name: String,

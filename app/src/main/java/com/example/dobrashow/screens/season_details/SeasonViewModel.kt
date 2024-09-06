@@ -27,7 +27,7 @@ class SeasonViewModel @Inject constructor(
                 _seasonState.update {
                     return@update SeasonUiState.Success(season = season)
                 }
-            }.onException { exception ->
+            }.onFailure { exception ->
                 _seasonState.update {
                     return@update SeasonUiState.Error(
                         message = exception.message ?: "error load season info"

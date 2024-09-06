@@ -4,9 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.example.database.converter.GenresConverter
+
+//класс данных для зранение обхекта в базе данных
+//DBO - data base object
 
 @Entity(tableName = "shows_table")
 data class ShowsDBO(
