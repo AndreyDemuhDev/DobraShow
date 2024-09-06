@@ -89,7 +89,7 @@ class DetailsShowViewModel @Inject constructor(
                         return@update ShowInformationUiState.Success(show = show)
                     }
                 }
-                .onException { exception ->
+                .onFailure { exception ->
                     showInformation.update {
                         return@update ShowInformationUiState.Error(
                             message = exception.message ?: "unknown error"
@@ -103,7 +103,7 @@ class DetailsShowViewModel @Inject constructor(
             showRepository.getListCastShow(showId = showId)
                 .onSuccess { cast ->
                     listCast.value = cast
-                }.onException { exception ->
+                }.onFailure { exception ->
                     listPeoplesShow.update {
                         return@update ShowPeoplesListUiState.Error(
                             message = exception.message ?: "unknown error cast information"
@@ -113,7 +113,7 @@ class DetailsShowViewModel @Inject constructor(
             showRepository.getListCrewShow(showId = showId)
                 .onSuccess { crew ->
                     listCrew.value = crew
-                }.onException { exception ->
+                }.onFailure { exception ->
                     listPeoplesShow.update {
                         return@update ShowPeoplesListUiState.Error(
                             message = exception.message ?: "unknown error crew information"
@@ -138,7 +138,7 @@ class DetailsShowViewModel @Inject constructor(
                         return@update ShowSeasonsListUiState.Success(listSeasons = seasons)
                     }
                 }
-                .onException { exception ->
+                .onFailure { exception ->
                     listSeasons.update {
                         return@update ShowSeasonsListUiState.Error(
                             message = exception.message ?: "error load seasons"
@@ -176,7 +176,7 @@ sealed interface ShowPeoplesListUiState {
     data object Loading : ShowPeoplesListUiState
 }
 
-//сщстояние отображения сезонов шоу
+//состояние отображения сезонов шоу
 sealed interface ShowSeasonsListUiState {
     data class Success(val listSeasons: List<DomainSeasonEntity>) : ShowSeasonsListUiState
     data class Error(val message: String) : ShowSeasonsListUiState

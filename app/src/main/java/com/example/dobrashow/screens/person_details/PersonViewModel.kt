@@ -29,7 +29,7 @@ class PersonViewModel @Inject constructor(
                 _personDetailUiState.update {
                     return@update PersonDetailUiState.Success(person = person)
                 }
-            }.onException { exception ->
+            }.onFailure { exception ->
                 _personDetailUiState.update {
                     return@update PersonDetailUiState.Error(
                         message = exception.message ?: "error load info person"

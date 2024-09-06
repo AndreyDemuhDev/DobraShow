@@ -1,5 +1,7 @@
 package com.example.network.models.domain
 
+//данные domain мы
+
 data class DomainShowEntity(
     val id: Int,
     val name: String,           //название

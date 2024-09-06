@@ -4,6 +4,8 @@ import com.example.network.models.domain.DomainShowEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+//данные remote мы получаем из сети
+
 @Serializable
 data class RemoteShowModel(
     @SerialName("id") val id: Int?,
