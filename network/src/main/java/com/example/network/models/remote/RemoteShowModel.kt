@@ -1,7 +1,6 @@
 package com.example.network.models.remote
 
 import com.example.network.models.domain.DomainShowEntity
-import com.example.network.ShowStatus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -50,12 +49,6 @@ data class RemoteShowModel(
 
 //маппер
 fun RemoteShowModel.toDomainShow(): DomainShowEntity {
-    val showStatus = when (status?.lowercase()) {
-        "running" -> ShowStatus.Running
-        "ended" -> ShowStatus.Ended
-        "to be determined" -> ShowStatus.Determined
-        else -> ShowStatus.Unknown
-    }
     return DomainShowEntity(
         id = id ?: 4,
         name = name ?: "unknown name",
@@ -79,7 +72,7 @@ fun RemoteShowModel.toDomainShow(): DomainShowEntity {
         officialSite = officialSite ?: "unknown language",
         premiered = premiered ?: "unknown premiered",
         rating = DomainShowEntity.RatingShow(average = rating?.average ?: -1.0),
-        status = showStatus,
+        status = status ?: "unknown status",
         summary = summary ?: "unknown summary",
         url = url ?: "unknown url",
     )
