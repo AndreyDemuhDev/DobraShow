@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class ShowRepository @Inject constructor(
     private val ktorClient: KtorClient,
-//    private val database: ShowsDatabase,
+    private val database: ShowsDatabase,
 ) {
 
     suspend fun getListShow(numberPage: Int): ApiStatus<List<DomainShowEntity>> {
@@ -57,7 +57,7 @@ class ShowRepository @Inject constructor(
 }
 
 
-sealed class RequestStatus<E>(protected val data: E?) {
+sealed class RequestStatus<E>(internal val data: E?) {
     class InProgress<E>(data: E?) : RequestStatus<E>(data = data)
     class Success<E>(data: E?) : RequestStatus<E>(data = data)
     class Error<E>(data: E?) : RequestStatus<E>(data = data)
