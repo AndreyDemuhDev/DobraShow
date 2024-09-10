@@ -15,7 +15,7 @@ interface ShowsDao {
     fun getAllListShow(): Flow<List<ShowsDBO>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertShowToDatabase(show: List<ShowsDBO>)
+    suspend fun insertShowToDatabase(shows: List<ShowsDBO>)
 
     @Delete
     suspend fun removeShowFromDatabase(shows: List<ShowsDBO>)

@@ -1,4 +1,4 @@
-package com.example.shows_data.repositories.model
+package com.example.shows_data.model
 
 //"промежуточный" класс данных моделей
 

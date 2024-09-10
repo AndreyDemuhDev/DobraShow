@@ -24,31 +24,31 @@ class HomeViewModel @Inject constructor(
 
     fun initialPage() =
         viewModelScope.launch {
-            if (fetchedShowPage.isNotEmpty()) return@launch
-            val initialPage = showRepository.getListShow(numberPage = 0)
-            initialPage.onSuccess { showPage ->
-                fetchedShowPage.clear()
-                fetchedShowPage.add(showPage)
-                _listShowState.update { return@update ShowUiState.Success(listShow = showPage) }
-            }.onFailure{
-                TODO("Need implementation")
-            }
+//            if (fetchedShowPage.isNotEmpty()) return@launch
+//            val initialPage = showRepository.getListShow(numberPage = 0)
+//            initialPage.onSuccessStatus { showPage ->
+//                fetchedShowPage.clear()
+//                fetchedShowPage.add(showPage)
+//                _listShowState.update { return@update ShowUiState.Success(listShow = showPage) }
+//            }.onFailure{
+//                TODO("Need implementation")
+//            }
         }
 
 
     fun fetchNextPage() =
         viewModelScope.launch {
-            val nextPageIndex = fetchedShowPage.size + 1
-            showRepository.getListShow(numberPage = nextPageIndex).onSuccess { showPage ->
-                fetchedShowPage.add(showPage)
-                _listShowState.update { currentState ->
-                    val currentShows =
-                        (currentState as? ShowUiState.Success)?.listShow ?: emptyList()
-                    return@update ShowUiState.Success(listShow = currentShows + showPage)
-                }
-            }.onFailure {
-                TODO("Need implementation")
-            }
+//            val nextPageIndex = fetchedShowPage.size + 1
+//            showRepository.getListShow(numberPage = nextPageIndex).onSuccess { showPage ->
+//                fetchedShowPage.add(showPage)
+//                _listShowState.update { currentState ->
+//                    val currentShows =
+//                        (currentState as? ShowUiState.Success)?.listShow ?: emptyList()
+//                    return@update ShowUiState.Success(listShow = currentShows + showPage)
+//                }
+//            }.onFailure {
+//                TODO("Need implementation")
+//            }
         }
 }
 
