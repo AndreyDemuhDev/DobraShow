@@ -89,11 +89,11 @@ class KtorClient() {
         }
     }
 
-    suspend fun getListShow(pageNumber: Int): Result<List<DomainShowEntity>> {
+    suspend fun getListShow(pageNumber: Int): Result<List<RemoteShowModel>> {
         return safeApiCall {
             client.get("shows?page=$pageNumber")
                 .body<List<RemoteShowModel>>()
-                .map { it.toDomainShow() }
+//                .map { it.toDomainShow() }
         }
     }
 
