@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":network"))
     implementation(project(":shows-data"))
     implementation(project(":database"))
+    implementation(project(":features:view-show"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

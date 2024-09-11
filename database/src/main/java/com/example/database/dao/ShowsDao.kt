@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface ShowsDao {
 
     @Query("SELECT * FROM shows_table")
-    fun getAllListShow(): Flow<List<ShowsDBO>>
+    suspend fun getAllListShow(): List<ShowsDBO>
+
+    @Query("SELECT * FROM shows_table")
+    fun getObservableListShow(): Flow<List<ShowsDBO>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertShowToDatabase(shows: List<ShowsDBO>)

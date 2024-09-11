@@ -11,15 +11,17 @@ import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
 import com.example.network.models.domain.DomainSimplePersonEntity
 import com.example.network.models.remote.RemoteShowModel
-import com.example.shows_data.RequestResponseMergeStrategy
+import com.example.shows_data.DefaultRequestResponseMergeStrategy
+import com.example.shows_data.MergeStrategy
 import com.example.shows_data.RequestStatus
-import com.example.shows_data.map
+import com.example.shows_data.mapperStatus
 import com.example.shows_data.mappers.toShow
 import com.example.shows_data.mappers.toShowDatabase
 import com.example.shows_data.model.Shows
 import com.example.shows_data.toRequestStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -31,36 +33,52 @@ import javax.inject.Inject
 class ShowRepository @Inject constructor(
     private val ktorClient: KtorClient,
     private val database: ShowsDatabase,
-    private val requestResponseMergeStrategy: RequestResponseMergeStrategy<List<Shows>>
+    private val mergeStrategy: MergeStrategy<RequestStatus<List<Shows>>>
 ) {
-
+//
 //    suspend fun getListShow(numberPage: Int): Result<List<DomainShowEntity>> {
 //        return ktorClient.getListShow(pageNumber = numberPage)
 //    }
 
-    fun getListShow(numberPage: Int): Flow<RequestStatus<List<Shows>>> {
+    //функция которая отображает нам списко сериалов
+    fun getListShow(
+        numberPage: Int,
+        mergeStrategy: MergeStrategy<RequestStatus<List<Shows>>> = DefaultRequestResponseMergeStrategy()
+    ): Flow<RequestStatus<List<Shows>>> {
+        //переменная которая предоставляет сериалы из базы данных
         val cachedAllShow: Flow<RequestStatus<List<Shows>>> = getAllShowsFromDatabase()
             .map { result ->
-                result.map { showsDatabase ->
+                result.mapperStatus { showsDatabase ->
                     showsDatabase.map {
                         it.toShow()
                     }
                 }
             }
-
+        //переменная которая предоставляет сериалы из сети
         val remoteShows: Flow<RequestStatus<List<Shows>>> = getAllShowsFromServer(numberPage)
             .map { result ->
-                result.map { showsRemote ->
+                result.mapperStatus { showsRemote ->
                     showsRemote.map {
                         it.toShow()
                     }
                 }
             }
+        //возвращаем результаты которые мы получили в результате статуса получения данных из сети и базы данных
+        //результат зависит от работы функции merge интерфейса MergeStrategy
         return cachedAllShow.combine(remoteShows) { databaseShows: RequestStatus<List<Shows>>, networkShows: RequestStatus<List<Shows>> ->
-            requestResponseMergeStrategy.merge(databaseShows, networkShows)
+            mergeStrategy.merge(databaseShows, networkShows)
+        }.flatMapLatest { result ->
+            if (result is RequestStatus.Success) {
+                database.showsDao.getObservableListShow()
+                    .map { databaseShow -> databaseShow.map { it.toShow() } }
+                    .map { RequestStatus.Success(it) }
+            } else {
+                flowOf(result)
+            }
         }
     }
 
+    //функция которая предоставляет сериалы из сети
     private fun getAllShowsFromServer(numberPage: Int): Flow<RequestStatus<List<RemoteShowModel>>> {
         val apiRequest: Flow<RequestStatus<List<RemoteShowModel>>> =
             flow { emit(ktorClient.getListShow(pageNumber = numberPage)) }
@@ -77,14 +95,16 @@ class ShowRepository @Inject constructor(
 
     }
 
+    //функция которая сохраняет сериалы из сети в базу данных
     private suspend fun saveNetworkShowsToDatabase(data: List<RemoteShowModel>) {
-        val networkShows: List<ShowsDBO> = data.map { showsDto: RemoteShowModel -> showsDto.toShowDatabase() }
+        val networkShows: List<ShowsDBO> =
+            data.map { showsDto: RemoteShowModel -> showsDto.toShowDatabase() }
         database.showsDao.insertShowToDatabase(networkShows)
     }
 
+    //функция которая предоставляет сериалы из базы данных
     private fun getAllShowsFromDatabase(): Flow<RequestStatus<List<ShowsDBO>>> {
-        val databaseRequest = database.showsDao
-            .getAllListShow()
+        val databaseRequest = flow { emit(database.showsDao.getAllListShow()) }
             .map { RequestStatus.Success(it) }
         val startRequest = flowOf<RequestStatus<List<ShowsDBO>>>(RequestStatus.InProgress())
 
