@@ -6,8 +6,9 @@ import com.example.shows_data.model.Shows
 import com.example.shows_data.repositories.ShowRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class GetAllShowsUseCase(private val showRepository: ShowRepository) {
+class GetAllShowsUseCase @Inject constructor(private val showRepository: ShowRepository) {
 
     operator fun invoke(): Flow<RequestStatus<List<Shows>>> {
         return showRepository.getListShow(0)
