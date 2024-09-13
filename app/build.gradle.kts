@@ -22,6 +22,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "BASE_USR", "\"\"")
     }
 
     buildTypes {
@@ -42,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -71,7 +73,7 @@ dependencies {
     //Hilt
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
-    implementation (libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     //Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
@@ -87,6 +89,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
-kapt{
+kapt {
     correctErrorTypes = true
 }

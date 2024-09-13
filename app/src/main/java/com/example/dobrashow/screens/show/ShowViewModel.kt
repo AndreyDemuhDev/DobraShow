@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.network.models.domain.DomainShowEntity
 import com.example.shows_data.RequestStatus
-import com.example.shows_data.mapperStatus
 import com.example.shows_data.model.Shows
-import com.example.shows_data.repositories.ShowRepository
 import com.example.view_show.GetAllShowsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,13 +13,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Provider
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getAllShowsUseCases: GetAllShowsUseCase
+    getAllShowsUseCases: Provider<GetAllShowsUseCase>
 ) : ViewModel() {
 
     private val _listShowState = MutableStateFlow<ShowUiState>(ShowUiState.Loading)
@@ -29,12 +27,13 @@ class HomeViewModel @Inject constructor(
 
     private val fetchedShowPage = mutableListOf<List<DomainShowEntity>>()
 
-    private val state: StateFlow<State> = getAllShowsUseCases()
+    private val state: StateFlow<State> = getAllShowsUseCases.get().invoke()
         .map { it.toState() }
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily, State.None
         )
+
 
     fun initialPage() =
         viewModelScope.launch {
@@ -84,7 +83,7 @@ sealed interface ShowUiState {
 
 sealed class State {
     object None : State()
-    class Loading(val shows: List<Shows>?) : State()
-    class Error : State()
+    class Loading(val shows: List<Shows>? = null) : State()
+    class Error(val shows: List<Shows>? = null) : State()
     class Success(val shows: List<Shows>) : State()
 }
