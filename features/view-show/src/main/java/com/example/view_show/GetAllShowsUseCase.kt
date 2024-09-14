@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetAllShowsUseCase @Inject constructor(private val showRepository: ShowRepository) {
+class GetAllShowsUseCase @Inject constructor(
+    private val showRepository: ShowRepository,
+) {
 
     operator fun invoke(): Flow<RequestStatus<List<Shows>>> {
         return showRepository.getListShow(0)
