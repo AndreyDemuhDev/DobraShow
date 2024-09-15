@@ -49,7 +49,7 @@ class PersonsViewModel @Inject constructor(
                     return@update PersonsUiState.Success(listPersons = currentPersons + personPage)
                 }
             }.onFailure {
-                TODO("Need implementation")
+
             }
         }
 

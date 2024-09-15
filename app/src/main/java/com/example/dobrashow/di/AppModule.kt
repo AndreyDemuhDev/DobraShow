@@ -1,6 +1,7 @@
 package com.example.dobrashow.di
 
 import android.content.Context
+import com.example.core.AppCustomDispatchers
 import com.example.database.ShowsDatabase
 import com.example.database.dao.ShowsDao
 import com.example.database.showsAppDatabase
@@ -29,4 +30,10 @@ object AppModule {
     fun provideShowsDatabase(@ApplicationContext context: Context): ShowsDatabase {
         return showsAppDatabase(applicationContext = context)
     }
+
+    //провайдим диспатчеры приложения
+    @Provides
+    @Singleton
+    fun provideAppCustomDispatchers(): AppCustomDispatchers = AppCustomDispatchers()
+
 }

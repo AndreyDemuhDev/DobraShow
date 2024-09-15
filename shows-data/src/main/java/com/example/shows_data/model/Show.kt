@@ -2,7 +2,7 @@ package com.example.shows_data.model
 
 //"промежуточный" класс данных моделей
 
-data class Shows(
+data class ShowsUi(
     val id: Int,
     val name: String,
     val ended: String,

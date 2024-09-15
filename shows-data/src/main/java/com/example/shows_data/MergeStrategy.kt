@@ -30,7 +30,12 @@ internal class DefaultRequestResponseMergeStrategy<T : Any> : MergeStrategy<Requ
                 network
             )
 
-            else -> error("Unknown implementation RequestStatus")
+            cache is RequestStatus.Success && network is RequestStatus.Success -> mergeSuccessCacheAndSuccessNetwork(
+                cache,
+                network
+            )
+
+            else -> error("Unknown implementation RequestStatus \n cache = $cache \n network = $network")
         }
 
     }
@@ -65,6 +70,13 @@ internal class DefaultRequestResponseMergeStrategy<T : Any> : MergeStrategy<Requ
         network: RequestStatus.Error<T>
     ): RequestStatus<T> {
         return RequestStatus.Error(data = cache.data, error = network.error)
+    }
+
+    private fun mergeSuccessCacheAndSuccessNetwork(
+        cache: RequestStatus.Success<T>,
+        network: RequestStatus.Success<T>
+    ): RequestStatus<T> {
+        return RequestStatus.Success(data = network.data)
     }
 
 
