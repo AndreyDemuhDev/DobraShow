@@ -8,9 +8,4 @@ open class AppCustomDispatchers(
     val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     val unconfinedDispatcher: CoroutineDispatcher = Dispatchers.Unconfined,
-) {
-
-    companion object : AppCustomDispatchers()
-
-
-}
+)

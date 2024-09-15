@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.network.models.domain.DomainShowEntity
 import com.example.shows_data.RequestStatus
-import com.example.shows_data.model.Shows
+import com.example.shows_data.model.ShowsUi
 import com.example.view_show.GetAllShowsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(
 //                fetchedShowPage.add(showPage)
 //                _listShowState.update { return@update ShowUiState.Success(listShow = showPage) }
 //            }.onFailure{
-//                TODO("Need implementation")
+//
 //            }
         }
 
@@ -60,13 +60,13 @@ class HomeViewModel @Inject constructor(
 //                    return@update ShowUiState.Success(listShow = currentShows + showPage)
 //                }
 //            }.onFailure {
-//                TODO("Need implementation")
+//
 //            }
         }
 }
 
 
-private fun RequestStatus<List<Shows>>.toState(): State {
+private fun RequestStatus<List<ShowsUi>>.toState(): State {
     return when (this) {
         is RequestStatus.Error -> State.Error()
         is RequestStatus.InProgress -> State.Loading(shows = data)
@@ -83,7 +83,7 @@ sealed interface ShowUiState {
 
 sealed class State {
     object None : State()
-    class Loading(val shows: List<Shows>? = null) : State()
-    class Error(val shows: List<Shows>? = null) : State()
-    class Success(val shows: List<Shows>) : State()
+    class Loading(val shows: List<ShowsUi>? = null) : State()
+    class Error(val shows: List<ShowsUi>? = null) : State()
+    class Success(val shows: List<ShowsUi>) : State()
 }
