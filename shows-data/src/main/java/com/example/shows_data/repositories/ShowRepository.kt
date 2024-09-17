@@ -1,5 +1,6 @@
 package com.example.shows_data.repositories
 
+import android.util.Log
 import com.example.database.ShowsDatabase
 import com.example.database.models.ShowsDBO
 import com.example.network.KtorClient
@@ -99,7 +100,7 @@ class ShowRepository @Inject constructor(
     //функция которая предоставляет сериалы из базы данных
     private fun getAllShowsFromDatabase(): Flow<RequestStatus<List<ShowsUi>>> {
         val databaseRequest = flow { emit(database.showsDao.getAllListShow()) }
-            .map { RequestStatus.Success(it) }
+            .map<List<ShowsDBO>, RequestStatus<List<ShowsDBO>>> { RequestStatus.Success(it) }
         val startRequest = flowOf<RequestStatus<List<ShowsDBO>>>(RequestStatus.InProgress())
 
         return merge(startRequest, databaseRequest)
