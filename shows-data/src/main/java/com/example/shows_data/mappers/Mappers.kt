@@ -5,6 +5,7 @@ import com.example.network.models.domain.DomainShowEntity
 import com.example.network.models.remote.RemoteShowModel
 import com.example.shows_data.model.ShowsUi
 
+//маппер из модели базы данных в ui модель
 internal fun ShowsDBO.toShow(): ShowsUi {
     return ShowsUi(
         id = id,
@@ -35,6 +36,7 @@ internal fun ShowsDBO.toShow(): ShowsUi {
     )
 }
 
+//маппер из сетевой модели в ui модель
 internal fun RemoteShowModel.toShow(): ShowsUi {
     return ShowsUi(
         id = id ?: 4,
@@ -65,6 +67,7 @@ internal fun RemoteShowModel.toShow(): ShowsUi {
     )
 }
 
+//маппер из сетевой модели в модель базы данных модель
 internal fun RemoteShowModel.toShowDatabase(): ShowsDBO {
     return ShowsDBO(
         id = id ?: 4,

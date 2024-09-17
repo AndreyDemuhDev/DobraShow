@@ -27,12 +27,12 @@ class HomeViewModel @Inject constructor(
 
     private val fetchedShowPage = mutableListOf<List<DomainShowEntity>>()
 
-    private val state: StateFlow<State> = getAllShowsUseCases.get().invoke()
-        .map { it.toState() }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Lazily, State.None
-        )
+//    private val state: StateFlow<State> = getAllShowsUseCases.get().invoke()
+//        .map { it.toState() }
+//        .stateIn(
+//            viewModelScope,
+//            SharingStarted.Lazily, State.None
+//        )
 
 
     fun initialPage() =

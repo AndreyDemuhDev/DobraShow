@@ -12,8 +12,8 @@ class GetAllShowsUseCase @Inject constructor(
     private val showRepository: ShowRepository,
 ) {
 
-    operator fun invoke(): Flow<RequestStatus<List<ShowsUi>>> {
-        return showRepository.getListShow(0)
+    operator fun invoke(numberPage: Int): Flow<RequestStatus<List<ShowsUi>>> {
+        return showRepository.getListShow(numberPage = numberPage)
             .map { requestResult ->
                 requestResult.mapperStatus { shows ->
                     shows.map { it.toUiShows() }
@@ -43,7 +43,7 @@ private fun ShowsUi.toUiShows(): ShowsUi {
             name = network.name,
             officialSite = network.officialSite
         ),
-        officialSite = officialSite ,
+        officialSite = officialSite,
         premiered = premiered,
         rating = ShowsUi.RatingShow(average = rating.average),
         status = status,

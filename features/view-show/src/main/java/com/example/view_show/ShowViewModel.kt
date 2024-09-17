@@ -17,7 +17,7 @@ class ShowViewModel @Inject constructor(
     getAllShowsUseCases: Provider<GetAllShowsUseCase>
 ) : ViewModel() {
 
-     val state: StateFlow<State> = getAllShowsUseCases.get().invoke()
+     val state: StateFlow<State> = getAllShowsUseCases.get().invoke(1)
         .map { it.toState() }
         .stateIn(
             viewModelScope,

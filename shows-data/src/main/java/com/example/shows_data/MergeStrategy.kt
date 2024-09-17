@@ -1,5 +1,9 @@
 package com.example.shows_data
 
+import com.example.shows_data.RequestStatus.Success
+import com.example.shows_data.RequestStatus.Error
+import com.example.shows_data.RequestStatus.InProgress
+
 
 interface MergeStrategy<E> {
 
@@ -10,27 +14,37 @@ interface MergeStrategy<E> {
 internal class DefaultRequestResponseMergeStrategy<T : Any> : MergeStrategy<RequestStatus<T>> {
     override fun merge(cache: RequestStatus<T>, network: RequestStatus<T>): RequestStatus<T> {
         return when {
-            cache is RequestStatus.InProgress && network is RequestStatus.InProgress -> mergeProgressCacheAndProgressNetwork(
+            cache is InProgress && network is InProgress -> mergeProgressCacheAndProgressNetwork(
                 cache,
                 network
             )
 
-            cache is RequestStatus.Success && network is RequestStatus.InProgress -> mergeSuccessCacheAndProgressNetwork(
+            cache is Success && network is InProgress -> mergeSuccessCacheAndProgressNetwork(
                 cache,
                 network
             )
 
-            cache is RequestStatus.InProgress && network is RequestStatus.Success -> mergeProgressCacheAndSuccessNetwork(
+            cache is Error && network is InProgress -> mergeErrorCacheAndProgressNetwork(
                 cache,
                 network
             )
 
-            cache is RequestStatus.Success && network is RequestStatus.Error -> mergeSuccessCacheAndErrorNetwork(
+            cache is InProgress && network is Success -> mergeProgressCacheAndSuccessNetwork(
                 cache,
                 network
             )
 
-            cache is RequestStatus.Success && network is RequestStatus.Success -> mergeSuccessCacheAndSuccessNetwork(
+            cache is Success && network is Error -> mergeSuccessCacheAndErrorNetwork(
+                cache,
+                network
+            )
+
+            cache is Success && network is Success -> mergeSuccessCacheAndSuccessNetwork(
+                cache,
+                network
+            )
+
+            cache is Error && network is Success -> mergeErrorCacheAndSuccessNetwork(
                 cache,
                 network
             )
@@ -41,42 +55,55 @@ internal class DefaultRequestResponseMergeStrategy<T : Any> : MergeStrategy<Requ
     }
 
     private fun mergeProgressCacheAndProgressNetwork(
-        cache: RequestStatus.InProgress<T>,
-        network: RequestStatus.InProgress<T>
+        cache: InProgress<T>,
+        network: InProgress<T>
     ): RequestStatus<T> {
         return when {
-            network.data != null -> RequestStatus.InProgress(network.data)
-            else ->
-                RequestStatus.InProgress(cache.data)
+            network.data != null -> InProgress(network.data)
+            else -> InProgress(cache.data)
         }
     }
 
     private fun mergeSuccessCacheAndProgressNetwork(
-        cache: RequestStatus.Success<T>,
-        network: RequestStatus.InProgress<T>
+        cache: Success<T>,
+        network: InProgress<T>
     ): RequestStatus<T> {
-        return RequestStatus.InProgress(cache.data)
+        return InProgress(cache.data)
     }
 
     private fun mergeProgressCacheAndSuccessNetwork(
-        cache: RequestStatus.InProgress<T>,
-        network: RequestStatus.Success<T>
+        cache: InProgress<T>,
+        network: Success<T>
     ): RequestStatus<T> {
-        return RequestStatus.InProgress(network.data)
+        return InProgress(network.data)
     }
 
     private fun mergeSuccessCacheAndErrorNetwork(
-        cache: RequestStatus.Success<T>,
-        network: RequestStatus.Error<T>
+        cache: Success<T>,
+        network: Error<T>
     ): RequestStatus<T> {
-        return RequestStatus.Error(data = cache.data, error = network.error)
+        return Error(data = cache.data, error = network.error)
     }
 
     private fun mergeSuccessCacheAndSuccessNetwork(
-        cache: RequestStatus.Success<T>,
-        network: RequestStatus.Success<T>
+        cache: Success<T>,
+        network: Success<T>
     ): RequestStatus<T> {
-        return RequestStatus.Success(data = network.data)
+        return Success(data = network.data)
+    }
+
+    private fun mergeErrorCacheAndProgressNetwork(
+        cache: Error<T>,
+        network: InProgress<T>
+    ): RequestStatus<T> {
+        return InProgress(data = network.data)
+    }
+
+    private fun mergeErrorCacheAndSuccessNetwork(
+        cache: Error<T>,
+        network: Success<T>
+    ): RequestStatus<T> {
+        return Success(data = network.data)
     }
 
 
