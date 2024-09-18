@@ -3,7 +3,6 @@ package com.example.dobrashow.di
 import android.content.Context
 import com.example.core.AppCustomDispatchers
 import com.example.database.ShowsDatabase
-import com.example.database.dao.ShowsDao
 import com.example.database.showsAppDatabase
 import com.example.network.KtorClient
 import dagger.Module
@@ -17,23 +16,22 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    //провайдим сетевой клиент
+    // провайдим сетевой клиент
     @Provides
     @Singleton
     fun providesKtorClient(): KtorClient {
         return KtorClient()
     }
 
-    //провайдим базу данных
+    // провайдим базу данных
     @Provides
     @Singleton
     fun provideShowsDatabase(@ApplicationContext context: Context): ShowsDatabase {
         return showsAppDatabase(applicationContext = context)
     }
 
-    //провайдим диспатчеры приложения
+    // провайдим диспатчеры приложения
     @Provides
     @Singleton
     fun provideAppCustomDispatchers(): AppCustomDispatchers = AppCustomDispatchers()
-
 }
