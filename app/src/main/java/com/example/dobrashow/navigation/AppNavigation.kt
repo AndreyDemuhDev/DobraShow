@@ -29,7 +29,7 @@ fun AppNavigation(
         startDestination = NavScreenDestination.Shows.route,
         modifier = Modifier.padding(innerPadding)
     ) {
-        //экраны для bottom navigation bar
+        // экраны для bottom navigation bar
         composable(route = NavScreenDestination.Shows.route) {
             ShowsScreen(
                 onClickShow = { showId ->
@@ -47,7 +47,7 @@ fun AppNavigation(
         composable(route = NavScreenDestination.Favorite.route) {
             FavoriteScreen()
         }
-        //экраны не включенные в навигационную панель bottom navigation bar
+        // экраны не включенные в навигационную панель bottom navigation bar
         composable(
             route = "show_details/{showId}",
             arguments = listOf(navArgument("showId") { type = NavType.IntType })
@@ -94,7 +94,7 @@ fun AppNavigation(
 }
 
 
-//табы навигационной панели
+// табы навигационной панели
 val tabs = listOf(
     NavScreenDestination.Shows,
     NavScreenDestination.Persons,
@@ -102,7 +102,7 @@ val tabs = listOf(
     NavScreenDestination.Favorite,
 )
 
-//навигационные графы
+// навигационные графы
 val bottomBarRoutes = setOf(
     NavScreenDestination.Shows.route,
     NavScreenDestination.Persons.route,

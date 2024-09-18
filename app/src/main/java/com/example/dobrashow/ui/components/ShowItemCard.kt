@@ -23,7 +23,10 @@ fun ShowItemCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        border = BorderStroke(width = com.example.uikit.AppTheme.size.dp2, color = com.example.uikit.AppTheme.colorScheme.primary),
+        border = BorderStroke(
+            width = com.example.uikit.AppTheme.size.dp2,
+            color = com.example.uikit.AppTheme.colorScheme.primary
+        ),
         elevation = CardDefaults.cardElevation(com.example.uikit.AppTheme.size.dp4),
         modifier = modifier
             .size(width = 250.dp, height = 270.dp)
@@ -33,6 +36,7 @@ fun ShowItemCard(
             model = show.image.medium,
             contentDescription = null,
             contentScale = ContentScale.Crop,
+            placeholder = painterResource(id = R.drawable.ic_no_image),
             error = painterResource(id = R.drawable.ic_no_image),
             modifier = Modifier.fillMaxSize()
         )

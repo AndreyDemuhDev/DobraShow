@@ -61,7 +61,8 @@ private fun ErrorContent(state: State.Error) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp), contentAlignment = Alignment.Center
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
         ) {
             Text(text = "ShowsErrorContent", color = AppTheme.colorScheme.error)
         }
@@ -73,7 +74,8 @@ private fun ProgressIndicator(state: State.Loading) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp), contentAlignment = Alignment.Center
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
             color = AppTheme.colorScheme.primary,

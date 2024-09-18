@@ -1,3 +1,4 @@
+
 package com.example.database
 
 import android.content.Context
@@ -8,7 +9,6 @@ import androidx.room.TypeConverters
 import com.example.database.converter.GenresConverter
 import com.example.database.dao.ShowsDao
 import com.example.database.models.ShowsDBO
-
 
 class ShowsDatabase internal constructor(private val database: AppRoomDatabase) {
 
