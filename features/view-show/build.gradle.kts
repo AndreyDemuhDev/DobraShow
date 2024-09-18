@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(project(":shows-data"))
+    implementation(project(":uikit"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

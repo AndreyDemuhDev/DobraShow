@@ -1,9 +1,8 @@
-package com.example.dobrashow.ui.theme
+package com.example.uikit
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.example.dobrashow.R
 
 val RedRose = FontFamily(
     Font(R.font.redrose_regular, FontWeight.Normal),

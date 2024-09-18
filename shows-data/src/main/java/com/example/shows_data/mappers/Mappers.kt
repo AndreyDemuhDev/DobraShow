@@ -1,24 +1,23 @@
 package com.example.shows_data.mappers
 
 import com.example.database.models.ShowsDBO
-import com.example.network.models.domain.DomainShowEntity
 import com.example.network.models.remote.RemoteShowModel
-import com.example.shows_data.model.ShowsUi
+import com.example.shows_data.model.Shows
 
 //маппер из модели базы данных в ui модель
-internal fun ShowsDBO.toShow(): ShowsUi {
-    return ShowsUi(
+internal fun ShowsDBO.toShow(): Shows {
+    return Shows(
         id = id,
         name = name,
         ended = ended,
         genres = genres,
-        image = ShowsUi.ImageShow(
+        image = Shows.ImageShow(
             medium = image.medium,
             original = image.original
         ),
         language = language,
-        network = ShowsUi.NetworkShow(
-            country = ShowsUi.CountryShow(
+        network = Shows.NetworkShow(
+            country = Shows.CountryShow(
                 code = network.country.code,
                 name = network.country.name,
                 timezone = network.country.timezone
@@ -29,7 +28,7 @@ internal fun ShowsDBO.toShow(): ShowsUi {
         ),
         officialSite = officialSite,
         premiered = premiered,
-        rating = ShowsUi.RatingShow(average = rating.average),
+        rating = Shows.RatingShow(average = rating.average),
         status = status,
         summary = summary,
         url = url,
@@ -37,19 +36,19 @@ internal fun ShowsDBO.toShow(): ShowsUi {
 }
 
 //маппер из сетевой модели в ui модель
-internal fun RemoteShowModel.toShow(): ShowsUi {
-    return ShowsUi(
+internal fun RemoteShowModel.toShow(): Shows {
+    return Shows(
         id = id ?: 4,
         name = name ?: "unknown name",
         ended = ended ?: "unknown",
         genres = genres ?: emptyList(),
-        image = ShowsUi.ImageShow(
+        image = Shows.ImageShow(
             medium = image?.medium ?: "unknown image",
             original = image?.original ?: "unknown image"
         ),
         language = language ?: "unknown language",
-        network = ShowsUi.NetworkShow(
-            country = ShowsUi.CountryShow(
+        network = Shows.NetworkShow(
+            country = Shows.CountryShow(
                 code = network?.country?.code ?: "unknown code country",
                 name = network?.country?.name ?: "unknown name country",
                 timezone = network?.country?.timezone ?: "unknown timezone country"
@@ -60,7 +59,7 @@ internal fun RemoteShowModel.toShow(): ShowsUi {
         ),
         officialSite = officialSite ?: "unknown language",
         premiered = premiered ?: "unknown premiered",
-        rating = ShowsUi.RatingShow(average = rating?.average ?: -1.0),
+        rating = Shows.RatingShow(average = rating?.average ?: -1.0),
         status = status ?: "unknown status",
         summary = summary ?: "unknown summary",
         url = url ?: "unknown url",

@@ -8,10 +8,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
@@ -23,8 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import com.example.dobrashow.ui.theme.AppTheme
+import com.example.uikit.AppTheme
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 
@@ -50,11 +47,11 @@ fun CastAndCrewShowPager(
     }
     TabRow(
         selectedTabIndex = selectedTabIndex,
-        containerColor = AppTheme.colorScheme.background,
+        containerColor = com.example.uikit.AppTheme.colorScheme.background,
         indicator = { tabPositions ->
             SecondaryIndicator(
                 modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                color = AppTheme.colorScheme.primary
+                color = com.example.uikit.AppTheme.colorScheme.primary
             )
         },
         modifier = modifier
@@ -66,9 +63,9 @@ fun CastAndCrewShowPager(
                 text = {
                     Text(
                         text = tabItems[index],
-                        style = AppTheme.typography.bodyLarge,
+                        style = com.example.uikit.AppTheme.typography.bodyLarge,
                         fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal,
-                        color = if (selectedTabIndex == index) AppTheme.colorScheme.primary else AppTheme.colorScheme.text
+                        color = if (selectedTabIndex == index) com.example.uikit.AppTheme.colorScheme.primary else com.example.uikit.AppTheme.colorScheme.text
                     )
                 }
             )
@@ -81,22 +78,22 @@ fun CastAndCrewShowPager(
     ) { index ->
         Box(modifier = Modifier.fillMaxWidth()) {
             if (index == 0) {
-                LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
+                LazyRow(modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp12)) {
                     items(cast) { item ->
                         CastItemCard(
                             cast = item,
                             onClickPerson = { onClickPerson(item.person.id) },
-                            modifier = Modifier.padding(horizontal = AppTheme.size.dp4)
+                            modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp4)
                         )
                     }
                 }
             } else {
-                LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
+                LazyRow(modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp12)) {
                     items(crew) { item ->
                         CrewItemCard(
                             crew = item,
                             onClickPerson = { onClickPerson(item.person.id) },
-                            modifier = Modifier.padding(horizontal = AppTheme.size.dp4)
+                            modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp4)
                         )
                     }
                 }

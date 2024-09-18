@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.example.dobrashow.R
-import com.example.dobrashow.ui.theme.AppTheme
+import com.example.uikit.AppTheme
 
 @Composable
 fun CustomTopBarComponent(
@@ -27,18 +27,18 @@ fun CustomTopBarComponent(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = "arrow_back",
-                        tint = AppTheme.colorScheme.text
+                        tint = com.example.uikit.AppTheme.colorScheme.text
                     )
                 }
             }
             Text(text = title,
-                color = AppTheme.colorScheme.text,
-                style = AppTheme.typography.titleLarge)
+                color = com.example.uikit.AppTheme.colorScheme.text,
+                style = com.example.uikit.AppTheme.typography.titleLarge)
         }
         HorizontalDivider(
-            thickness = AppTheme.size.dp2,
-            color = AppTheme.colorScheme.primary,
-            modifier = Modifier.padding(bottom = AppTheme.size.dp8)
+            thickness = com.example.uikit.AppTheme.size.dp2,
+            color = com.example.uikit.AppTheme.colorScheme.primary,
+            modifier = Modifier.padding(bottom = com.example.uikit.AppTheme.size.dp8)
         )
     }
 }

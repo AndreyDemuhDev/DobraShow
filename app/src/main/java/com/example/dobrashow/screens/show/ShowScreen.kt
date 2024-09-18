@@ -22,7 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.ShowItemCard
-import com.example.dobrashow.ui.theme.AppTheme
+import com.example.uikit.AppTheme
 
 @Composable
 fun ShowsScreen(
@@ -81,14 +81,14 @@ private fun SuccessStateShowContent(
     Column(modifier = modifier) {
         CustomTopBarComponent(
             title = "All shows",
-            modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
+            modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp16)
         )
         LazyVerticalGrid(
             state = scrollState,
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(horizontal = AppTheme.size.dp16),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.size.dp16),
+            contentPadding = PaddingValues(horizontal = com.example.uikit.AppTheme.size.dp16),
+            verticalArrangement = Arrangement.spacedBy(com.example.uikit.AppTheme.size.dp8),
+            horizontalArrangement = Arrangement.spacedBy(com.example.uikit.AppTheme.size.dp16),
             content = {
                 items(items = state.listShow, key = { show -> show.id}) { show ->
                     ShowItemCard(

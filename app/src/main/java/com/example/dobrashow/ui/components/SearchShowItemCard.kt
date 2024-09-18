@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
-import com.example.dobrashow.ui.theme.AppTheme
+import com.example.uikit.AppTheme
 import com.example.network.models.domain.DomainSearchShowEntity
 
 
@@ -29,9 +29,9 @@ fun SearchShowItemCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.background),
-        border = BorderStroke(width = AppTheme.size.dp2, color = AppTheme.colorScheme.primary),
-        elevation = CardDefaults.cardElevation(AppTheme.size.dp4),
+        colors = CardDefaults.cardColors(containerColor = com.example.uikit.AppTheme.colorScheme.background),
+        border = BorderStroke(width = com.example.uikit.AppTheme.size.dp2, color = com.example.uikit.AppTheme.colorScheme.primary),
+        elevation = CardDefaults.cardElevation(com.example.uikit.AppTheme.size.dp4),
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClickShow() }
@@ -45,19 +45,19 @@ fun SearchShowItemCard(
                 modifier = Modifier.size(width = 120.dp, height = 180.dp)
             )
             Column(
-                verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
-                modifier = Modifier.padding(all = AppTheme.size.dp8)
+                verticalArrangement = Arrangement.spacedBy(com.example.uikit.AppTheme.size.dp8),
+                modifier = Modifier.padding(all = com.example.uikit.AppTheme.size.dp8)
             ) {
                 Text(
                     text = show?.searchShows?.name ?: "",
-                    style = AppTheme.typography.titleLarge,
-                    color = AppTheme.colorScheme.text,
+                    style = com.example.uikit.AppTheme.typography.titleLarge,
+                    color = com.example.uikit.AppTheme.colorScheme.text,
                     maxLines = 2
                 )
                 Text(
                     text = show?.searchShows?.premiered ?: "",
-                    style = AppTheme.typography.titleLarge,
-                    color = AppTheme.colorScheme.text
+                    style = com.example.uikit.AppTheme.typography.titleLarge,
+                    color = com.example.uikit.AppTheme.colorScheme.text
                 )
             }
         }
