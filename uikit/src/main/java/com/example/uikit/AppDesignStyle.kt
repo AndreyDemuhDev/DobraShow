@@ -1,4 +1,4 @@
-package com.example.dobrashow.ui.theme
+package com.example.uikit
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -14,7 +14,8 @@ data class AppColorsScheme(
     val onPrimary: Color,           //оттенок основного цвета
     val text: Color,                //цвет текста
     val onText: Color,              //оттенок текста
-    val transparent: Color,              //прозрачный
+    val transparent: Color,         //прозрачный
+    val error: Color,               //красный
 )
 
 data class AppTypography(
@@ -25,7 +26,7 @@ data class AppTypography(
     val bodyNormal: TextStyle,
     val bodySmall: TextStyle,
     val labelLarge: TextStyle,       //шрифт для текста внутри компонентов
-    val labelNormal: TextStyle,       //шрифт для текста внутри компонентов
+    val labelNormal: TextStyle,      //шрифт для текста внутри компонентов
     val labelSmall: TextStyle,
 )
 
@@ -55,6 +56,7 @@ val LocalAppColorScheme = staticCompositionLocalOf {
         text = Color.Unspecified,
         onText = Color.Unspecified,
         transparent = Color.Unspecified,
+        error = Color.Unspecified,
     )
 }
 

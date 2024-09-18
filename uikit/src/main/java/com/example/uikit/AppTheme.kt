@@ -1,4 +1,4 @@
-package com.example.dobrashow.ui.theme
+package com.example.uikit
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +18,7 @@ private val darkColorTheme = AppColorsScheme(
     text = Color(0xFFE7DEDE),
     onText = Color(0xFFB1A7A7),
     transparent = Color(0x00000000),
+    error = Color(0xFFE21010)
 )
 
 private val lightColorTheme = AppColorsScheme(
@@ -28,6 +29,7 @@ private val lightColorTheme = AppColorsScheme(
     text = Color(0xFFE7DEDE),
     onText = Color(0xFFB1A7A7),
     transparent = Color(0x00000000),
+    error = Color(0xFFE21010)
 )
 
 private val typography = AppTypography(
@@ -99,13 +101,11 @@ fun AppTheme(
 ) {
 
     val colorScheme = if (isDarkMode) darkColorTheme else lightColorTheme
-//    val rippleIndication = createRippleModifierNode()
     CompositionLocalProvider(
         LocalAppColorScheme provides colorScheme,
         LocalAppTypography provides typography,
         LocalAppShape provides shapes,
         LocalAppSize provides size,
-//        LocalIndication provides rippleIndication,
         content = content
     )
 

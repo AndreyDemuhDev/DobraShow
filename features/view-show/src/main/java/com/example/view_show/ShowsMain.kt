@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.shows_data.model.ShowsUi
+import com.example.uikit.AppTheme
 
 @Composable
 fun ShowsMainScreen(modifier: Modifier = Modifier) {
@@ -34,54 +34,56 @@ internal fun ShowsScreen(
 ) {
     Log.d("MyLog", "ShowsScreen")
     val state by viewModel.state.collectAsState()
-    when (val currentState = state) {
-        is State.Success -> ShowsSuccessContent(currentState.shows)
-        is State.Error -> ShowsErrorContent(currentState.shows)
-        is State.Loading -> ShowsLoadingContent(currentState.shows)
-        State.None -> ShowsEmptyContent()
+    val currentState = state
+
+    if (state != State.None) {
+        ShowsContent(currentState)
+    }
+
+}
+
+@Composable
+private fun ShowsContent(currentState: State) {
+    if (currentState is State.Error) {
+        ErrorContent(currentState)
+    }
+    if (currentState is State.Loading) {
+        ProgressIndicator(currentState)
+    }
+    if (currentState.shows != null) {
+        ListShows(shows = currentState.shows)
     }
 }
 
 @Composable
-fun ShowsLoadingContent(shows: List<ShowsUi>?) {
-    Log.d("MyLog", "LoadingContent")
-    Column {
-        Text(text = "ShowsLoadingContent", color = Color.Yellow)
-        if (shows != null) {
-            ShowsSuccessContent(shows = shows)
-        } else {
-            Box(modifier = Modifier.padding(16.dp).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
+private fun ErrorContent(state: State.Error) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp), contentAlignment = Alignment.Center
+        ) {
+            Text(text = "ShowsErrorContent", color = AppTheme.colorScheme.error)
         }
     }
 }
 
 @Composable
-fun ShowsErrorContent(shows: List<ShowsUi>?) {
-    Log.d("MyLog", "ShowsErrorContent")
-    Column {
-        Text(text = "ShowsErrorContent", color = MaterialTheme.colorScheme.onError)
-        if (shows != null) {
-            ShowsSuccessContent(shows = shows)
-        } else {
-            Box(modifier = Modifier.padding(16.dp).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
+private fun ProgressIndicator(state: State.Loading) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp), contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(
+            color = AppTheme.colorScheme.primary,
+            strokeWidth = 4.dp
+        )
     }
 }
 
 @Composable
-fun ShowsEmptyContent() {
-    Log.d("MyLog", "ShowsEmptyContent")
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        Text(text = "Empty shows content", color = Color.Green)
-    }
-}
-
-@Composable
-private fun ShowsSuccessContent(shows: List<ShowsUi>) {
+private fun ListShows(shows: List<ShowsUI>) {
     Log.d("MyLog", "ShowsSuccessContent")
     LazyColumn {
         items(shows) { show ->
@@ -94,7 +96,7 @@ private fun ShowsSuccessContent(shows: List<ShowsUi>) {
 }
 
 @Composable
-internal fun ShowItem(show: ShowsUi) {
+internal fun ShowItem(show: ShowsUI) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.padding(16.dp)

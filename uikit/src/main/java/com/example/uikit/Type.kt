@@ -1,4 +1,4 @@
-package com.example.dobrashow.ui.theme
+package com.example.uikit
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

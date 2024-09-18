@@ -1,4 +1,4 @@
-package com.example.dobrashow.ui.theme
+package com.example.uikit
 
 import androidx.compose.ui.graphics.Color
 

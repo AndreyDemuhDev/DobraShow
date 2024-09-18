@@ -1,8 +1,7 @@
-package com.example.shows_data.model
+package com.example.view_show
 
-//"промежуточный" класс данных моделей
-
-data class Shows(
+//класс для отображения на UI слое
+public data class ShowsUI(
     val id: Int,
     val name: String,
     val ended: String,
@@ -16,7 +15,7 @@ data class Shows(
     val status: String,
     val summary: String,
     val url: String,
-) {
+){
     data class ImageShow(
         val medium: String,
         val original: String,
@@ -38,5 +37,4 @@ data class Shows(
     data class RatingShow(
         val average: Double,
     )
-
 }

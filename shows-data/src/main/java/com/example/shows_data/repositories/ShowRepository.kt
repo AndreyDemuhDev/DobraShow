@@ -1,6 +1,5 @@
 package com.example.shows_data.repositories
 
-import android.util.Log
 import com.example.database.ShowsDatabase
 import com.example.database.models.ShowsDBO
 import com.example.network.KtorClient
@@ -18,9 +17,11 @@ import com.example.shows_data.RequestStatus
 import com.example.shows_data.mapperStatus
 import com.example.shows_data.mappers.toShow
 import com.example.shows_data.mappers.toShowDatabase
-import com.example.shows_data.model.ShowsUi
+import com.example.shows_data.model.Shows
 import com.example.shows_data.toRequestStatus
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -34,7 +35,6 @@ import javax.inject.Inject
 class ShowRepository @Inject constructor(
     private val ktorClient: KtorClient,
     private val database: ShowsDatabase,
-//    private val mergeStrategy: MergeStrategy<RequestStatus<List<Shows>>>
 ) {
 //
 //    suspend fun getListShow(numberPage: Int): Result<List<DomainShowEntity>> {
@@ -44,31 +44,30 @@ class ShowRepository @Inject constructor(
     //функция которая отображает нам списко сериалов
     fun getListShow(
         numberPage: Int,
-        mergeStrategy: MergeStrategy<RequestStatus<List<ShowsUi>>> = DefaultRequestResponseMergeStrategy()
-    ): Flow<RequestStatus<List<ShowsUi>>> {
+        mergeStrategy: MergeStrategy<RequestStatus<List<Shows>>> = DefaultRequestResponseMergeStrategy()
+    ): Flow<RequestStatus<List<Shows>>> {
         //переменная которая предоставляет сериалы из базы данных
-        val cachedAllShow: Flow<RequestStatus<List<ShowsUi>>> = getAllShowsFromDatabase()
+        val cachedAllShow: Flow<RequestStatus<List<Shows>>> = getAllShowsFromDatabase()
 
         //переменная которая предоставляет сериалы из сети
-        val remoteShowsUi: Flow<RequestStatus<List<ShowsUi>>> = getAllShowsFromServer(numberPage)
+        val remoteShows: Flow<RequestStatus<List<Shows>>> = getAllShowsFromServer(numberPage)
 
         //возвращаем результаты которые мы получили в результате статуса получения данных из сети и базы данных
         //результат зависит от работы функции merge интерфейса MergeStrategy
-        return cachedAllShow.combine(remoteShowsUi) { databaseShowsUi: RequestStatus<List<ShowsUi>>, networkShowsUi: RequestStatus<List<ShowsUi>> ->
-            mergeStrategy.merge(databaseShowsUi, networkShowsUi)
-        }.flatMapLatest { result ->
-            if (result is RequestStatus.Success) {
-                database.showsDao.getObservableListShow()
-                    .map { databaseShow -> databaseShow.map { it.toShow() } }
-                    .map { RequestStatus.Success(it) }
-            } else {
-                flowOf(result)
+        return cachedAllShow.combine(remoteShows, mergeStrategy::merge)
+            .flatMapLatest { result ->
+                if (result is RequestStatus.Success) {
+                    database.showsDao.getObservableListShow()
+                        .map { databaseShow -> databaseShow.map { it.toShow() } }
+                        .map { RequestStatus.Success(it) }
+                } else {
+                    flowOf(result)
+                }
             }
-        }
     }
 
     //функция которая предоставляет сериалы из сети
-    private fun getAllShowsFromServer(numberPage: Int): Flow<RequestStatus<List<ShowsUi>>> {
+    private fun getAllShowsFromServer(numberPage: Int): Flow<RequestStatus<List<Shows>>> {
         val apiRequest: Flow<RequestStatus<List<RemoteShowModel>>> =
             flow { emit(ktorClient.getListShow(pageNumber = numberPage)) }
                 .onEach { result: Result<List<RemoteShowModel>> ->
@@ -98,17 +97,15 @@ class ShowRepository @Inject constructor(
     }
 
     //функция которая предоставляет сериалы из базы данных
-    private fun getAllShowsFromDatabase(): Flow<RequestStatus<List<ShowsUi>>> {
-        val databaseRequest = flow { emit(database.showsDao.getAllListShow()) }
+    private fun getAllShowsFromDatabase(): Flow<RequestStatus<List<Shows>>> {
+        val databaseRequest = database.showsDao::getAllListShow.asFlow()
             .map<List<ShowsDBO>, RequestStatus<List<ShowsDBO>>> { RequestStatus.Success(it) }
         val startRequest = flowOf<RequestStatus<List<ShowsDBO>>>(RequestStatus.InProgress())
 
         return merge(startRequest, databaseRequest)
             .map { result ->
                 result.mapperStatus { showsDatabase ->
-                    showsDatabase.map {
-                        it.toShow()
-                    }
+                    showsDatabase.map { it.toShow() }
                 }
             }
     }

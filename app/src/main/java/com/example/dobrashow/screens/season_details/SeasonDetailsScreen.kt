@@ -40,7 +40,7 @@ import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
-import com.example.dobrashow.ui.theme.AppTheme
+import com.example.uikit.AppTheme
 import com.example.dobrashow.utils.dateConverter
 import com.example.network.models.domain.DomainSeasonEntity
 
@@ -87,7 +87,7 @@ fun SuccessSeasonStateContent(
             items(season.listEpisodes.episodes) { episode ->
                 ListEpisodesSeason(
                     episode = episode,
-                    modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
+                    modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp16)
                 )
             }
         }
@@ -116,10 +116,10 @@ fun SeasonHeader(
 ) {
     Text(
         text = "Season ${season.number}",
-        style = AppTheme.typography.titleNormal,
-        color = AppTheme.colorScheme.text,
+        style = com.example.uikit.AppTheme.typography.titleNormal,
+        color = com.example.uikit.AppTheme.colorScheme.text,
         textAlign = TextAlign.Center,
-        modifier = modifier.background(AppTheme.colorScheme.background)
+        modifier = modifier.background(com.example.uikit.AppTheme.colorScheme.background)
     )
 }
 
@@ -130,19 +130,19 @@ fun DescriptionSeason(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(horizontal = AppTheme.size.dp16, vertical = AppTheme.size.dp4)
+        modifier = modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp16, vertical = com.example.uikit.AppTheme.size.dp4)
     ) {
         Text(
             text = "Premiere date: ${dateConverter(season.premiereDate)}",
-            color = AppTheme.colorScheme.text,
-            style = AppTheme.typography.bodyLarge,
+            color = com.example.uikit.AppTheme.colorScheme.text,
+            style = com.example.uikit.AppTheme.typography.bodyLarge,
         )
         if (season.summary.isNotEmpty()) {
             Text(
                 text = Html.fromHtml(season.summary, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
                     .trim(),
-                style = AppTheme.typography.bodySmall,
-                color = AppTheme.colorScheme.text,
+                style = com.example.uikit.AppTheme.typography.bodySmall,
+                color = com.example.uikit.AppTheme.colorScheme.text,
                 textAlign = TextAlign.Justify
             )
         }
@@ -157,18 +157,18 @@ fun ListEpisodesSeason(
     var expanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
-            .padding(bottom = AppTheme.size.dp4)
+            .padding(bottom = com.example.uikit.AppTheme.size.dp4)
             .border(
-                width = AppTheme.size.dp2,
+                width = com.example.uikit.AppTheme.size.dp2,
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        AppTheme.colorScheme.transparent,
-                        AppTheme.colorScheme.primary
+                        com.example.uikit.AppTheme.colorScheme.transparent,
+                        com.example.uikit.AppTheme.colorScheme.primary
                     )
                 ),
-                shape = AppTheme.shape.medium
+                shape = com.example.uikit.AppTheme.shape.medium
             )
-            .clip(AppTheme.shape.medium)
+            .clip(com.example.uikit.AppTheme.shape.medium)
             .animateContentSize(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioLowBouncy,
@@ -176,40 +176,40 @@ fun ListEpisodesSeason(
                 )
             )
     ) {
-        Column(modifier = Modifier.padding(all = AppTheme.size.dp8)) {
+        Column(modifier = Modifier.padding(all = com.example.uikit.AppTheme.size.dp8)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = "Episode: ${episode.number}",
-                    color = AppTheme.colorScheme.text,
-                    style = AppTheme.typography.titleLarge
+                    color = com.example.uikit.AppTheme.colorScheme.text,
+                    style = com.example.uikit.AppTheme.typography.titleLarge
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = episode.airdate,
-                    style = AppTheme.typography.titleNormal,
-                    color = AppTheme.colorScheme.text,
+                    style = com.example.uikit.AppTheme.typography.titleNormal,
+                    color = com.example.uikit.AppTheme.colorScheme.text,
                 )
             }
             Text(
                 text = episode.name,
-                style = AppTheme.typography.titleSmall,
-                color = AppTheme.colorScheme.text,
+                style = com.example.uikit.AppTheme.typography.titleSmall,
+                color = com.example.uikit.AppTheme.colorScheme.text,
             )
             if (episode.summary.isNotEmpty()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = "Show Description",
-                        style = AppTheme.typography.labelNormal,
-                        color = AppTheme.colorScheme.text,
+                        style = com.example.uikit.AppTheme.typography.labelNormal,
+                        color = com.example.uikit.AppTheme.colorScheme.text,
                     )
                     Image(
                         painter = if (!expanded) painterResource(id = R.drawable.ic_arrow_down) else painterResource(
                             id = R.drawable.ic_arrow_up
                         ),
                         contentDescription = "arrow_down",
-                        colorFilter = ColorFilter.tint(AppTheme.colorScheme.text),
+                        colorFilter = ColorFilter.tint(com.example.uikit.AppTheme.colorScheme.text),
                         modifier = Modifier
-                            .size(AppTheme.size.dp24)
+                            .size(com.example.uikit.AppTheme.size.dp24)
                             .clickable { expanded = !expanded }
                     )
                 }
@@ -219,8 +219,8 @@ fun ListEpisodesSeason(
                             episode.summary,
                             HtmlCompat.FROM_HTML_MODE_LEGACY
                         ).toString().trim(),
-                        color = AppTheme.colorScheme.text,
-                        style = AppTheme.typography.titleSmall
+                        color = com.example.uikit.AppTheme.colorScheme.text,
+                        style = com.example.uikit.AppTheme.typography.titleSmall
                     )
                 }
             }

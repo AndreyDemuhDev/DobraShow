@@ -54,7 +54,7 @@ import com.example.dobrashow.ui.components.CastAndCrewShowPager
 import com.example.dobrashow.ui.components.InfoBottomSheet
 import com.example.dobrashow.ui.components.SeasonsItemCard
 import com.example.dobrashow.ui.components.ShowStatusComponent
-import com.example.dobrashow.ui.theme.AppTheme
+import com.example.uikit.AppTheme
 
 
 @Composable
@@ -140,7 +140,7 @@ private fun SuccessShowInformationState(
     var isSheetOpen by rememberSaveable {
         mutableStateOf(false)
     }
-    Box(modifier = modifier.background(color = AppTheme.colorScheme.transparent)) {
+    Box(modifier = modifier.background(color = com.example.uikit.AppTheme.colorScheme.transparent)) {
         SubcomposeAsyncImage(
             model = showState.show.image.original, contentDescription = null,
             modifier = Modifier.fillMaxSize(),
@@ -152,7 +152,7 @@ private fun SuccessShowInformationState(
             shape = CircleShape,
 
             border = BorderStroke(
-                width = AppTheme.size.dp1,
+                width = com.example.uikit.AppTheme.size.dp1,
                 color = Color.White.copy(alpha = 0.4f),
             ),
             modifier = Modifier
@@ -171,7 +171,7 @@ private fun SuccessShowInformationState(
         Box(
             contentAlignment = Alignment.BottomCenter,
             modifier = modifier
-                .background(AppTheme.colorScheme.transparent)
+                .background(com.example.uikit.AppTheme.colorScheme.transparent)
         ) {
             Column(
                 modifier = Modifier
@@ -190,7 +190,7 @@ private fun SuccessShowInformationState(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = AppTheme.size.dp8, vertical = AppTheme.size.dp4)
+                        .padding(horizontal = com.example.uikit.AppTheme.size.dp8, vertical = com.example.uikit.AppTheme.size.dp4)
                 ) {
                     FunctionalItemCard(
                         title = "Add",
@@ -237,31 +237,31 @@ private fun DescriptionShowSection(
     Column(modifier = modifier) {
         Column(
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(horizontal = AppTheme.size.dp8)
+            modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp8)
         ) {
             Text(
                 text = showState.show.name,
-                style = AppTheme.typography.titleLarge,
-                color = AppTheme.colorScheme.text
+                style = com.example.uikit.AppTheme.typography.titleLarge,
+                color = com.example.uikit.AppTheme.colorScheme.text
             )
             Row {
                 Text(
                     text = showState.show.genres.joinToString(separator = ", "),
-                    style = AppTheme.typography.bodyLarge,
-                    color = AppTheme.colorScheme.text
+                    style = com.example.uikit.AppTheme.typography.bodyLarge,
+                    color = com.example.uikit.AppTheme.colorScheme.text
                 )
                 Text(
                     text = " • " + showState.show.premiered.substring(
                         startIndex = 0,
                         endIndex = 4
                     ),
-                    style = AppTheme.typography.bodyLarge,
-                    color = AppTheme.colorScheme.text
+                    style = com.example.uikit.AppTheme.typography.bodyLarge,
+                    color = com.example.uikit.AppTheme.colorScheme.text
                 )
                 Text(
                     text = " • " + showState.show.network.country.code,
-                    style = AppTheme.typography.bodyLarge,
-                    color = AppTheme.colorScheme.text
+                    style = com.example.uikit.AppTheme.typography.bodyLarge,
+                    color = com.example.uikit.AppTheme.colorScheme.text
                 )
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -269,17 +269,17 @@ private fun DescriptionShowSection(
                     painter = painterResource(id = R.drawable.ic_rating_star),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(Color.Yellow),
-                    modifier = Modifier.size(AppTheme.size.dp24)
+                    modifier = Modifier.size(com.example.uikit.AppTheme.size.dp24)
                 )
                 Text(
                     text = showState.show.rating.average.toString(),
-                    style = AppTheme.typography.bodyLarge,
-                    color = AppTheme.colorScheme.text,
-                    modifier = Modifier.padding(start = AppTheme.size.dp2)
+                    style = com.example.uikit.AppTheme.typography.bodyLarge,
+                    color = com.example.uikit.AppTheme.colorScheme.text,
+                    modifier = Modifier.padding(start = com.example.uikit.AppTheme.size.dp2)
                 )
                 ShowStatusComponent(
                     showStatus = showState.show.status,
-                    modifier = Modifier.padding(start = AppTheme.size.dp12)
+                    modifier = Modifier.padding(start = com.example.uikit.AppTheme.size.dp12)
                 )
             }
             Text(
@@ -287,8 +287,8 @@ private fun DescriptionShowSection(
                     showState.show.summary,
                     HtmlCompat.FROM_HTML_MODE_COMPACT
                 ).toString().trim(),
-                style = AppTheme.typography.bodySmall,
-                color = AppTheme.colorScheme.text,
+                style = com.example.uikit.AppTheme.typography.bodySmall,
+                color = com.example.uikit.AppTheme.colorScheme.text,
                 textAlign = TextAlign.Justify,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = if (!expandedDescription) 5 else Int.MAX_VALUE,
@@ -312,10 +312,10 @@ fun FunctionalItemCard(
         modifier = modifier
             .width(90.dp)
             .clip(RoundedCornerShape(15.dp))
-            .background(AppTheme.colorScheme.primary.copy(alpha = 0.1f))
+            .background(com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.1f))
             .border(
-                width = AppTheme.size.dp1,
-                color = AppTheme.colorScheme.primary.copy(alpha = 0.2f),
+                width = com.example.uikit.AppTheme.size.dp1,
+                color = com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.2f),
                 shape = RoundedCornerShape(15.dp)
             )
             .clickable { onClick() }
@@ -323,19 +323,19 @@ fun FunctionalItemCard(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(all = AppTheme.size.dp8)
+            modifier = Modifier.padding(all = com.example.uikit.AppTheme.size.dp8)
         ) {
             Icon(
                 painter = icon,
                 contentDescription = title,
-                tint = AppTheme.colorScheme.text,
-                modifier = Modifier.size(AppTheme.size.dp24 * 2)
+                tint = com.example.uikit.AppTheme.colorScheme.text,
+                modifier = Modifier.size(com.example.uikit.AppTheme.size.dp24 * 2)
             )
-            Spacer(modifier = Modifier.height(AppTheme.size.dp4))
+            Spacer(modifier = Modifier.height(com.example.uikit.AppTheme.size.dp4))
             Text(
                 text = title,
-                style = AppTheme.typography.bodyNormal,
-                color = AppTheme.colorScheme.text
+                style = com.example.uikit.AppTheme.typography.bodyNormal,
+                color = com.example.uikit.AppTheme.colorScheme.text
             )
         }
     }
@@ -363,8 +363,8 @@ fun ShowPeoplesState(
                 crew = peoplesShow.crewList,
                 onClickPerson = onClickPerson,
                 modifier = modifier.padding(
-                    horizontal = AppTheme.size.dp8,
-                    vertical = AppTheme.size.dp4
+                    horizontal = com.example.uikit.AppTheme.size.dp8,
+                    vertical = com.example.uikit.AppTheme.size.dp4
                 )
             )
         }
@@ -390,19 +390,19 @@ fun ShowSeasonsState(
             Column {
                 Text(
                     text = "Seasons",
-                    style = AppTheme.typography.titleLarge,
-                    color = AppTheme.colorScheme.text,
-                    modifier = Modifier.padding(start = AppTheme.size.dp16)
+                    style = com.example.uikit.AppTheme.typography.titleLarge,
+                    color = com.example.uikit.AppTheme.colorScheme.text,
+                    modifier = Modifier.padding(start = com.example.uikit.AppTheme.size.dp16)
                 )
             }
-            LazyRow(modifier = modifier.padding(horizontal = AppTheme.size.dp12)) {
+            LazyRow(modifier = modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp12)) {
                 items(seasonsShow.listSeasons) { seasonItem ->
                     SeasonsItemCard(
                         seasonItem = seasonItem,
                         onClickSeason = onClickSeason,
                         modifier = Modifier.padding(
-                            horizontal = AppTheme.size.dp4,
-                            vertical = AppTheme.size.dp2
+                            horizontal = com.example.uikit.AppTheme.size.dp4,
+                            vertical = com.example.uikit.AppTheme.size.dp2
                         )
                     )
                 }
@@ -419,7 +419,7 @@ fun LoadingStateContent(
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(AppTheme.size.dp24)
+                .size(com.example.uikit.AppTheme.size.dp24)
         )
     }
 }

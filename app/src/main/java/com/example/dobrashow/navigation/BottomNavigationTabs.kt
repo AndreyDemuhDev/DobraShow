@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.dobrashow.ui.theme.AppTheme
+import com.example.uikit.AppTheme
 
 
 @Composable
@@ -28,7 +28,7 @@ fun BottomNavigationTabs(
 
     if (currentRoute in bottomBarRoutes) {
         Column {
-            HorizontalDivider(thickness = AppTheme.size.dp2, color = AppTheme.colorScheme.primary)
+            HorizontalDivider(thickness = com.example.uikit.AppTheme.size.dp2, color = com.example.uikit.AppTheme.colorScheme.primary)
             NavigationBar(
                 containerColor = Color.Transparent,
             ) {
@@ -38,16 +38,16 @@ fun BottomNavigationTabs(
                             Icon(
                                 painter = painterResource(id = screen.icon),
                                 contentDescription = null,
-                                modifier = Modifier.size(if (currentRoute != screen.route) AppTheme.size.dp24 else AppTheme.size.dp24 * 1.5f),
-                                tint = if (currentRoute != screen.route) AppTheme.colorScheme.text else AppTheme.colorScheme.primary
+                                modifier = Modifier.size(if (currentRoute != screen.route) com.example.uikit.AppTheme.size.dp24 else com.example.uikit.AppTheme.size.dp24 * 1.5f),
+                                tint = if (currentRoute != screen.route) com.example.uikit.AppTheme.colorScheme.text else com.example.uikit.AppTheme.colorScheme.primary
 
                             )
                         },
                         label = {
                             Text(
                                 text = screen.title,
-                                color = if (currentRoute != screen.route) AppTheme.colorScheme.text else AppTheme.colorScheme.primary,
-                                style = if (currentRoute != screen.route) AppTheme.typography.labelNormal else AppTheme.typography.labelLarge,
+                                color = if (currentRoute != screen.route) com.example.uikit.AppTheme.colorScheme.text else com.example.uikit.AppTheme.colorScheme.primary,
+                                style = if (currentRoute != screen.route) com.example.uikit.AppTheme.typography.labelNormal else com.example.uikit.AppTheme.typography.labelLarge,
                             )
                         },
                         selected = currentRoute == screen.route,
