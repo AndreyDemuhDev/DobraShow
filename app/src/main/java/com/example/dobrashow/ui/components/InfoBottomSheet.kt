@@ -11,7 +11,6 @@ import com.example.dobrashow.screens.show_details.ShowPeoplesListUiState
 import com.example.dobrashow.screens.show_details.ShowPeoplesState
 import com.example.dobrashow.screens.show_details.ShowSeasonsListUiState
 import com.example.dobrashow.screens.show_details.ShowSeasonsState
-import com.example.uikit.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,7 +21,6 @@ fun InfoBottomSheet(
     onClickSeason: (Int) -> Unit,
     sheetState: SheetState,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     ModalBottomSheet(
         sheetState = sheetState,
@@ -31,7 +29,7 @@ fun InfoBottomSheet(
         modifier = Modifier.wrapContentHeight()
 
     ) {
-        Column() {
+        Column {
             ShowPeoplesState(
                 peoplesShow = peoplesShow,
                 onClickPerson = onClickPerson

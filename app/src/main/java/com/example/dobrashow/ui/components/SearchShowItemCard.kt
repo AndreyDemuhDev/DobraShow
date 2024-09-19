@@ -18,9 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
-import com.example.uikit.AppTheme
 import com.example.network.models.domain.DomainSearchShowEntity
-
 
 @Composable
 fun SearchShowItemCard(
@@ -30,13 +28,16 @@ fun SearchShowItemCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = com.example.uikit.AppTheme.colorScheme.background),
-        border = BorderStroke(width = com.example.uikit.AppTheme.size.dp2, color = com.example.uikit.AppTheme.colorScheme.primary),
+        border = BorderStroke(
+            width = com.example.uikit.AppTheme.size.dp2,
+            color = com.example.uikit.AppTheme.colorScheme.primary
+        ),
         elevation = CardDefaults.cardElevation(com.example.uikit.AppTheme.size.dp4),
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClickShow() }
     ) {
-        Row() {
+        Row {
             AsyncImage(
                 model = show?.searchShows?.image?.medium ?: "",
                 contentDescription = null,

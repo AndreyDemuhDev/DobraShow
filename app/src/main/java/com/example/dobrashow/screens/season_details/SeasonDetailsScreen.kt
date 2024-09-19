@@ -40,10 +40,8 @@ import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
-import com.example.uikit.AppTheme
 import com.example.dobrashow.utils.dateConverter
 import com.example.network.models.domain.DomainSeasonEntity
-
 
 @Composable
 fun SeasonDetailsScreen(
@@ -51,7 +49,6 @@ fun SeasonDetailsScreen(
     onClickBack: () -> Unit,
     seasonViewModel: SeasonViewModel = hiltViewModel(),
 ) {
-
     val stateSeason by seasonViewModel.seasonState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = { seasonViewModel.getSeasonInfo(seasonId) })
@@ -130,7 +127,10 @@ fun DescriptionSeason(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp16, vertical = com.example.uikit.AppTheme.size.dp4)
+        modifier = modifier.padding(
+            horizontal = com.example.uikit.AppTheme.size.dp16,
+            vertical = com.example.uikit.AppTheme.size.dp4
+        )
     ) {
         Text(
             text = "Premiere date: ${dateConverter(season.premiereDate)}",

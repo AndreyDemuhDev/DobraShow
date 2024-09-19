@@ -54,8 +54,6 @@ import com.example.dobrashow.ui.components.CastAndCrewShowPager
 import com.example.dobrashow.ui.components.InfoBottomSheet
 import com.example.dobrashow.ui.components.SeasonsItemCard
 import com.example.dobrashow.ui.components.ShowStatusComponent
-import com.example.uikit.AppTheme
-
 
 @Composable
 fun DetailShowScreen(
@@ -75,7 +73,7 @@ fun DetailShowScreen(
     })
 
     if (state.isError) {
-        //TODO
+        TODO()
     }
 
     DetailsShowStateContent(
@@ -99,7 +97,6 @@ fun DetailsShowStateContent(
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     when (showState) {
         is ShowInformationUiState.Error -> {
             Text(text = "Error")
@@ -190,7 +187,10 @@ private fun SuccessShowInformationState(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = com.example.uikit.AppTheme.size.dp8, vertical = com.example.uikit.AppTheme.size.dp4)
+                        .padding(
+                            horizontal = com.example.uikit.AppTheme.size.dp8,
+                            vertical = com.example.uikit.AppTheme.size.dp4
+                        )
                 ) {
                     FunctionalItemCard(
                         title = "Add",
@@ -341,7 +341,6 @@ fun FunctionalItemCard(
     }
 }
 
-
 @Composable
 fun ShowPeoplesState(
     peoplesShow: ShowPeoplesListUiState,
@@ -410,7 +409,6 @@ fun ShowSeasonsState(
         }
     }
 }
-
 
 @Composable
 fun LoadingStateContent(

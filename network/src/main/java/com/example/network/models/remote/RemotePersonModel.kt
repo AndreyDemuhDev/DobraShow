@@ -35,31 +35,31 @@ data class RemotePersonModel(
         ) {
             @Serializable
             data class Character(
-                @SerialName("href") val href: String?,       //ссылка на шоу
-                @SerialName("name") val name: String?        //наименование шоу
+                @SerialName("href") val href: String?,
+                @SerialName("name") val name: String?
             )
 
             @Serializable
             data class ShowPerson(
-                @SerialName("href") val href: String?,       //ссылка на шоу
-                @SerialName("name") val name: String?        //наименование шоу
+                @SerialName("href") val href: String?,
+                @SerialName("name") val name: String?
             )
         }
     }
 
     @Serializable
     data class Crewcredit(
-        @SerialName("_links") val links: LinksCrew?,          //ссылка на шоу
+        @SerialName("_links") val links: LinksCrew?,
         @SerialName("type") val type: String?
     ) {
         @Serializable
         data class LinksCrew(
-            @SerialName("show") val show: ShowPerson?         //шоу
+            @SerialName("show") val show: ShowPerson?
         ) {
             @Serializable
             data class ShowPerson(
-                @SerialName("href") val href: String?,       //ссылка на шоу
-                @SerialName("name") val name: String?       //наименование шоу
+                @SerialName("href") val href: String?,
+                @SerialName("name") val name: String?
             )
         }
     }

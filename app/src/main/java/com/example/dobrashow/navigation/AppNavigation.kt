@@ -18,7 +18,6 @@ import com.example.dobrashow.screens.season_details.SeasonDetailsScreen
 import com.example.dobrashow.screens.show.ShowsScreen
 import com.example.dobrashow.screens.show_details.DetailShowScreen
 
-
 @Composable
 fun AppNavigation(
     navController: NavHostController,
@@ -92,7 +91,6 @@ fun AppNavigation(
         }
     }
 }
-
 
 // табы навигационной панели
 val tabs = listOf(

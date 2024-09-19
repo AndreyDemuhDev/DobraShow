@@ -17,7 +17,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
-import com.example.uikit.AppTheme
 import com.example.network.models.domain.DomainSeasonEntity
 
 @Composable
@@ -41,7 +40,7 @@ fun SeasonsItemCard(
             )
             .clickable { onClickSeason(seasonItem.id) }
     ) {
-        Box() {
+        Box {
             AsyncImage(
                 model = seasonItem.image.medium,
                 contentDescription = null,

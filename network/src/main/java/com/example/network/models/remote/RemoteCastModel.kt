@@ -41,7 +41,6 @@ data class RemoteCastModel(
     )
 }
 
-
 fun RemoteCastModel.toDomainCast(): DomainCastEntity {
     return DomainCastEntity(
         person = DomainCastEntity.PersonShow(
@@ -70,5 +69,3 @@ fun RemoteCastModel.toDomainCast(): DomainCastEntity {
         )
     )
 }
-
-

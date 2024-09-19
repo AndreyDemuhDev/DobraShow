@@ -1,6 +1,6 @@
 package com.example.shows_data.model
 
-//"промежуточный" класс данных моделей
+// "промежуточный" класс данных моделей
 
 data class Shows(
     val id: Int,
@@ -38,5 +38,4 @@ data class Shows(
     data class RatingShow(
         val average: Double,
     )
-
 }

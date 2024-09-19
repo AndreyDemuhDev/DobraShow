@@ -21,7 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.screens.show_details.LoadingStateContent
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.PersonCardItem
-import com.example.uikit.AppTheme
 
 @Composable
 fun PersonsScreen(
@@ -29,7 +28,6 @@ fun PersonsScreen(
     modifier: Modifier = Modifier,
     personsViewModel: PersonsViewModel = hiltViewModel()
 ) {
-
     val viewState by personsViewModel.listPersonsState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = { personsViewModel.initialPersonsPage() })
@@ -50,7 +48,6 @@ fun PersonsScreen(
         if (fetchNextPage) personsViewModel.fetchNextPage()
     })
 
-
     when (val state = viewState) {
         is PersonsUiState.Error -> {
             Text(text = "Error load list persons")
@@ -64,11 +61,11 @@ fun PersonsScreen(
             SuccessPersonsStateContent(
                 scrollState = scrollState,
                 personsState = state,
-                onClickPerson = onClickPerson
+                onClickPerson = onClickPerson,
+                modifier = modifier
             )
         }
     }
-
 }
 
 @Composable
@@ -78,7 +75,7 @@ fun SuccessPersonsStateContent(
     onClickPerson: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(modifier = modifier) {
         CustomTopBarComponent(
             title = "All persons",
             modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp16)
@@ -100,4 +97,3 @@ fun SuccessPersonsStateContent(
         )
     }
 }
-

@@ -16,11 +16,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.SearchFieldComponent
 import com.example.dobrashow.ui.components.SearchShowItemCard
-import com.example.uikit.AppTheme
 
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier,
     onClickShow: (Int) -> Unit,
     showViewModel: SearchViewModel = hiltViewModel()
 ) {

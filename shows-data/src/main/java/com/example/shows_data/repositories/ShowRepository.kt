@@ -21,7 +21,6 @@ import com.example.shows_data.model.Shows
 import com.example.shows_data.toRequestStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -30,7 +29,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
-
 
 class ShowRepository @Inject constructor(
     private val ktorClient: KtorClient,
@@ -41,19 +39,19 @@ class ShowRepository @Inject constructor(
 //        return ktorClient.getListShow(pageNumber = numberPage)
 //    }
 
-    //функция которая отображает нам списко сериалов
+    // функция которая отображает нам списко сериалов
     fun getListShow(
         numberPage: Int,
         mergeStrategy: MergeStrategy<RequestStatus<List<Shows>>> = DefaultRequestResponseMergeStrategy()
     ): Flow<RequestStatus<List<Shows>>> {
-        //переменная которая предоставляет сериалы из базы данных
+        // переменная которая предоставляет сериалы из базы данных
         val cachedAllShow: Flow<RequestStatus<List<Shows>>> = getAllShowsFromDatabase()
 
-        //переменная которая предоставляет сериалы из сети
+        // переменная которая предоставляет сериалы из сети
         val remoteShows: Flow<RequestStatus<List<Shows>>> = getAllShowsFromServer(numberPage)
 
-        //возвращаем результаты которые мы получили в результате статуса получения данных из сети и базы данных
-        //результат зависит от работы функции merge интерфейса MergeStrategy
+        // возвращаем результаты которые мы получили в результате статуса получения данных из сети и базы данных
+        // результат зависит от работы функции merge интерфейса MergeStrategy
         return cachedAllShow.combine(remoteShows, mergeStrategy::merge)
             .flatMapLatest { result ->
                 if (result is RequestStatus.Success) {
@@ -66,7 +64,7 @@ class ShowRepository @Inject constructor(
             }
     }
 
-    //функция которая предоставляет сериалы из сети
+    // функция которая предоставляет сериалы из сети
     private fun getAllShowsFromServer(numberPage: Int): Flow<RequestStatus<List<Shows>>> {
         val apiRequest: Flow<RequestStatus<List<RemoteShowModel>>> =
             flow { emit(ktorClient.getListShow(pageNumber = numberPage)) }
@@ -86,17 +84,16 @@ class ShowRepository @Inject constructor(
                 }
             }
         }
-
     }
 
-    //функция которая сохраняет сериалы из сети в базу данных
+    // функция которая сохраняет сериалы из сети в базу данных
     private suspend fun saveNetworkShowsToDatabase(data: List<RemoteShowModel>) {
         val networkShows: List<ShowsDBO> =
             data.map { showsDto: RemoteShowModel -> showsDto.toShowDatabase() }
         database.showsDao.insertShowToDatabase(networkShows)
     }
 
-    //функция которая предоставляет сериалы из базы данных
+    // функция которая предоставляет сериалы из базы данных
     private fun getAllShowsFromDatabase(): Flow<RequestStatus<List<Shows>>> {
         val databaseRequest = database.showsDao::getAllListShow.asFlow()
             .map<List<ShowsDBO>, RequestStatus<List<ShowsDBO>>> { RequestStatus.Success(it) }
@@ -109,7 +106,6 @@ class ShowRepository @Inject constructor(
                 }
             }
     }
-
 
     suspend fun getShowInformation(showId: Int): Result<DomainShowEntity> {
         return ktorClient.getShow(id = showId)
@@ -142,9 +138,4 @@ class ShowRepository @Inject constructor(
     suspend fun searchShow(query: String): Result<List<DomainSearchShowEntity>> {
         return ktorClient.searchShow(query = query)
     }
-
 }
-
-
-
-

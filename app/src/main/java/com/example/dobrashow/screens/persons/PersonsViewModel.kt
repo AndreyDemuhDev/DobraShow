@@ -2,8 +2,8 @@ package com.example.dobrashow.screens.persons
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shows_data.repositories.ShowRepository
 import com.example.network.models.domain.DomainSimplePersonEntity
+import com.example.shows_data.repositories.ShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -49,13 +49,10 @@ class PersonsViewModel @Inject constructor(
                     return@update PersonsUiState.Success(listPersons = currentPersons + personPage)
                 }
             }.onFailure {
-
+                TODO()
             }
         }
-
-
 }
-
 
 sealed interface PersonsUiState {
     data class Success(val listPersons: List<DomainSimplePersonEntity> = emptyList()) :

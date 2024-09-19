@@ -4,18 +4,18 @@ package com.example.network.models.domain
 
 data class DomainShowEntity(
     val id: Int,
-    val name: String,           //название
-    val ended: String,          //дата завершения
-    val genres: List<String>,   //жанры
-    val image: ImageShow,       //постер
-    val language: String,       //язык
-    val network: NetworkShow,   //инфа о производителе
-    val officialSite: String,   //ссылка на офф сайт
-    val premiered: String,      //дата премьеры
-    val rating: RatingShow,     //рейтинг
-    val status: String,         //статус (завершен, выпускается)
-    val summary: String,        //описание
-    val url: String,            //ссылка на сайт
+    val name: String,
+    val ended: String,
+    val genres: List<String>,
+    val image: ImageShow,
+    val language: String,
+    val network: NetworkShow,
+    val officialSite: String,
+    val premiered: String,
+    val rating: RatingShow,
+    val status: String,
+    val summary: String,
+    val url: String,
 ) {
     data class ImageShow(
         val medium: String,
@@ -38,5 +38,4 @@ data class DomainShowEntity(
     data class RatingShow(
         val average: Double,
     )
-
 }

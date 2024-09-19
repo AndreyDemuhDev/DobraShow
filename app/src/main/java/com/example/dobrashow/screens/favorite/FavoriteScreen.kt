@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import com.example.dobrashow.R
-import com.example.uikit.AppTheme
 
 @Composable
 fun FavoriteScreen(
@@ -21,7 +20,7 @@ fun FavoriteScreen(
             painter = painterResource(id = R.drawable.ic_empty_package),
             contentDescription = null,
             colorFilter = ColorFilter.tint(com.example.uikit.AppTheme.colorScheme.primary),
-            modifier = Modifier.size(com.example.uikit.AppTheme.size.dp24 * 8)
+            modifier = Modifier.size(com.example.uikit.AppTheme.size.dp24)
         )
     }
 }

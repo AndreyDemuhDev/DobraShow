@@ -1,4 +1,3 @@
-
 package com.example.database
 
 import android.content.Context
@@ -15,7 +14,6 @@ class ShowsDatabase internal constructor(private val database: AppRoomDatabase) 
     val showsDao: ShowsDao
         get() = database.showsDao()
 }
-
 
 @Database(entities = [ShowsDBO::class], version = 1, exportSchema = false)
 @TypeConverters(GenresConverter::class)

@@ -99,7 +99,6 @@ fun AppTheme(
     isDarkMode: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-
     val colorScheme = if (isDarkMode) darkColorTheme else lightColorTheme
     CompositionLocalProvider(
         LocalAppColorScheme provides colorScheme,
@@ -108,7 +107,6 @@ fun AppTheme(
         LocalAppSize provides size,
         content = content
     )
-
 }
 
 object AppTheme {
@@ -123,5 +121,4 @@ object AppTheme {
 
     val size: AppSize
         @Composable get() = LocalAppSize.current
-
 }

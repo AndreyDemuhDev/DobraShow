@@ -25,6 +25,4 @@ interface ShowsDao {
 
     @Query("DELETE FROM shows_table")
     suspend fun deleteAllShowFromDatabase()
-
-
 }

@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.example.dobrashow.R
-import com.example.uikit.AppTheme
 
 @Composable
 fun CustomTopBarComponent(
@@ -31,9 +30,11 @@ fun CustomTopBarComponent(
                     )
                 }
             }
-            Text(text = title,
+            Text(
+                text = title,
                 color = com.example.uikit.AppTheme.colorScheme.text,
-                style = com.example.uikit.AppTheme.typography.titleLarge)
+                style = com.example.uikit.AppTheme.typography.titleLarge
+            )
         }
         HorizontalDivider(
             thickness = com.example.uikit.AppTheme.size.dp2,

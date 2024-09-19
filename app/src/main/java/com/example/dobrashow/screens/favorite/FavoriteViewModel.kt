@@ -8,7 +8,4 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val showRepository: ShowRepository
-) : ViewModel() {
-
-
-}
+) : ViewModel()

@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import com.example.uikit.AppTheme
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 
@@ -65,7 +64,9 @@ fun CastAndCrewShowPager(
                         text = tabItems[index],
                         style = com.example.uikit.AppTheme.typography.bodyLarge,
                         fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal,
-                        color = if (selectedTabIndex == index) com.example.uikit.AppTheme.colorScheme.primary else com.example.uikit.AppTheme.colorScheme.text
+                        color = if (selectedTabIndex == index) {
+                            com.example.uikit.AppTheme.colorScheme.primary
+                        } else com.example.uikit.AppTheme.colorScheme.text
                     )
                 }
             )

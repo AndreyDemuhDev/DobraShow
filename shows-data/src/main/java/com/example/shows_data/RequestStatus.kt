@@ -1,6 +1,5 @@
 package com.example.shows_data
 
-
 /**
  *класс который отображает состояние запроса
  *InProgress - запрос в процессе
@@ -10,7 +9,8 @@ package com.example.shows_data
 sealed class RequestStatus<out E : Any>(open val data: E? = null) {
     class InProgress<E : Any>(data: E? = null) : RequestStatus<E>(data = data)
     class Success<E : Any>(override val data: E) : RequestStatus<E>(data = data)
-    class Error<E : Any>(data: E? = null, val error: Throwable? = null) : RequestStatus<E>(data = data)
+    class Error<E : Any>(data: E? = null, val error: Throwable? = null) :
+        RequestStatus<E>(data = data)
 }
 
 /**

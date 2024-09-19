@@ -7,7 +7,6 @@ import com.example.shows_data.RequestStatus.Success
 interface MergeStrategy<E> {
 
     fun merge(cache: E, network: E): E
-
 }
 
 internal class DefaultRequestResponseMergeStrategy<T : Any> : MergeStrategy<RequestStatus<T>> {
@@ -23,7 +22,6 @@ internal class DefaultRequestResponseMergeStrategy<T : Any> : MergeStrategy<Requ
             cache is InProgress && network is Error -> merge(cache, network)
             else -> error("Unknown implementation RequestStatus \n cache = $cache \n network = $network")
         }
-
     }
 
     private fun merge(cache: InProgress<T>, network: Error<T>): RequestStatus<T> {
@@ -60,6 +58,4 @@ internal class DefaultRequestResponseMergeStrategy<T : Any> : MergeStrategy<Requ
     private fun merge(cache: Error<T>, network: Success<T>): RequestStatus<T> {
         return network
     }
-
-
 }

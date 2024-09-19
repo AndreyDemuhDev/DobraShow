@@ -1,7 +1,6 @@
 package com.example.network.models.remote
 
 import com.example.network.models.domain.DomainSeasonEntity
-import com.example.network.models.domain.DomainShowEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
