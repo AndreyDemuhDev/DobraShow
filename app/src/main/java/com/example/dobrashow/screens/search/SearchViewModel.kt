@@ -2,10 +2,8 @@ package com.example.dobrashow.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shows_data.repositories.ShowRepository
-import com.example.dobrashow.screens.show.ShowUiState
 import com.example.network.models.domain.DomainSearchShowEntity
-import com.example.network.models.domain.DomainShowEntity
+import com.example.shows_data.repositories.ShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +20,6 @@ class SearchViewModel @Inject constructor(
     private val _listSearchShowState = MutableStateFlow<SearchUiState>(SearchUiState.Success())
     val listSearchShowState: StateFlow<SearchUiState> = _listSearchShowState.asStateFlow()
 
-
     fun searchShow(query: String) =
         viewModelScope.launch {
             showRepository.searchShow(query = query).onSuccess { listShow ->
@@ -37,10 +34,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
-
 }
-
-
 
 sealed interface SearchUiState {
     data class Success(val listShow: List<DomainSearchShowEntity> = emptyList()) : SearchUiState

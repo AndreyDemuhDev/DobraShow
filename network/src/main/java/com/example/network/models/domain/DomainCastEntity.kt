@@ -33,5 +33,3 @@ data class DomainCastEntity(
         val original: String
     )
 }
-
-

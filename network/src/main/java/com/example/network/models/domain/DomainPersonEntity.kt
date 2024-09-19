@@ -27,27 +27,27 @@ data class DomainPersonEntity(
             val show: ShowPerson
         ) {
             data class Character(
-                val href: String,       //ссылка на шоу
-                val name: String        //наименование шоу
+                val href: String,
+                val name: String
             )
 
             data class ShowPerson(
-                val href: String,       //ссылка на шоу
-                val name: String        //наименование шоу
+                val href: String,
+                val name: String
             )
         }
     }
 
     data class Crewcredit(
-        val links: LinksCrew,          //ссылка на шоу
+        val links: LinksCrew,
         val type: String
     ) {
         data class LinksCrew(
-            val show: ShowPerson         //шоу
+            val show: ShowPerson
         ) {
             data class ShowPerson(
-                val href: String,       //ссылка на шоу
-                val name: String        //наименование шоу
+                val href: String,
+                val name: String
             )
         }
     }

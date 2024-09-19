@@ -30,7 +30,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CustomTopBarComponent
-import com.example.uikit.AppTheme
 import com.example.dobrashow.utils.dateConverter
 import com.example.network.models.domain.DomainPersonEntity
 
@@ -40,10 +39,8 @@ fun PersonDetailsScreen(
     onClickBack: () -> Unit,
     onClickShow: (Int) -> Unit,
     onClickCrew: (Int) -> Unit,
-    modifier: Modifier = Modifier,
     personViewModel: PersonViewModel = hiltViewModel()
 ) {
-
     val state by personViewModel.personDetailUiState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = { personViewModel.getPeopleInfo(personId = personId) })
@@ -67,7 +64,6 @@ fun PersonDetailsScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             )
-
         }
     }
 }
@@ -119,7 +115,6 @@ fun SuccessPersonStateContent(
         }
     }
 }
-
 
 @Composable
 fun PersonImage(imageUrl: String, modifier: Modifier = Modifier) {

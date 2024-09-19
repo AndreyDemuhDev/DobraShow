@@ -2,8 +2,8 @@ package com.example.dobrashow.screens.season_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shows_data.repositories.ShowRepository
 import com.example.network.models.domain.DomainSeasonEntity
+import com.example.shows_data.repositories.ShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,6 @@ class SeasonViewModel @Inject constructor(
     private val _seasonState = MutableStateFlow<SeasonUiState>(SeasonUiState.Loading)
     val seasonState: StateFlow<SeasonUiState> = _seasonState.asStateFlow()
 
-
     fun getSeasonInfo(seasonId: Int) =
         viewModelScope.launch {
             showRepository.getSeasonInfo(seasonId = seasonId).onSuccess { season ->
@@ -36,7 +35,6 @@ class SeasonViewModel @Inject constructor(
             }
         }
 }
-
 
 sealed interface SeasonUiState {
     data class Success(val season: DomainSeasonEntity) : SeasonUiState

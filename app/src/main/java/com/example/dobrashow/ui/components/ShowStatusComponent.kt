@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.uikit.AppTheme
 import com.example.dobrashow.utils.showStatusComponent
 
 @Composable
@@ -24,7 +23,10 @@ fun ShowStatusComponent(
                 color = showStatusComponent(statusName = showStatus).color,
                 shape = MaterialTheme.shapes.medium
             )
-            .padding(vertical = com.example.uikit.AppTheme.size.dp4, horizontal = com.example.uikit.AppTheme.size.dp8)
+            .padding(
+                vertical = com.example.uikit.AppTheme.size.dp4,
+                horizontal = com.example.uikit.AppTheme.size.dp8
+            )
     ) {
         Text(
             text = "Status: ${showStatusComponent(statusName = showStatus).status}",

@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 
-//класс данных для хранения объекта в базе данных
-//DBO - data base object
+// класс данных для хранения объекта в базе данных
+// DBO - data base object
 
 @Entity(tableName = "shows_table")
 data class ShowsDBO(
@@ -62,12 +62,4 @@ data class ShowsDBO(
     data class RatingShow(
         val average: Double,
     )
-
 }
-//
-//sealed class ShowStatus(val statusName: String) {
-//    object Running : ShowStatus("Running")
-//    object Ended : ShowStatus("Ended")
-//    object Determined : ShowStatus("To Be Determined")
-//    object Unknown : ShowStatus("Unknown")
-//}

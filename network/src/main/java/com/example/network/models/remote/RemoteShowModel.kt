@@ -4,23 +4,23 @@ import com.example.network.models.domain.DomainShowEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-//данные remote мы получаем из сети (dto)
+// данные remote мы получаем из сети (dto)
 
 @Serializable
 data class RemoteShowModel(
     @SerialName("id") val id: Int?,
-    @SerialName("name") val name: String? = "unknown name",                             //название
-    @SerialName("ended") val ended: String? = "unknown ended",                          //дата завершения
-    @SerialName("genres") val genres: List<String>? = emptyList(),                      //жанры
-    @SerialName("image") val image: ImageShow? = null,                                  //постер
-    @SerialName("language") val language: String? = "unknown language",                 //язык
-    @SerialName("network") val network: NetworkShow? = null,                            //инфа о производителе
-    @SerialName("officialSite") val officialSite: String? = "unknown official site",    //ссылка на офф сайт
-    @SerialName("premiered") val premiered: String? = "unknown premiered",              //дата премьеры
-    @SerialName("rating") val rating: RatingShow? = null,                               //рейтинг
-    @SerialName("status") val status: String? = "unknown status",                       //статус (завершен, выпускается)
-    @SerialName("summary") val summary: String? = "unknown summary",                    //описание
-    @SerialName("url") val url: String? = "unknown url",                                //ссылка на сайт
+    @SerialName("name") val name: String? = "unknown name",
+    @SerialName("ended") val ended: String? = "unknown ended",
+    @SerialName("genres") val genres: List<String>? = emptyList(),
+    @SerialName("image") val image: ImageShow? = null,
+    @SerialName("language") val language: String? = "unknown language",
+    @SerialName("network") val network: NetworkShow? = null,
+    @SerialName("officialSite") val officialSite: String? = "unknown official site",
+    @SerialName("premiered") val premiered: String? = "unknown premiered",
+    @SerialName("rating") val rating: RatingShow? = null,
+    @SerialName("status") val status: String? = "unknown status",
+    @SerialName("summary") val summary: String? = "unknown summary",
+    @SerialName("url") val url: String? = "unknown url",
 ) {
     @Serializable
     data class ImageShow(
@@ -49,7 +49,7 @@ data class RemoteShowModel(
     )
 }
 
-//маппер
+// маппер
 fun RemoteShowModel.toDomainShow(): DomainShowEntity {
     return DomainShowEntity(
         id = id ?: 4,

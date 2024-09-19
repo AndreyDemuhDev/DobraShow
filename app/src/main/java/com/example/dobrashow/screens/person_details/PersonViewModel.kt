@@ -2,8 +2,8 @@ package com.example.dobrashow.screens.person_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shows_data.repositories.ShowRepository
 import com.example.network.models.domain.DomainPersonEntity
+import com.example.shows_data.repositories.ShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,9 +18,9 @@ class PersonViewModel @Inject constructor(
     private val showRepository: ShowRepository
 ) : ViewModel() {
 
-    private val _personDetailUiState = MutableStateFlow<PersonDetailUiState>(PersonDetailUiState.Loading)
+    private val _personDetailUiState =
+        MutableStateFlow<PersonDetailUiState>(PersonDetailUiState.Loading)
     val personDetailUiState: StateFlow<PersonDetailUiState> = _personDetailUiState.asStateFlow()
-
 
     fun getPeopleInfo(personId: Int) =
         viewModelScope.launch {
@@ -38,7 +38,6 @@ class PersonViewModel @Inject constructor(
             }
         }
 }
-
 
 sealed interface PersonDetailUiState {
     data class Success(val person: DomainPersonEntity) : PersonDetailUiState

@@ -94,7 +94,6 @@ private fun ListShows(shows: List<ShowsUI>) {
             }
         }
     }
-
 }
 
 @Composable
@@ -107,6 +106,5 @@ internal fun ShowItem(show: ShowsUI) {
         Text(text = show.language, style = MaterialTheme.typography.titleSmall, color = Color.White)
         Text(text = show.status, style = MaterialTheme.typography.bodyMedium, color = Color.White)
     }
-
 }
 

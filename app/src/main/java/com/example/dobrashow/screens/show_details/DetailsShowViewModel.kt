@@ -2,11 +2,11 @@ package com.example.dobrashow.screens.show_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shows_data.repositories.ShowRepository
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
 import com.example.network.models.domain.DomainSeasonEntity
 import com.example.network.models.domain.DomainShowEntity
+import com.example.shows_data.repositories.ShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -56,9 +56,17 @@ class DetailsShowViewModel @Inject constructor(
         }
 
         val listSeasonsShow = when (listSeasonsResult) {
-            is ShowSeasonsListUiState.Error -> ShowSeasonsListUiState.Error(message = listSeasonsResult.message)
-            ShowSeasonsListUiState.Loading -> ShowSeasonsListUiState.Loading
-            is ShowSeasonsListUiState.Success -> ShowSeasonsListUiState.Success(listSeasons = listSeasonsResult.listSeasons)
+            is ShowSeasonsListUiState.Error -> {
+                ShowSeasonsListUiState.Error(message = listSeasonsResult.message)
+            }
+
+            ShowSeasonsListUiState.Loading -> {
+                ShowSeasonsListUiState.Loading
+            }
+
+            is ShowSeasonsListUiState.Success -> {
+                ShowSeasonsListUiState.Success(listSeasons = listSeasonsResult.listSeasons)
+            }
         }
 
         ShowUiStateView(
@@ -148,7 +156,7 @@ class DetailsShowViewModel @Inject constructor(
         }
 }
 
-//общее состояние экрана деталей шоу
+// общее состояние экрана деталей шоу
 data class ShowUiStateView(
     val showInformation: ShowInformationUiState,
     val showPeoplesList: ShowPeoplesListUiState,
@@ -157,15 +165,14 @@ data class ShowUiStateView(
     val isRefreshing: Boolean,
 )
 
-
-//состояние отображающее информацию о шоу
+// состояние отображающее информацию о шоу
 sealed interface ShowInformationUiState {
     data class Success(val show: DomainShowEntity) : ShowInformationUiState
     data class Error(val message: String) : ShowInformationUiState
     data object Loading : ShowInformationUiState
 }
 
-//состояние отображающее информацию об актерах шоу
+// состояние отображающее информацию об актерах шоу
 sealed interface ShowPeoplesListUiState {
     data class Success(
         val castList: List<DomainCastEntity>,
@@ -176,15 +183,13 @@ sealed interface ShowPeoplesListUiState {
     data object Loading : ShowPeoplesListUiState
 }
 
-//состояние отображения сезонов шоу
+// состояние отображения сезонов шоу
 sealed interface ShowSeasonsListUiState {
     data class Success(val listSeasons: List<DomainSeasonEntity>) : ShowSeasonsListUiState
     data class Error(val message: String) : ShowSeasonsListUiState
     data object Loading : ShowSeasonsListUiState
 }
 
-private const val StopTimeoutMillis: Long = 5000
+private const val STOP_TIMEOUT_MILLIS: Long = 5000
 
-val WhileUiSubscribed: SharingStarted = SharingStarted.WhileSubscribed(StopTimeoutMillis)
-
-
+val WhileUiSubscribed: SharingStarted = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS)

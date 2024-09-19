@@ -9,8 +9,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.dobrashow.navigation.BottomNavigationTabs
-import com.example.uikit.AppTheme
 import com.example.network.KtorClient
+import com.example.uikit.AppTheme
 import com.example.view_show.ShowsMainScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

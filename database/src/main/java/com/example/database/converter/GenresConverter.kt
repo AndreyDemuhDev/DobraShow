@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import java.util.Arrays
 import java.util.stream.Collectors
 
-
 class GenresConverter {
     @TypeConverter
     fun fromListGenres(genres: List<String?>): String {

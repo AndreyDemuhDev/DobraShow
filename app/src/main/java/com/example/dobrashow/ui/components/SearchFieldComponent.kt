@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.dobrashow.R
-import com.example.uikit.AppTheme
 
 @Composable
 fun SearchFieldComponent(
@@ -31,7 +30,6 @@ fun SearchFieldComponent(
     modifier: Modifier = Modifier,
     query: String = "",
 ) {
-
     var queryShow by remember { mutableStateOf(query) }
 
     Row(
@@ -51,7 +49,12 @@ fun SearchFieldComponent(
     ) {
         TextField(
             value = queryShow, onValueChange = { queryShow = it },
-            placeholder = { Text(text = "Search", style = com.example.uikit.AppTheme.typography.bodyNormal) },
+            placeholder = {
+                Text(
+                    text = "Search",
+                    style = com.example.uikit.AppTheme.typography.bodyNormal
+                )
+            },
             singleLine = true,
             maxLines = 1,
             colors = TextFieldDefaults.colors(
@@ -61,20 +64,20 @@ fun SearchFieldComponent(
             shape = com.example.uikit.AppTheme.shape.large,
             trailingIcon = {
 //                if (queryShow.isEmpty()) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_search),
-                        contentDescription = "search",
-                        modifier = Modifier
-                            .padding(end = com.example.uikit.AppTheme.size.dp8)
-                            .size(38.dp)
-                            .background(
-                                color = com.example.uikit.AppTheme.colorScheme.onText,
-                                shape = com.example.uikit.AppTheme.shape.large
-                            )
-                            .padding(all = com.example.uikit.AppTheme.size.dp8)
-                            .clickable { onSearch(queryShow) },
-                        colorFilter = ColorFilter.tint(com.example.uikit.AppTheme.colorScheme.primary)
-                    )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_search),
+                    contentDescription = "search",
+                    modifier = Modifier
+                        .padding(end = com.example.uikit.AppTheme.size.dp8)
+                        .size(38.dp)
+                        .background(
+                            color = com.example.uikit.AppTheme.colorScheme.onText,
+                            shape = com.example.uikit.AppTheme.shape.large
+                        )
+                        .padding(all = com.example.uikit.AppTheme.size.dp8)
+                        .clickable { onSearch(queryShow) },
+                    colorFilter = ColorFilter.tint(com.example.uikit.AppTheme.colorScheme.primary)
+                )
 //                } else {
 //                    Image(
 //                        imageVector = Icons.Default.Close,
@@ -91,7 +94,6 @@ fun SearchFieldComponent(
 //                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.background)
 //                    )
 //                }
-
             },
             modifier = Modifier
                 .fillMaxWidth()

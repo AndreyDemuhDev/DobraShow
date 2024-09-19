@@ -14,17 +14,17 @@ data class DomainSeasonEntity(
     val summary: String,
     val url: String,
     val listEpisodes: DomainEmbedded
-){
+) {
     data class ImageSeasons(
         val medium: String,
         val original: String
     )
 
-    data class DomainEmbedded (
+    data class DomainEmbedded(
         val episodes: List<DomainEpisode>
     )
 
-    data class DomainEpisode (
+    data class DomainEpisode(
         val id: Long,
         val url: String,
         val name: String,

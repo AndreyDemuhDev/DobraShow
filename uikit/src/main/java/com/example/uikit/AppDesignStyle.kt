@@ -8,25 +8,25 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 
 data class AppColorsScheme(
-    val background: Color,          //цвет фона
-    val onBackground: Color,        //оттенок фона
-    val primary: Color,             //основной цвет
-    val onPrimary: Color,           //оттенок основного цвета
-    val text: Color,                //цвет текста
-    val onText: Color,              //оттенок текста
-    val transparent: Color,         //прозрачный
-    val error: Color,               //красный
+    val background: Color, // цвет фона
+    val onBackground: Color, // оттенок фона
+    val primary: Color, // основной цвет
+    val onPrimary: Color, // оттенок основного цвета
+    val text: Color, // цвет текста
+    val onText: Color, // оттенок текста
+    val transparent: Color, // прозрачный
+    val error: Color, // красный
 )
 
 data class AppTypography(
-    val titleLarge: TextStyle,       //шрифт для заголовков
+    val titleLarge: TextStyle, // шрифт для заголовков
     val titleNormal: TextStyle,
     val titleSmall: TextStyle,
-    val bodyLarge: TextStyle,        //шрифт для больших текстов
+    val bodyLarge: TextStyle, // шрифт для больших текстов
     val bodyNormal: TextStyle,
     val bodySmall: TextStyle,
-    val labelLarge: TextStyle,       //шрифт для текста внутри компонентов
-    val labelNormal: TextStyle,      //шрифт для текста внутри компонентов
+    val labelLarge: TextStyle, // шрифт для текста внутри компонентов
+    val labelNormal: TextStyle, // шрифт для текста внутри компонентов
     val labelSmall: TextStyle,
 )
 

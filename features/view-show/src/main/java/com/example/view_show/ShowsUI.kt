@@ -1,6 +1,6 @@
 package com.example.view_show
 
-//класс для отображения на UI слое
+// класс для отображения на UI слое
 public data class ShowsUI(
     val id: Int,
     val name: String,
@@ -15,7 +15,7 @@ public data class ShowsUI(
     val status: String,
     val summary: String,
     val url: String,
-){
+) {
     data class ImageShow(
         val medium: String,
         val original: String,

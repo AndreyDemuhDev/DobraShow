@@ -33,9 +33,8 @@ import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 
-class KtorClient() {
+class KtorClient {
     @OptIn(ExperimentalSerializationApi::class)
     private val client = HttpClient(OkHttp) {
 
@@ -51,7 +50,6 @@ class KtorClient() {
                 explicitNulls = false
             })
         }
-
     }
     private var showCache = mutableMapOf<Int, DomainShowEntity>()
 
@@ -93,7 +91,6 @@ class KtorClient() {
         return safeApiCall {
             client.get("shows?page=$pageNumber")
                 .body<List<RemoteShowModel>>()
-//                .map { it.toDomainShow() }
         }
     }
 
@@ -128,10 +125,9 @@ class KtorClient() {
                 .map { it.toDomainSearchShowEntity() }
         }
     }
-
 }
 
-//функция для обработки данных получаемых из сети
+// функция для обработки данных получаемых из сети
 private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
     return try {
         Result.success(value = apiCall())
@@ -139,6 +135,3 @@ private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
         Result.failure(exception = exception)
     }
 }
-
-
-
