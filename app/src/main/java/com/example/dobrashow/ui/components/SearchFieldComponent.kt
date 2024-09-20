@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.example.dobrashow.R
 
 @Composable
+@Suppress("LongMethod")
 fun SearchFieldComponent(
     onSearch: (String) -> Unit,
     modifier: Modifier = Modifier,

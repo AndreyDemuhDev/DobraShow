@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class ShowRepository @Inject constructor(
     private val ktorClient: KtorClient,
     private val database: ShowsDatabase,

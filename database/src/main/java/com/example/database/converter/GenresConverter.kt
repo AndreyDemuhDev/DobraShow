@@ -11,6 +11,7 @@ class GenresConverter {
     }
 
     @TypeConverter
+    @Suppress("SpreadOperator")
     fun toListGenres(data: String): List<String> {
         return Arrays.asList(*data.split(",".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())

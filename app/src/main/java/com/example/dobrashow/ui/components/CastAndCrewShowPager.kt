@@ -26,6 +26,7 @@ import com.example.network.models.domain.DomainCrewEntity
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
+@Suppress("LongMethod")
 fun CastAndCrewShowPager(
     cast: List<DomainCastEntity>,
     crew: List<DomainCrewEntity>,

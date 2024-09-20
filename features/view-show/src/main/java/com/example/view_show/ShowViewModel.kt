@@ -25,7 +25,6 @@ class ShowViewModel @Inject constructor(
         )
 }
 
-
 private fun RequestStatus<List<ShowsUI>>.toState(): State {
     return when (this) {
         is RequestStatus.Error -> State.Error(data)

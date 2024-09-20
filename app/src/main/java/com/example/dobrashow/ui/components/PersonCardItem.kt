@@ -31,7 +31,6 @@ fun PersonCardItem(
     onClickPerson: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
     ElevatedCard(
         modifier = modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },

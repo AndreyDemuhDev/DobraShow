@@ -63,7 +63,6 @@ fun RemoteSeasonsModel.toDomainSeason(): DomainSeasonEntity {
     )
 }
 
-
 fun RemoteSeasonsModel.RemoteEpisode.toDomainEpisode(): DomainSeasonEntity.DomainEpisode {
     return DomainSeasonEntity.DomainEpisode(
         id = id ?: -1,
@@ -81,4 +80,3 @@ fun RemoteSeasonsModel.RemoteEpisode.toDomainEpisode(): DomainSeasonEntity.Domai
         summary = summary ?: "unknown summary episode"
     )
 }
-

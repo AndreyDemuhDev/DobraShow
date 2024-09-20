@@ -2,7 +2,6 @@ package com.example.network.models.domain
 
 import com.example.network.models.remote.RemoteShowModel
 
-
 data class DomainSeasonEntity(
     val id: Int,
     val endDate: String,
