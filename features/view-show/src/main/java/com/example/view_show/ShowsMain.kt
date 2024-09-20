@@ -39,7 +39,6 @@ internal fun ShowsScreen(
     if (state != State.None) {
         ShowsContent(currentState)
     }
-
 }
 
 @Composable
@@ -107,4 +106,3 @@ internal fun ShowItem(show: ShowsUI) {
         Text(text = show.status, style = MaterialTheme.typography.bodyMedium, color = Color.White)
     }
 }
-

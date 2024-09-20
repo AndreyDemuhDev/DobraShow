@@ -19,6 +19,7 @@ import com.example.dobrashow.screens.show.ShowsScreen
 import com.example.dobrashow.screens.show_details.DetailShowScreen
 
 @Composable
+@Suppress("LongMethod")
 fun AppNavigation(
     navController: NavHostController,
     innerPadding: PaddingValues
@@ -85,7 +86,6 @@ fun AppNavigation(
                     onClickShow = { navController.navigate("show_details/$it") },
                     onClickCrew = { navController.navigate("show_details/$it") },
                     onClickBack = { navController.navigateUp() },
-                    modifier = Modifier.fillMaxSize()
                 )
             }
         }

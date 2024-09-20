@@ -19,7 +19,6 @@ import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.network.models.domain.DomainCrewEntity
 
-
 @Composable
 fun CrewItemCard(
     crew: DomainCrewEntity,

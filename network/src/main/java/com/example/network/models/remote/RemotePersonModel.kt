@@ -76,7 +76,6 @@ data class RemotePersonModel(
     )
 }
 
-
 fun RemotePersonModel.toDomainPerson(): DomainPersonEntity {
     return DomainPersonEntity(
         embedded = DomainPersonEntity.Embedded(

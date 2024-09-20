@@ -5,6 +5,3 @@ data class DomainSimplePersonEntity(
     val name: String,
     val image: DomainPersonEntity.ImagePerson? = null,
 )
-
-
-

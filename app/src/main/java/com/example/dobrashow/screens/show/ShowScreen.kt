@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun ShowsScreen(
     onClickShow: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    showViewModel: HomeViewModel = hiltViewModel(),
+    showViewModel: ShowViewModels = hiltViewModel(),
 ) {
 //    val viewState by showViewModel.listShowState.collectAsState()
 //

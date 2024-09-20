@@ -150,6 +150,7 @@ fun DescriptionSeason(
 }
 
 @Composable
+@Suppress("LongMethod")
 fun ListEpisodesSeason(
     episode: DomainSeasonEntity.DomainEpisode,
     modifier: Modifier = Modifier,

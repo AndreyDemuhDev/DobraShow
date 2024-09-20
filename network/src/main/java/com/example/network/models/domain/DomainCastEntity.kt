@@ -1,6 +1,5 @@
 package com.example.network.models.domain
 
-
 data class DomainCastEntity(
     val person: PersonShow,
     val character: CharacterShow

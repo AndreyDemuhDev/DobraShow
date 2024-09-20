@@ -123,6 +123,7 @@ fun DetailsShowStateContent(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
+@Suppress("LongMethod")
 private fun SuccessShowInformationState(
     showState: ShowInformationUiState.Success,
 //    hazeState: HazeState,
@@ -224,8 +225,8 @@ private fun SuccessShowInformationState(
     }
 }
 
-
 @Composable
+@Suppress("LongMethod")
 private fun DescriptionShowSection(
     showState: ShowInformationUiState.Success,
     modifier: Modifier = Modifier,

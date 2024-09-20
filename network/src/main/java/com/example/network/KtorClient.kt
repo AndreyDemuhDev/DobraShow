@@ -13,7 +13,7 @@ import com.example.network.models.remote.RemotePersonModel
 import com.example.network.models.remote.RemoteSearchShowModel
 import com.example.network.models.remote.RemoteSeasonsModel
 import com.example.network.models.remote.RemoteShowModel
-import com.example.network.models.remote.RemoteSimplePersonElement
+import com.example.network.models.remote.RemoteSimplePersonModel
 import com.example.network.models.remote.toDomainCast
 import com.example.network.models.remote.toDomainCrew
 import com.example.network.models.remote.toDomainPerson
@@ -113,7 +113,7 @@ class KtorClient {
     suspend fun getListPersons(pageNumber: Int): Result<List<DomainSimplePersonEntity>> {
         return safeApiCall {
             client.get("people?page=$pageNumber")
-                .body<List<RemoteSimplePersonElement>>()
+                .body<List<RemoteSimplePersonModel>>()
                 .map { it.toDomainSimplePerson() }
         }
     }
