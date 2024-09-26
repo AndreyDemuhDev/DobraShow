@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.ui.components.SearchFieldComponent
 import com.example.dobrashow.ui.components.SearchShowItemCard
+import com.example.uikit.theme.AppTheme
 
 @Composable
 fun SearchScreen(
@@ -52,17 +53,17 @@ private fun SuccessStateShowContent(
     Column {
         CustomTopBarComponent(
             title = "Search shows",
-            modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp16)
+            modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
         )
         SearchFieldComponent(
             onSearch = onSearch,
-            modifier = Modifier.padding(vertical = com.example.uikit.AppTheme.size.dp8)
+            modifier = Modifier.padding(vertical = AppTheme.size.dp8)
         )
 
         LazyColumn(
-            contentPadding = PaddingValues(horizontal = com.example.uikit.AppTheme.size.dp16),
-            verticalArrangement = Arrangement.spacedBy(com.example.uikit.AppTheme.size.dp8),
-            modifier = Modifier.padding(vertical = com.example.uikit.AppTheme.size.dp8),
+            contentPadding = PaddingValues(horizontal = AppTheme.size.dp16),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
+            modifier = Modifier.padding(vertical = AppTheme.size.dp8),
             content = {
                 Log.d("MyLog", "listShows ${state.listShow}")
                 items(items = state.listShow) { show ->

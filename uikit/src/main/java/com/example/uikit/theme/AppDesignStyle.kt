@@ -1,4 +1,4 @@
-package com.example.uikit
+package com.example.uikit.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color

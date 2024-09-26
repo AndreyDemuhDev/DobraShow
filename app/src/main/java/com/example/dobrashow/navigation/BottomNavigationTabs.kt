@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.uikit.AppTheme
+import com.example.uikit.theme.AppTheme
 
 @Composable
 fun BottomNavigationTabs(

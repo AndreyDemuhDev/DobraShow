@@ -21,6 +21,7 @@ room = "2.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
 detekt = "1.23.3"
+pagination = "3.3.2"
 
 [libraries]
 
@@ -74,6 +75,10 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+pagination = { module = "androidx.paging:paging-runtime", version.ref = "pagination" }
+pagination-compose = { module = "androidx.paging:paging-compose", version.ref = "pagination" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

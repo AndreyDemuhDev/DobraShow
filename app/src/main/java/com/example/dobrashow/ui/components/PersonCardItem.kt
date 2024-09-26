@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.network.models.domain.DomainSimplePersonEntity
+import com.example.uikit.theme.AppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -37,14 +38,14 @@ fun PersonCardItem(
             indication = null,
             onClick = { onClickPerson() }
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = com.example.uikit.AppTheme.size.dp4),
+        elevation = CardDefaults.cardElevation(defaultElevation = AppTheme.size.dp4),
         shape = RoundedCornerShape(
-            topStart = com.example.uikit.AppTheme.size.dp16,
-            topEnd = com.example.uikit.AppTheme.size.dp16,
-            bottomEnd = com.example.uikit.AppTheme.size.dp8,
-            bottomStart = com.example.uikit.AppTheme.size.dp8
+            topStart = AppTheme.size.dp16,
+            topEnd = AppTheme.size.dp16,
+            bottomEnd = AppTheme.size.dp8,
+            bottomStart = AppTheme.size.dp8
         ),
-        colors = CardDefaults.cardColors(containerColor = com.example.uikit.AppTheme.colorScheme.primary)
+        colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.primary)
     ) {
         Column {
             AsyncImage(
@@ -57,24 +58,24 @@ fun PersonCardItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(max = 250.dp)
-                    .padding(all = com.example.uikit.AppTheme.size.dp4)
+                    .padding(all = AppTheme.size.dp4)
                     .clip(
                         RoundedCornerShape(
-                            topStart = com.example.uikit.AppTheme.size.dp16,
-                            topEnd = com.example.uikit.AppTheme.size.dp16,
-                            bottomEnd = com.example.uikit.AppTheme.size.dp8,
-                            bottomStart = com.example.uikit.AppTheme.size.dp8
+                            topStart = AppTheme.size.dp16,
+                            topEnd = AppTheme.size.dp16,
+                            bottomEnd = AppTheme.size.dp8,
+                            bottomStart = AppTheme.size.dp8
                         )
                     )
             )
             Text(
                 text = person.name,
-                style = com.example.uikit.AppTheme.typography.titleNormal,
+                style = AppTheme.typography.titleNormal,
                 modifier = Modifier
                     .fillMaxWidth()
                     .basicMarquee(),
                 textAlign = TextAlign.Center,
-                color = com.example.uikit.AppTheme.colorScheme.background
+                color = AppTheme.colorScheme.background
             )
         }
     }

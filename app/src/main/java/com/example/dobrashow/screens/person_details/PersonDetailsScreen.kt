@@ -32,6 +32,7 @@ import com.example.dobrashow.R
 import com.example.dobrashow.ui.components.CustomTopBarComponent
 import com.example.dobrashow.utils.dateConverter
 import com.example.network.models.domain.DomainPersonEntity
+import com.example.uikit.theme.AppTheme
 
 @Composable
 fun PersonDetailsScreen(
@@ -125,13 +126,13 @@ fun PersonImage(imageUrl: String, modifier: Modifier = Modifier) {
         contentScale = ContentScale.Crop,
         modifier = modifier
             .aspectRatio(1f)
-            .clip(com.example.uikit.AppTheme.shape.small)
+            .clip(AppTheme.shape.small)
             .border(
-                width = com.example.uikit.AppTheme.size.dp1,
+                width = AppTheme.size.dp1,
                 brush = Brush.verticalGradient(
                     listOf(
-                        com.example.uikit.AppTheme.colorScheme.transparent,
-                        com.example.uikit.AppTheme.colorScheme.primary
+                        AppTheme.colorScheme.transparent,
+                        AppTheme.colorScheme.primary
                     )
                 ),
                 shape = MaterialTheme.shapes.small
@@ -147,18 +148,18 @@ fun DescriptionPerson(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = modifier.padding(vertical = com.example.uikit.AppTheme.size.dp2)
+        modifier = modifier.padding(vertical = AppTheme.size.dp2)
     ) {
         Text(
             text = title,
-            style = com.example.uikit.AppTheme.typography.titleSmall,
-            color = com.example.uikit.AppTheme.colorScheme.text
+            style = AppTheme.typography.titleSmall,
+            color = AppTheme.colorScheme.text
         )
         Text(
             text = description,
-            style = com.example.uikit.AppTheme.typography.titleLarge,
+            style = AppTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = com.example.uikit.AppTheme.colorScheme.text
+            color = AppTheme.colorScheme.text
         )
     }
 }
@@ -171,43 +172,43 @@ fun CastShow(
 ) {
     Column(
         modifier = modifier
-            .clip(com.example.uikit.AppTheme.shape.small)
-            .background(com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.1f))
+            .clip(AppTheme.shape.small)
+            .background(AppTheme.colorScheme.primary.copy(alpha = 0.1f))
             .border(
-                width = com.example.uikit.AppTheme.size.dp1,
-                color = com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.2f),
-                shape = com.example.uikit.AppTheme.shape.small
+                width = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.primary.copy(alpha = 0.2f),
+                shape = AppTheme.shape.small
             )
-            .padding(start = com.example.uikit.AppTheme.size.dp4)
+            .padding(start = AppTheme.size.dp4)
     ) {
         Text(
             text = "Cast",
-            style = com.example.uikit.AppTheme.typography.titleLarge,
-            color = com.example.uikit.AppTheme.colorScheme.text
+            style = AppTheme.typography.titleLarge,
+            color = AppTheme.colorScheme.text
         )
         person.embedded.castcredits.forEach { personShow ->
             val linkShow = personShow.linksCast.show.href.substringAfterLast("/")
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(vertical = com.example.uikit.AppTheme.size.dp4)
+                    .padding(vertical = AppTheme.size.dp4)
                     .clickable { onClickShow(linkShow.toInt()) }
             ) {
                 Text(
                     text = personShow.linksCast.show.name,
-                    style = com.example.uikit.AppTheme.typography.bodyLarge,
-                    color = com.example.uikit.AppTheme.colorScheme.text,
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colorScheme.text,
                 )
-                Spacer(modifier = Modifier.width(com.example.uikit.AppTheme.size.dp10))
+                Spacer(modifier = Modifier.width(AppTheme.size.dp10))
                 Text(
                     text = "(${personShow.linksCast.character.name})",
-                    style = com.example.uikit.AppTheme.typography.bodyNormal,
-                    color = com.example.uikit.AppTheme.colorScheme.text
+                    style = AppTheme.typography.bodyNormal,
+                    color = AppTheme.colorScheme.text
                 )
             }
             HorizontalDivider(
-                thickness = com.example.uikit.AppTheme.size.dp1,
-                color = com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.5f)
+                thickness = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.primary.copy(alpha = 0.5f)
             )
         }
     }
@@ -221,43 +222,43 @@ fun CrewShow(
 ) {
     Column(
         modifier = modifier
-            .clip(com.example.uikit.AppTheme.shape.small)
-            .background(com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.1f))
+            .clip(AppTheme.shape.small)
+            .background(AppTheme.colorScheme.primary.copy(alpha = 0.1f))
             .border(
-                width = com.example.uikit.AppTheme.size.dp1,
-                color = com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.2f),
-                shape = com.example.uikit.AppTheme.shape.small
+                width = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.primary.copy(alpha = 0.2f),
+                shape = AppTheme.shape.small
             )
-            .padding(start = com.example.uikit.AppTheme.size.dp4)
+            .padding(start = AppTheme.size.dp4)
     ) {
         Text(
             text = "Crew",
-            style = com.example.uikit.AppTheme.typography.titleLarge,
-            color = com.example.uikit.AppTheme.colorScheme.text
+            style = AppTheme.typography.titleLarge,
+            color = AppTheme.colorScheme.text
         )
         person.embedded.crewcredits.forEach { personCrew ->
             val linkCrew = personCrew.links.show.href.substringAfterLast("/")
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(vertical = com.example.uikit.AppTheme.size.dp4)
+                    .padding(vertical = AppTheme.size.dp4)
                     .clickable { onClickCrew(linkCrew.toInt()) }
             ) {
                 Text(
                     text = personCrew.links.show.name,
-                    style = com.example.uikit.AppTheme.typography.bodyLarge,
-                    color = com.example.uikit.AppTheme.colorScheme.text,
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colorScheme.text,
                 )
-                Spacer(modifier = Modifier.width(com.example.uikit.AppTheme.size.dp10))
+                Spacer(modifier = Modifier.width(AppTheme.size.dp10))
                 Text(
                     text = "(${personCrew.type})",
-                    style = com.example.uikit.AppTheme.typography.bodyNormal,
-                    color = com.example.uikit.AppTheme.colorScheme.text
+                    style = AppTheme.typography.bodyNormal,
+                    color = AppTheme.colorScheme.text
                 )
             }
             HorizontalDivider(
-                thickness = com.example.uikit.AppTheme.size.dp1,
-                color = com.example.uikit.AppTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
+                thickness = AppTheme.size.dp1,
+                color = AppTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
             )
         }
     }

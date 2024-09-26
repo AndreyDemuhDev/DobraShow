@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.dobrashow.utils.showStatusComponent
+import com.example.uikit.theme.AppTheme
 
 @Composable
 fun ShowStatusComponent(
@@ -19,19 +20,19 @@ fun ShowStatusComponent(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .border(
-                width = com.example.uikit.AppTheme.size.dp2,
+                width = AppTheme.size.dp2,
                 color = showStatusComponent(statusName = showStatus).color,
                 shape = MaterialTheme.shapes.medium
             )
             .padding(
-                vertical = com.example.uikit.AppTheme.size.dp4,
-                horizontal = com.example.uikit.AppTheme.size.dp8
+                vertical = AppTheme.size.dp4,
+                horizontal = AppTheme.size.dp8
             )
     ) {
         Text(
             text = "Status: ${showStatusComponent(statusName = showStatus).status}",
-            style = com.example.uikit.AppTheme.typography.bodyNormal,
-            color = com.example.uikit.AppTheme.colorScheme.text
+            style = AppTheme.typography.bodyNormal,
+            color = AppTheme.colorScheme.text
         )
     }
 }
