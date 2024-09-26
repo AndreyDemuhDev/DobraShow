@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.dobrashow.R
+import com.example.uikit.theme.AppTheme
 
 @Composable
 @Suppress("LongMethod")
@@ -35,16 +36,16 @@ fun SearchFieldComponent(
 
     Row(
         modifier = modifier
-            .padding(horizontal = com.example.uikit.AppTheme.size.dp24)
+            .padding(horizontal = AppTheme.size.dp24)
             .fillMaxWidth()
             .background(
-                color = com.example.uikit.AppTheme.colorScheme.background,
-                shape = com.example.uikit.AppTheme.shape.large
+                color = AppTheme.colorScheme.background,
+                shape = AppTheme.shape.large
             )
             .border(
                 width = 1.dp,
-                color = com.example.uikit.AppTheme.colorScheme.primary,
-                shape = com.example.uikit.AppTheme.shape.large
+                color = AppTheme.colorScheme.primary,
+                shape = AppTheme.shape.large
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -53,31 +54,31 @@ fun SearchFieldComponent(
             placeholder = {
                 Text(
                     text = "Search",
-                    style = com.example.uikit.AppTheme.typography.bodyNormal
+                    style = AppTheme.typography.bodyNormal
                 )
             },
             singleLine = true,
             maxLines = 1,
             colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = com.example.uikit.AppTheme.colorScheme.background,
-                focusedIndicatorColor = com.example.uikit.AppTheme.colorScheme.background
+                unfocusedIndicatorColor = AppTheme.colorScheme.background,
+                focusedIndicatorColor = AppTheme.colorScheme.background
             ),
-            shape = com.example.uikit.AppTheme.shape.large,
+            shape = AppTheme.shape.large,
             trailingIcon = {
 //                if (queryShow.isEmpty()) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = "search",
                     modifier = Modifier
-                        .padding(end = com.example.uikit.AppTheme.size.dp8)
+                        .padding(end = AppTheme.size.dp8)
                         .size(38.dp)
                         .background(
-                            color = com.example.uikit.AppTheme.colorScheme.onText,
-                            shape = com.example.uikit.AppTheme.shape.large
+                            color = AppTheme.colorScheme.onText,
+                            shape = AppTheme.shape.large
                         )
-                        .padding(all = com.example.uikit.AppTheme.size.dp8)
+                        .padding(all = AppTheme.size.dp8)
                         .clickable { onSearch(queryShow) },
-                    colorFilter = ColorFilter.tint(com.example.uikit.AppTheme.colorScheme.primary)
+                    colorFilter = ColorFilter.tint(AppTheme.colorScheme.primary)
                 )
 //                } else {
 //                    Image(
@@ -99,14 +100,14 @@ fun SearchFieldComponent(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = com.example.uikit.AppTheme.colorScheme.background,
-                    shape = com.example.uikit.AppTheme.shape.small
+                    color = AppTheme.colorScheme.background,
+                    shape = AppTheme.shape.small
                 )
                 .width(40.dp)
                 .border(
-                    width = com.example.uikit.AppTheme.size.dp1,
-                    color = com.example.uikit.AppTheme.colorScheme.primary,
-                    shape = com.example.uikit.AppTheme.shape.large
+                    width = AppTheme.size.dp1,
+                    color = AppTheme.colorScheme.primary,
+                    shape = AppTheme.shape.large
                 )
         )
     }

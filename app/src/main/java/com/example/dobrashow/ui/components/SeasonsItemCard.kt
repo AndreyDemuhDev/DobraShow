@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.network.models.domain.DomainSeasonEntity
+import com.example.uikit.theme.AppTheme
 
 @Composable
 fun SeasonsItemCard(
@@ -29,14 +30,14 @@ fun SeasonsItemCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .border(
-                width = com.example.uikit.AppTheme.size.dp1,
+                width = AppTheme.size.dp1,
                 brush = Brush.verticalGradient(
                     listOf(
-                        com.example.uikit.AppTheme.colorScheme.transparent,
-                        com.example.uikit.AppTheme.colorScheme.primary.copy(alpha = 0.5f)
+                        AppTheme.colorScheme.transparent,
+                        AppTheme.colorScheme.primary.copy(alpha = 0.5f)
                     )
                 ),
-                shape = com.example.uikit.AppTheme.shape.medium
+                shape = AppTheme.shape.medium
             )
             .clickable { onClickSeason(seasonItem.id) }
     ) {
@@ -50,16 +51,16 @@ fun SeasonsItemCard(
                     .size(width = 200.dp, height = 250.dp)
                     .clip(
                         shape = RoundedCornerShape(
-                            topStart = com.example.uikit.AppTheme.size.dp16,
-                            topEnd = com.example.uikit.AppTheme.size.dp16,
+                            topStart = AppTheme.size.dp16,
+                            topEnd = AppTheme.size.dp16,
                         )
                     )
             )
         }
         Text(
             text = "Season ${seasonItem.number}",
-            color = com.example.uikit.AppTheme.colorScheme.primary,
-            style = com.example.uikit.AppTheme.typography.titleLarge,
+            color = AppTheme.colorScheme.primary,
+            style = AppTheme.typography.titleLarge,
         )
     }
 }

@@ -11,6 +11,7 @@ import com.example.dobrashow.screens.show_details.ShowPeoplesListUiState
 import com.example.dobrashow.screens.show_details.ShowPeoplesState
 import com.example.dobrashow.screens.show_details.ShowSeasonsListUiState
 import com.example.dobrashow.screens.show_details.ShowSeasonsState
+import com.example.uikit.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,7 +26,7 @@ fun InfoBottomSheet(
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = { onDismiss() },
-        containerColor = com.example.uikit.AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.background,
         modifier = Modifier.wrapContentHeight()
 
     ) {

@@ -61,6 +61,8 @@ dependencies {
     implementation(project(":shows-data"))
     implementation(project(":database"))
     implementation(project(":features:view-show"))
+    implementation(project(":features:view-person"))
+    implementation(project(":features:search"))
     implementation(project(":core"))
     implementation(project(":uikit"))
 

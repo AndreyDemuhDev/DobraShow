@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.dobrashow.R
 import com.example.network.models.domain.DomainCastEntity
+import com.example.uikit.theme.AppTheme
 
 @Composable
 fun CastItemCard(
@@ -37,21 +38,21 @@ fun CastItemCard(
             contentScale = ContentScale.Crop,
             placeholder = painterResource(id = R.drawable.ic_no_image),
             modifier = Modifier
-                .padding(top = com.example.uikit.AppTheme.size.dp4)
+                .padding(top = AppTheme.size.dp4)
                 .size(130.dp)
                 .clip(CircleShape)
         )
         Text(
             text = cast.person.name,
-            style = com.example.uikit.AppTheme.typography.bodyNormal,
-            color = com.example.uikit.AppTheme.colorScheme.text,
+            style = AppTheme.typography.bodyNormal,
+            color = AppTheme.colorScheme.text,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         Text(
             text = "as " + "'" + cast.character.name + "'",
-            style = com.example.uikit.AppTheme.typography.bodySmall,
-            color = com.example.uikit.AppTheme.colorScheme.text,
+            style = AppTheme.typography.bodySmall,
+            color = AppTheme.colorScheme.text,
             textAlign = TextAlign.Center
         )
     }

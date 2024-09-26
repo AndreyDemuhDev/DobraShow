@@ -44,6 +44,7 @@ dependencies {
 
     implementation(project(":shows-data"))
     implementation(project(":uikit"))
+    implementation(project(":network"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -56,6 +57,11 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    implementation(libs.pagination)
+    implementation(libs.pagination.compose)
+
+    implementation(libs.coil.compose)
 
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)

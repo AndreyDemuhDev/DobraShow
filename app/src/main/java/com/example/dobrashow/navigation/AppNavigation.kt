@@ -80,11 +80,11 @@ fun AppNavigation(
             arguments = listOf(navArgument("personId") { type = NavType.IntType })
         ) { backStackEntry ->
             val currentPeople = backStackEntry.arguments?.getInt("personId")
-            currentPeople?.let {
+            currentPeople?.let { id ->
                 PersonDetailsScreen(
-                    personId = it,
-                    onClickShow = { navController.navigate("show_details/$it") },
-                    onClickCrew = { navController.navigate("show_details/$it") },
+                    personId = id,
+                    onClickShow = { navController.navigate("show_details/$id") },
+                    onClickCrew = { navController.navigate("show_details/$id") },
                     onClickBack = { navController.navigateUp() },
                 )
             }

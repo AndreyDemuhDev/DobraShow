@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.example.network.models.domain.DomainCastEntity
 import com.example.network.models.domain.DomainCrewEntity
+import com.example.uikit.theme.AppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -47,11 +48,11 @@ fun CastAndCrewShowPager(
     }
     TabRow(
         selectedTabIndex = selectedTabIndex,
-        containerColor = com.example.uikit.AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.background,
         indicator = { tabPositions ->
             SecondaryIndicator(
                 modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                color = com.example.uikit.AppTheme.colorScheme.primary
+                color = AppTheme.colorScheme.primary
             )
         },
         modifier = modifier
@@ -63,11 +64,11 @@ fun CastAndCrewShowPager(
                 text = {
                     Text(
                         text = tabItems[index],
-                        style = com.example.uikit.AppTheme.typography.bodyLarge,
+                        style = AppTheme.typography.bodyLarge,
                         fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal,
                         color = if (selectedTabIndex == index) {
-                            com.example.uikit.AppTheme.colorScheme.primary
-                        } else com.example.uikit.AppTheme.colorScheme.text
+                            AppTheme.colorScheme.primary
+                        } else AppTheme.colorScheme.text
                     )
                 }
             )
@@ -80,22 +81,22 @@ fun CastAndCrewShowPager(
     ) { index ->
         Box(modifier = Modifier.fillMaxWidth()) {
             if (index == 0) {
-                LazyRow(modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp12)) {
+                LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
                     items(cast) { item ->
                         CastItemCard(
                             cast = item,
                             onClickPerson = { onClickPerson(item.person.id) },
-                            modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp4)
+                            modifier = Modifier.padding(horizontal = AppTheme.size.dp4)
                         )
                     }
                 }
             } else {
-                LazyRow(modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp12)) {
+                LazyRow(modifier = Modifier.padding(horizontal = AppTheme.size.dp12)) {
                     items(crew) { item ->
                         CrewItemCard(
                             crew = item,
                             onClickPerson = { onClickPerson(item.person.id) },
-                            modifier = Modifier.padding(horizontal = com.example.uikit.AppTheme.size.dp4)
+                            modifier = Modifier.padding(horizontal = AppTheme.size.dp4)
                         )
                     }
                 }
