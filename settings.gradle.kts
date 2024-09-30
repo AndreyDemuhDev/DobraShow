@@ -21,11 +21,13 @@ dependencyResolutionManagement {
 
 rootProject.name = "DobraShow"
 include(":app")
-include(":network")
-include(":database")
 include(":features:view-show")
-include(":shows-data")
 include(":core")
-include(":uikit")
 include(":features:view-person")
 include(":features:search")
+include(":core:design")
+include(":core:database")
+include(":core:common")
+include(":core:network")
+include(":core:data")
+include(":core:domain")

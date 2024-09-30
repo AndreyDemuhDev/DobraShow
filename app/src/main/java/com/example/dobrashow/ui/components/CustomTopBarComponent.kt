@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import com.example.design.theme.AppTheme
 import com.example.dobrashow.R
-import com.example.uikit.theme.AppTheme
 
 @Composable
 fun CustomTopBarComponent(

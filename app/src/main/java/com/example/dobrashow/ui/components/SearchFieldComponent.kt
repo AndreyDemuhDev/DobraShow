@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.design.theme.AppTheme
 import com.example.dobrashow.R
-import com.example.uikit.theme.AppTheme
 
 @Composable
 @Suppress("LongMethod")
