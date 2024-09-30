@@ -2,7 +2,9 @@ package com.example.view_show
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shows_data.RequestStatus
+import com.example.data.RequestStatus
+import com.example.domain.GetAllShowsUseCase
+import com.example.domain.ShowsUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Provider
+
 
 @HiltViewModel
 class ShowViewModel @Inject constructor(
@@ -24,6 +27,7 @@ class ShowViewModel @Inject constructor(
             State.None
         )
 }
+
 
 private fun RequestStatus<List<ShowsUI>>.toState(): State {
     return when (this) {

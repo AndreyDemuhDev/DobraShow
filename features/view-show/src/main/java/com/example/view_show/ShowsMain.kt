@@ -32,48 +32,50 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.uikit.theme.AppTheme
+import com.example.design.theme.AppTheme
+import com.example.domain.ShowsUI
 
 @Composable
 fun ShowsMainScreen(modifier: Modifier = Modifier) {
-    ShowsScreen(viewModel = viewModel())
+    ShowsScreen(modifier = modifier)
 }
 
 @Composable
 internal fun ShowsScreen(
-    viewModel: ShowViewModel,
+    modifier: Modifier = Modifier,
+    viewModel: ShowViewModel = hiltViewModel(),
 ) {
     Log.d("MyLog", "ShowsScreen")
     val state by viewModel.state.collectAsState()
     val currentState = state
 
     if (state != State.None) {
-        ShowsContent(currentState)
+        ShowsContent(currentState = currentState, modifier = modifier)
     }
 }
 
 @Composable
-private fun ShowsContent(currentState: State) {
+private fun ShowsContent(currentState: State, modifier: Modifier = Modifier) {
     val scrollState = rememberLazyGridState()
 
     if (currentState is State.Error) {
-        ErrorContent(currentState)
+        ErrorContent(currentState, modifier = modifier)
     }
     if (currentState is State.Loading) {
-        ProgressIndicator(currentState)
+        ProgressIndicator(currentState, modifier = modifier)
     }
     if (currentState.shows != null) {
-        ListShows(shows = currentState.shows, scrollState = scrollState)
+        ListShows(shows = currentState.shows, scrollState = scrollState, modifier = modifier)
     }
 }
 
 @Composable
-private fun ErrorContent(state: State.Error) {
+private fun ErrorContent(state: State.Error, modifier: Modifier = Modifier) {
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             contentAlignment = Alignment.Center
@@ -84,12 +86,12 @@ private fun ErrorContent(state: State.Error) {
 }
 
 @Composable
-private fun ProgressIndicator(state: State.Loading) {
+private fun ProgressIndicator(state: State.Loading, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
             color = AppTheme.colorScheme.primary,

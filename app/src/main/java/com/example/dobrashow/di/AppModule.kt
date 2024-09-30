@@ -1,7 +1,7 @@
 package com.example.dobrashow.di
 
 import android.content.Context
-import com.example.core.AppCustomDispatchers
+import com.example.common.AppCustomDispatchers
 import com.example.database.ShowsDatabase
 import com.example.database.showsAppDatabase
 import com.example.network.KtorClient
