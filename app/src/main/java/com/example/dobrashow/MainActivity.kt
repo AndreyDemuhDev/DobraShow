@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.design.theme.AppTheme
-import com.example.view_show.ShowsMainScreen
+import com.example.view_show.screens.main_screen.ShowsMainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

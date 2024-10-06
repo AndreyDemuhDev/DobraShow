@@ -23,7 +23,6 @@ rootProject.name = "DobraShow"
 include(":app")
 include(":features:view-show")
 include(":core")
-include(":features:view-person")
 include(":features:search")
 include(":core:design")
 include(":core:database")
