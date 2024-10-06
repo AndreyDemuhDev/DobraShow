@@ -22,44 +22,45 @@ data class ShowsDBO(
     @TypeConverters
     val genres: List<String>,
     @Embedded(prefix = "image")
-    val image: ImageShow,
+    val image: ImageShowDBO,
     @ColumnInfo("language")
     val language: String,
     @Embedded(prefix = "network")
-    val network: NetworkShow,
+    val network: NetworkShowDBO,
     @ColumnInfo("officialSite")
     val officialSite: String,
     @ColumnInfo("premiered")
     val premiered: String,
     @Embedded(prefix = "rating")
-    val rating: RatingShow,
+    val rating: RatingShowDBO,
     @ColumnInfo("status")
     val status: String,
     @ColumnInfo("summary")
     val summary: String,
     @ColumnInfo("url")
     val url: String,
-) {
-    data class ImageShow(
-        val medium: String,
-        val original: String,
-    )
+)
 
-    data class NetworkShow(
-        @Embedded(prefix = "country")
-        val country: CountryShow,
-        val id: Int,
-        val name: String,
-        val officialSite: String
-    )
+data class ImageShowDBO(
+    val medium: String,
+    val original: String,
+)
 
-    data class CountryShow(
-        val code: String,
-        val name: String,
-        val timezone: String
-    )
+data class NetworkShowDBO(
+    @Embedded(prefix = "country")
+    val country: CountryShowDBO,
+    val id: Int,
+    val name: String,
+    val officialSite: String
+)
 
-    data class RatingShow(
-        val average: Double,
-    )
-}
+data class CountryShowDBO(
+    val code: String,
+    val name: String,
+    val timezone: String
+)
+
+data class RatingShowDBO(
+    val average: Double,
+)
+

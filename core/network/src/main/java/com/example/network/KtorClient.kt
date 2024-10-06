@@ -1,5 +1,8 @@
 package com.example.network
 
+import com.example.network.model.RemoteCastModel
+import com.example.network.model.RemoteCrewModel
+import com.example.network.model.RemoteSeasonsModel
 import com.example.network.model.RemoteShowModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -33,39 +36,33 @@ class KtorClient {
     }
 //    private var showCache = mutableMapOf<Int, DomainShowEntity>()
 //
-//    suspend fun getShow(id: Int): Result<DomainShowEntity> {
-//        showCache[id]?.let { return Result.success(it) }
-//        return safeApiCall {
-//            client.get("shows/$id")
-//                .body<RemoteShowModel>()
-//                .toDomainShow()
-//                .also { showCache[id] = it }
-//        }
-//    }
-//
-//    suspend fun getCastShow(id: Int): Result<List<DomainCastEntity>> {
-//        return safeApiCall {
-//            client.get("shows/$id/cast")
-//                .body<List<RemoteCastModel>>()
-//                .map { it.toDomainCast() }
-//        }
-//    }
-//
-//    suspend fun getCrewShow(id: Int): Result<List<DomainCrewEntity>> {
-//        return safeApiCall {
-//            client.get("shows/$id/crew")
-//                .body<List<RemoteCrewModel>>()
-//                .map { it.toDomainCrew() }
-//        }
-//    }
-//
-//    suspend fun getListSeasonsShow(id: Int): Result<List<DomainSeasonEntity>> {
-//        return safeApiCall {
-//            client.get("shows/$id/seasons")
-//                .body<List<RemoteSeasonsModel>>()
-//                .map { it.toDomainSeason() }
-//        }
-//    }
+    suspend fun getShow(id: Int): Result<RemoteShowModel> {
+        return safeApiCall {
+            client.get("shows/$id")
+                .body<RemoteShowModel>()
+        }
+    }
+
+    suspend fun getCastShow(id: Int): Result<List<RemoteCastModel>> {
+        return safeApiCall {
+            client.get("shows/$id/cast")
+                .body<List<RemoteCastModel>>()
+        }
+    }
+
+    suspend fun getCrewShow(id: Int): Result<List<RemoteCrewModel>> {
+        return safeApiCall {
+            client.get("shows/$id/crew")
+                .body<List<RemoteCrewModel>>()
+        }
+    }
+
+    suspend fun getListSeasonsShow(id: Int): Result<List<RemoteSeasonsModel>> {
+        return safeApiCall {
+            client.get("shows/$id/seasons")
+                .body<List<RemoteSeasonsModel>>()
+        }
+    }
 
     suspend fun getListShow(pageNumber: Int): Result<List<RemoteShowModel>> {
         return safeApiCall {

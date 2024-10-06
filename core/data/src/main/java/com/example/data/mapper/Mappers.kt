@@ -1,24 +1,46 @@
 package com.example.data.mapper
 
-import com.example.data.model.Shows
+import com.example.data.model.CastShowEntity
+import com.example.data.model.CharacterShowEntity
+import com.example.data.model.CountryPersonEntity
+import com.example.data.model.CountryShowEntity
+import com.example.data.model.CrewShowEntity
+import com.example.data.model.EpisodeEntity
+import com.example.data.model.ImagePersonEntity
+import com.example.data.model.ImageSeasonsEntity
+import com.example.data.model.ImageShowEntity
+import com.example.data.model.NetworkShowEntity
+import com.example.data.model.PersonShowEntity
+import com.example.data.model.RatingShowEntity
+import com.example.data.model.RemoteEmbeddedEntity
+import com.example.data.model.SeasonsShowEntity
+import com.example.data.model.ShowsEntity
+import com.example.database.model.CountryShowDBO
+import com.example.database.model.ImageShowDBO
+import com.example.database.model.NetworkShowDBO
+import com.example.database.model.RatingShowDBO
 import com.example.database.model.ShowsDBO
+import com.example.network.model.RemoteCastModel
+import com.example.network.model.RemoteCrewModel
+import com.example.network.model.RemoteEpisode
+import com.example.network.model.RemoteSeasonsModel
 import com.example.network.model.RemoteShowModel
 
 
 // маппер из модели базы данных в ui модель
-internal fun ShowsDBO.toShow(): Shows {
-    return Shows(
+internal fun ShowsDBO.toShow(): ShowsEntity {
+    return ShowsEntity(
         id = id,
         name = name,
         ended = ended,
         genres = genres,
-        image = Shows.ImageShow(
+        image = ImageShowEntity(
             medium = image.medium,
             original = image.original
         ),
         language = language,
-        network = Shows.NetworkShow(
-            country = Shows.CountryShow(
+        network = NetworkShowEntity(
+            country = CountryShowEntity(
                 code = network.country.code,
                 name = network.country.name,
                 timezone = network.country.timezone
@@ -29,7 +51,7 @@ internal fun ShowsDBO.toShow(): Shows {
         ),
         officialSite = officialSite,
         premiered = premiered,
-        rating = Shows.RatingShow(average = rating.average),
+        rating = RatingShowEntity(average = rating.average),
         status = status,
         summary = summary,
         url = url,
@@ -37,19 +59,19 @@ internal fun ShowsDBO.toShow(): Shows {
 }
 
 // маппер из сетевой модели в ui модель
-internal fun RemoteShowModel.toShow(): Shows {
-    return Shows(
+internal fun RemoteShowModel.toShow(): ShowsEntity {
+    return ShowsEntity(
         id = id ?: 4,
         name = name ?: "unknown name",
         ended = ended ?: "unknown",
         genres = genres ?: emptyList(),
-        image = Shows.ImageShow(
+        image = ImageShowEntity(
             medium = image?.medium ?: "unknown image",
             original = image?.original ?: "unknown image"
         ),
         language = language ?: "unknown language",
-        network = Shows.NetworkShow(
-            country = Shows.CountryShow(
+        network = NetworkShowEntity(
+            country = CountryShowEntity(
                 code = network?.country?.code ?: "unknown code country",
                 name = network?.country?.name ?: "unknown name country",
                 timezone = network?.country?.timezone ?: "unknown timezone country"
@@ -60,7 +82,7 @@ internal fun RemoteShowModel.toShow(): Shows {
         ),
         officialSite = officialSite ?: "unknown language",
         premiered = premiered ?: "unknown premiered",
-        rating = Shows.RatingShow(average = rating?.average ?: -1.0),
+        rating = RatingShowEntity(average = rating?.average ?: -1.0),
         status = status ?: "unknown status",
         summary = summary ?: "unknown summary",
         url = url ?: "unknown url",
@@ -74,13 +96,13 @@ internal fun RemoteShowModel.toShowDatabase(): ShowsDBO {
         name = name ?: "unknown name",
         ended = ended ?: "unknown",
         genres = genres ?: emptyList(),
-        image = ShowsDBO.ImageShow(
+        image = ImageShowDBO(
             medium = image?.medium ?: "unknown image",
             original = image?.original ?: "unknown image"
         ),
         language = language ?: "unknown language",
-        network = ShowsDBO.NetworkShow(
-            country = ShowsDBO.CountryShow(
+        network = NetworkShowDBO(
+            country = CountryShowDBO(
                 code = network?.country?.code ?: "unknown code country",
                 name = network?.country?.name ?: "unknown name country",
                 timezone = network?.country?.timezone ?: "unknown timezone country"
@@ -91,9 +113,98 @@ internal fun RemoteShowModel.toShowDatabase(): ShowsDBO {
         ),
         officialSite = officialSite ?: "unknown language",
         premiered = premiered ?: "unknown premiered",
-        rating = ShowsDBO.RatingShow(average = rating?.average ?: -1.0),
+        rating = RatingShowDBO(average = rating?.average ?: -1.0),
         status = status ?: "unknown status",
         summary = summary ?: "unknown summary",
         url = url ?: "unknown url",
+    )
+}
+
+
+internal fun RemoteCrewModel.toCrewShow(): CrewShowEntity {
+    return CrewShowEntity(
+        person = PersonShowEntity(
+            id = person.id,
+            birthday = person.birthday ?: "unknown birthday",
+            country = CountryPersonEntity(
+                name = person.country?.name ?: "unknown country",
+            ),
+            deathday = person.deathday ?: "unknown",
+            gender = person.gender ?: "unknown gender",
+            image = ImagePersonEntity(
+                medium = person.image?.medium ?: "unknown image",
+                original = person.image?.original ?: "unknown image"
+            ),
+            name = person.name,
+            url = person.url,
+        ),
+        type = type
+    )
+}
+
+internal fun RemoteCastModel.toCastShow(): CastShowEntity {
+    return CastShowEntity(
+        person = PersonShowEntity(
+            id = person.id,
+            birthday = person.birthday ?: "unknown date birthday",
+            country = CountryPersonEntity(
+                name = person.country?.name ?: "unknown name country"
+            ),
+            deathday = person.deathday ?: "empty",
+            gender = person.gender ?: "unknown gender",
+            image = ImagePersonEntity(
+                medium = person.image?.medium ?: "",
+                original = person.image?.original ?: ""
+            ),
+            name = person.name,
+            url = person.url
+        ),
+        character = CharacterShowEntity(
+            id = character.id,
+            image = ImagePersonEntity(
+                medium = character.image?.medium ?: "",
+                original = character.image?.original ?: ""
+            ),
+            name = character.name,
+            url = character.url
+        )
+    )
+}
+
+internal fun RemoteSeasonsModel.toSeasonsShow(): SeasonsShowEntity {
+    return SeasonsShowEntity(
+        id = id,
+        endDate = endDate ?: "unknown end date season",
+        episodeOrder = episodeOrder ?: -1,
+        image = ImageSeasonsEntity(
+            medium = image?.medium ?: "empty medium image season",
+            original = image?.original ?: "empty original image season"
+        ),
+        name = name ?: "unknown name season",
+        number = number ?: -1,
+        premiereDate = premiereDate ?: "unknown premiere date season",
+        summary = summary ?: "",
+        url = url ?: "unknown url season",
+        listEpisodes = RemoteEmbeddedEntity(
+            episodes = listEpisodes?.episodes?.map { it.toEpisodeSeasonShow() } ?: emptyList()
+        )
+    )
+}
+
+internal fun RemoteEpisode.toEpisodeSeasonShow(): EpisodeEntity {
+    return EpisodeEntity(
+        id = id ?: -1,
+        url = url ?: "unknown url episode",
+        name = name ?: "unknown name episode",
+        airdate = airdate ?: "",
+        season = season ?: -1,
+        number = number ?: -1,
+        runtime = runtime ?: -1,
+        rating = RatingShowEntity(average = rating?.average ?: 0.0),
+        image = ImageShowEntity(
+            medium = image?.medium ?: "unknown image medium episode",
+            original = image?.original ?: "unknown image originas episode"
+        ),
+        summary = summary ?: "unknown summary episode"
     )
 }

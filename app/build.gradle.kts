@@ -62,7 +62,6 @@ dependencies {
     implementation(project(":core:design"))
     implementation(project(":core:common"))
     implementation(project(":features:view-show"))
-    implementation(project(":features:view-person"))
     implementation(project(":features:search"))
 
     implementation(libs.androidx.core.ktx)

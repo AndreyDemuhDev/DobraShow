@@ -1,4 +1,4 @@
-package com.example.view_show
+package com.example.view_show.screens.main_screen
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -35,7 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.design.theme.AppTheme
-import com.example.domain.ShowsUI
+import com.example.domain.model.ShowsUi
+
+import com.example.view_show.R
 
 @Composable
 fun ShowsMainScreen(modifier: Modifier = Modifier) {
@@ -102,7 +104,7 @@ private fun ProgressIndicator(state: State.Loading, modifier: Modifier = Modifie
 
 @Composable
 private fun ListShows(
-    shows: List<ShowsUI>,
+    shows: List<ShowsUi>,
     scrollState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -131,7 +133,7 @@ private fun ListShows(
 
 @Composable
 fun ShowItemCard(
-    show: ShowsUI,
+    show: ShowsUi,
     onClickShow: () -> Unit,
     modifier: Modifier = Modifier
 ) {
