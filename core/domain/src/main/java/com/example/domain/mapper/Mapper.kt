@@ -2,14 +2,23 @@ package com.example.domain.mapper
 
 import com.example.data.model.CastShowEntity
 import com.example.data.model.CrewShowEntity
+import com.example.data.model.EpisodeEntity
+import com.example.data.model.SeasonsShowEntity
 import com.example.data.model.ShowsEntity
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CharacterShowUi
 import com.example.domain.model.CrewShowUi
+import com.example.domain.model.EpisodeUI
 import com.example.domain.model.ImagePersonUi
-import com.example.domain.model.PersonShowUi
+import com.example.domain.model.ImageSeasonUI
+import com.example.domain.model.RatingUI
+import com.example.domain.model.SeasonEpisodesUI
+import com.example.domain.model.SeasonsShowUi
 import com.example.domain.model.ShowsUi
 
+/**
+ * класс в котором мапим из моделей модуля data в модели модуля domain
+ */
 internal fun ShowsEntity.toUiShows(): ShowsUi {
     return ShowsUi(
         id = id,
@@ -83,5 +92,43 @@ internal fun CastShowEntity.toUiCast(): CastShowUi {
             name = person.name,
             url = person.url
         ),
+    )
+}
+
+
+internal fun SeasonsShowEntity.toUiSeason(): SeasonsShowUi {
+    return SeasonsShowUi(
+        id = id,
+        endDate = endDate,
+        episodeOrder = episodeOrder,
+        image = ImageSeasonUI(
+            medium = image.medium,
+            original = image.original
+        ),
+        name = name,
+        number = number,
+        premiereDate = premiereDate,
+        summary = summary,
+        url = url,
+        listEpisodes = SeasonEpisodesUI(episodes = listEpisodes.episodes.map { it.toUiEpisode() })
+    )
+}
+
+
+internal fun EpisodeEntity.toUiEpisode(): EpisodeUI {
+    return EpisodeUI(
+        id = id,
+        url = url,
+        name = name,
+        airdate = airdate,
+        season = season,
+        number = number,
+        runtime = runtime,
+        rating = RatingUI(average = rating.average),
+        image = ImageSeasonUI(
+            medium = image.medium,
+            original = image.original
+        ),
+        summary = summary
     )
 }

@@ -5,9 +5,11 @@ import com.example.data.mapperStatus
 import com.example.data.repository.DetailShowRepository
 import com.example.domain.mapper.toUiCast
 import com.example.domain.mapper.toUiCrew
+import com.example.domain.mapper.toUiSeason
 import com.example.domain.mapper.toUiShows
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CrewShowUi
+import com.example.domain.model.SeasonsShowUi
 import com.example.domain.model.ShowsUi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -47,5 +49,14 @@ class GetShowInformationUseCase @Inject constructor(
             }
     }
 
+    fun showSeasonsList(showId: Int): Flow<RequestStatus<List<SeasonsShowUi>>> {
+        return detailShowRepository.getListSeasonsShow(showId = showId)
+            .map { result ->
+                result.mapperStatus { seasonsRemote ->
+                    seasonsRemote.map {
+                        it.toUiSeason()
+                    }
+                }
+            }
+    }
 }
-

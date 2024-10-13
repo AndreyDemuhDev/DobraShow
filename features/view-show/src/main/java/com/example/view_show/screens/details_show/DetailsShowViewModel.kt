@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.RequestStatus
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CrewShowUi
+import com.example.domain.model.SeasonsShowUi
 import com.example.domain.model.ShowsUi
 import com.example.domain.usecases.GetShowInformationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,14 @@ class DetailsShowViewModel @Inject constructor(
             StateCrew.None
         )
 
+    var showSeasonsState: StateFlow<StateSeason> = getDetailShowsUseCases.get().showSeasonsList(0)
+        .map { it.toStateSeason() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            StateSeason.None
+        )
+
     fun getShowDetails(showId: Int) {
         viewModelScope.launch {
             showDetailState = getDetailShowsUseCases.get().showInformation(showId)
@@ -80,6 +89,18 @@ class DetailsShowViewModel @Inject constructor(
                 )
         }
     }
+
+    fun getSeasonsShow(showId: Int) {
+        viewModelScope.launch {
+            showSeasonsState = getDetailShowsUseCases.get().showSeasonsList(showId)
+                .map { it.toStateSeason() }
+                .stateIn(
+                    viewModelScope,
+                    SharingStarted.Lazily,
+                    StateSeason.None
+                )
+        }
+    }
 }
 
 
@@ -108,9 +129,9 @@ private fun RequestStatus<List<CrewShowUi>>.toStateCrew(): StateCrew {
 
 sealed class StateCrew(val listCrew: List<CrewShowUi>?) {
     data object None : StateCrew(listCrew = null)
-    class Loading(listCrew: List<CrewShowUi>? = null) : StateCrew(listCrew =listCrew)
-    class Error(listCrew: List<CrewShowUi>? = null) : StateCrew(listCrew =listCrew)
-    class Success(listCrew: List<CrewShowUi>) : StateCrew(listCrew =listCrew)
+    class Loading(listCrew: List<CrewShowUi>? = null) : StateCrew(listCrew = listCrew)
+    class Error(listCrew: List<CrewShowUi>? = null) : StateCrew(listCrew = listCrew)
+    class Success(listCrew: List<CrewShowUi>) : StateCrew(listCrew = listCrew)
 }
 
 private fun RequestStatus<ShowsUi>.toStateShow(): StateShow {
@@ -126,4 +147,19 @@ sealed class StateShow(val show: ShowsUi?) {
     class Loading(show: ShowsUi? = null) : StateShow(show = show)
     class Error(show: ShowsUi? = null) : StateShow(show = show)
     class Success(show: ShowsUi) : StateShow(show = show)
+}
+
+private fun RequestStatus<List<SeasonsShowUi>>.toStateSeason(): StateSeason {
+    return when (this) {
+        is RequestStatus.Error -> StateSeason.Error(data)
+        is RequestStatus.InProgress -> StateSeason.Loading(data)
+        is RequestStatus.Success -> StateSeason.Success(data)
+    }
+}
+
+sealed class StateSeason(val listSeasons: List<SeasonsShowUi>?) {
+    data object None : StateSeason(listSeasons = null)
+    class Loading(listSeasons: List<SeasonsShowUi>? = null) : StateSeason(listSeasons = listSeasons)
+    class Error(listSeasons: List<SeasonsShowUi>? = null) : StateSeason(listSeasons = listSeasons)
+    class Success(listSeasons: List<SeasonsShowUi>) : StateSeason(listSeasons = listSeasons)
 }

@@ -27,7 +27,7 @@ import com.example.network.model.RemoteSeasonsModel
 import com.example.network.model.RemoteShowModel
 
 
-// маппер из модели базы данных в ui модель
+// маппер из модели шоу базы данных в ui модель шоу
 internal fun ShowsDBO.toShow(): ShowsEntity {
     return ShowsEntity(
         id = id,
@@ -58,7 +58,7 @@ internal fun ShowsDBO.toShow(): ShowsEntity {
     )
 }
 
-// маппер из сетевой модели в ui модель
+// маппер из сетевой модели шоу в модель шоу data слоя
 internal fun RemoteShowModel.toShow(): ShowsEntity {
     return ShowsEntity(
         id = id ?: 4,
@@ -89,7 +89,7 @@ internal fun RemoteShowModel.toShow(): ShowsEntity {
     )
 }
 
-// маппер из сетевой модели в модель базы данных модель
+// маппер из сетевой модели шоу в модель шоу базы данных модель
 internal fun RemoteShowModel.toShowDatabase(): ShowsDBO {
     return ShowsDBO(
         id = id ?: 4,
@@ -120,7 +120,7 @@ internal fun RemoteShowModel.toShowDatabase(): ShowsDBO {
     )
 }
 
-
+//маппер из модели crew из сети в модель crew data слоя
 internal fun RemoteCrewModel.toCrewShow(): CrewShowEntity {
     return CrewShowEntity(
         person = PersonShowEntity(
@@ -142,6 +142,7 @@ internal fun RemoteCrewModel.toCrewShow(): CrewShowEntity {
     )
 }
 
+//маппер из модели cast из сети в модель cast data слоя
 internal fun RemoteCastModel.toCastShow(): CastShowEntity {
     return CastShowEntity(
         person = PersonShowEntity(
@@ -171,6 +172,7 @@ internal fun RemoteCastModel.toCastShow(): CastShowEntity {
     )
 }
 
+//маппер из модели seasons из сети в модель season data слоя
 internal fun RemoteSeasonsModel.toSeasonsShow(): SeasonsShowEntity {
     return SeasonsShowEntity(
         id = id,
@@ -191,6 +193,7 @@ internal fun RemoteSeasonsModel.toSeasonsShow(): SeasonsShowEntity {
     )
 }
 
+//маппер из сетевой модели episode в модель episode data слоя
 internal fun RemoteEpisode.toEpisodeSeasonShow(): EpisodeEntity {
     return EpisodeEntity(
         id = id ?: -1,
@@ -203,7 +206,7 @@ internal fun RemoteEpisode.toEpisodeSeasonShow(): EpisodeEntity {
         rating = RatingShowEntity(average = rating?.average ?: 0.0),
         image = ImageShowEntity(
             medium = image?.medium ?: "unknown image medium episode",
-            original = image?.original ?: "unknown image originas episode"
+            original = image?.original ?: "unknown image original episode"
         ),
         summary = summary ?: "unknown summary episode"
     )
