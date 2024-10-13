@@ -12,21 +12,74 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
 @HiltViewModel
 class DetailsShowViewModel @Inject constructor(
-    getDetailShowsUseCases: Provider<GetShowInformationUseCase>
+    private val getDetailShowsUseCases: Provider<GetShowInformationUseCase>
 ) : ViewModel() {
 
-    val showDetailState: StateFlow<StateShow> = getDetailShowsUseCases.get().showInformation(1)
+    var showDetailState: StateFlow<StateShow> = getDetailShowsUseCases.get().showInformation(0)
         .map { it.toStateShow() }
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
             StateShow.None
         )
+
+    var showCastState: StateFlow<StateCast> = getDetailShowsUseCases.get().showCastList(0)
+        .map { it.toStateCast() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            StateCast.None
+        )
+
+    var showCrewState: StateFlow<StateCrew> = getDetailShowsUseCases.get().showCrewList(0)
+        .map { it.toStateCrew() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            StateCrew.None
+        )
+
+    fun getShowDetails(showId: Int) {
+        viewModelScope.launch {
+            showDetailState = getDetailShowsUseCases.get().showInformation(showId)
+                .map { it.toStateShow() }
+                .stateIn(
+                    viewModelScope,
+                    SharingStarted.Lazily,
+                    StateShow.None
+                )
+        }
+    }
+
+    fun getShowCast(showId: Int) {
+        viewModelScope.launch {
+            showCastState = getDetailShowsUseCases.get().showCastList(showId)
+                .map { it.toStateCast() }
+                .stateIn(
+                    viewModelScope,
+                    SharingStarted.Lazily,
+                    StateCast.None
+                )
+        }
+    }
+
+    fun getShowCrew(showId: Int) {
+        viewModelScope.launch {
+            showCrewState = getDetailShowsUseCases.get().showCrewList(showId)
+                .map { it.toStateCrew() }
+                .stateIn(
+                    viewModelScope,
+                    SharingStarted.Lazily,
+                    StateCrew.None
+                )
+        }
+    }
 }
 
 
@@ -38,11 +91,11 @@ private fun RequestStatus<List<CastShowUi>>.toStateCast(): StateCast {
     }
 }
 
-sealed interface StateCast {
-    data object None : StateCast
-    data class Loading(val castList: List<CastShowUi>? = null) : StateCast
-    data class Error(val castList: List<CastShowUi>? = null) : StateCast
-    data class Success(val castList: List<CastShowUi>) : StateCast
+sealed class StateCast(val listCast: List<CastShowUi>?) {
+    data object None : StateCast(listCast = null)
+    class Loading(listCast: List<CastShowUi>? = null) : StateCast(listCast = listCast)
+    class Error(listCast: List<CastShowUi>? = null) : StateCast(listCast = listCast)
+    class Success(listCast: List<CastShowUi>) : StateCast(listCast = listCast)
 }
 
 private fun RequestStatus<List<CrewShowUi>>.toStateCrew(): StateCrew {
@@ -53,11 +106,11 @@ private fun RequestStatus<List<CrewShowUi>>.toStateCrew(): StateCrew {
     }
 }
 
-sealed interface StateCrew {
-    data object None : StateCrew
-    data class Loading(val crewsList: List<CrewShowUi>? = null) : StateCrew
-    data class Error(val crewsList: List<CrewShowUi>? = null) : StateCrew
-    data class Success(val crewsList: List<CrewShowUi>) : StateCrew
+sealed class StateCrew(val listCrew: List<CrewShowUi>?) {
+    data object None : StateCrew(listCrew = null)
+    class Loading(listCrew: List<CrewShowUi>? = null) : StateCrew(listCrew =listCrew)
+    class Error(listCrew: List<CrewShowUi>? = null) : StateCrew(listCrew =listCrew)
+    class Success(listCrew: List<CrewShowUi>) : StateCrew(listCrew =listCrew)
 }
 
 private fun RequestStatus<ShowsUi>.toStateShow(): StateShow {
