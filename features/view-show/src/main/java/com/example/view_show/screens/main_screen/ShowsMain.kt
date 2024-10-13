@@ -50,31 +50,31 @@ internal fun ShowsScreen(
     viewModel: ShowViewModel = hiltViewModel(),
 ) {
     Log.d("MyLog", "ShowsScreen")
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.listShowsState.collectAsState()
     val currentState = state
 
-    if (state != State.None) {
-        ShowsContent(currentState = currentState, modifier = modifier)
+    if (state != ListShowsState.None) {
+        ShowsContent(currentListShowsState = currentState, modifier = modifier)
     }
 }
 
 @Composable
-private fun ShowsContent(currentState: State, modifier: Modifier = Modifier) {
+private fun ShowsContent(currentListShowsState: ListShowsState, modifier: Modifier = Modifier) {
     val scrollState = rememberLazyGridState()
 
-    if (currentState is State.Error) {
-        ErrorContent(currentState, modifier = modifier)
+    if (currentListShowsState is ListShowsState.Error) {
+        ErrorContent(currentListShowsState, modifier = modifier)
     }
-    if (currentState is State.Loading) {
-        ProgressIndicator(currentState, modifier = modifier)
+    if (currentListShowsState is ListShowsState.Loading) {
+        ProgressIndicator(currentListShowsState, modifier = modifier)
     }
-    if (currentState.shows != null) {
-        ListShows(shows = currentState.shows, scrollState = scrollState, modifier = modifier)
+    if (currentListShowsState.listShows != null) {
+        ListShows(shows = currentListShowsState.listShows, scrollState = scrollState, modifier = modifier)
     }
 }
 
 @Composable
-private fun ErrorContent(state: State.Error, modifier: Modifier = Modifier) {
+private fun ErrorContent(listShowsState: ListShowsState.Error, modifier: Modifier = Modifier) {
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
             modifier = modifier
@@ -88,7 +88,7 @@ private fun ErrorContent(state: State.Error, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ProgressIndicator(state: State.Loading, modifier: Modifier = Modifier) {
+private fun ProgressIndicator(listShowsState: ListShowsState.Loading, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -123,7 +123,9 @@ private fun ListShows(
                 items(items = shows, key = { currentShow -> currentShow.id }) { show ->
                     ShowItemCard(
                         show = show,
-                        onClickShow = { },
+                        onClickShow = {
+                            Log.d("MyLog", "Click on ID show ${show.id}" )
+                        },
                     )
                 }
             }
