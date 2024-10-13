@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
 //                    AppNavigation(navController, innerPadding)
-                    ShowDetailsMainScreen(modifier = Modifier.padding(innerPadding))
+                    ShowDetailsMainScreen(modifier = Modifier.padding(innerPadding).fillMaxSize())
                 }
             }
         }
