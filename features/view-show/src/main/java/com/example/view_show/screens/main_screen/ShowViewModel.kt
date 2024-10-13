@@ -19,27 +19,27 @@ class ShowViewModel @Inject constructor(
     getAllShowsUseCases: Provider<GetAllShowsUseCase>
 ) : ViewModel() {
 
-    val state: StateFlow<State> = getAllShowsUseCases.get().invoke(1)
-        .map { it.toState() }
+    val listShowsState: StateFlow<ListShowsState> = getAllShowsUseCases.get().invoke(1)
+        .map { it.toStateListShows() }
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
-            State.None
+            ListShowsState.None
         )
 }
 
 
-private fun RequestStatus<List<ShowsUi>>.toState(): State {
+private fun RequestStatus<List<ShowsUi>>.toStateListShows(): ListShowsState {
     return when (this) {
-        is RequestStatus.Error -> State.Error(data)
-        is RequestStatus.InProgress -> State.Loading(data)
-        is RequestStatus.Success -> State.Success(data)
+        is RequestStatus.Error -> ListShowsState.Error(data)
+        is RequestStatus.InProgress -> ListShowsState.Loading(data)
+        is RequestStatus.Success -> ListShowsState.Success(data)
     }
 }
 
-sealed class State(val shows: List<ShowsUi>?) {
-    data object None : State(shows = null)
-    class Loading(shows: List<ShowsUi>? = null) : State(shows)
-    class Error(shows: List<ShowsUi>? = null) : State(shows)
-    class Success(shows: List<ShowsUi>) : State(shows)
+sealed class ListShowsState(val listShows: List<ShowsUi>?) {
+    data object None : ListShowsState(listShows = null)
+    class Loading(listShows: List<ShowsUi>? = null) : ListShowsState(listShows = listShows)
+    class Error(listShows: List<ShowsUi>? = null) : ListShowsState(listShows = listShows)
+    class Success(listShows: List<ShowsUi>) : ListShowsState(listShows = listShows)
 }

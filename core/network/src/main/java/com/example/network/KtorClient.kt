@@ -34,8 +34,7 @@ class KtorClient {
             })
         }
     }
-//    private var showCache = mutableMapOf<Int, DomainShowEntity>()
-//
+
     suspend fun getShow(id: Int): Result<RemoteShowModel> {
         return safeApiCall {
             client.get("shows/$id")

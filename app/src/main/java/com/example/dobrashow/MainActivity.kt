@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.design.theme.AppTheme
-import com.example.view_show.screens.main_screen.ShowsMainScreen
+import com.example.view_show.screens.details_show.ShowDetailsMainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
 //                    AppNavigation(navController, innerPadding)
-                    ShowsMainScreen(modifier = Modifier.padding(innerPadding))
+                    ShowDetailsMainScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
