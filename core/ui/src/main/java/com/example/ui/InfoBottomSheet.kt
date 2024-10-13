@@ -3,6 +3,8 @@ package com.example.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
@@ -11,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.example.design.theme.AppTheme
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CrewShowUi
+import com.example.domain.model.SeasonsShowUi
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,11 +21,12 @@ import com.example.domain.model.CrewShowUi
 fun InfoBottomSheet(
     listCast: List<CastShowUi>,
     listCrew: List<CrewShowUi>,
-//    seasonsShow: ShowSeasonsListUiState,
+    listSeasonsShow: List<SeasonsShowUi>,
     onClickPerson: (Int) -> Unit,
     onClickSeason: (Int) -> Unit,
     sheetState: SheetState,
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ModalBottomSheet(
         sheetState = sheetState,
@@ -41,10 +45,18 @@ fun InfoBottomSheet(
                     vertical = AppTheme.size.dp4
                 )
             )
-//            ShowSeasonsState(
-//                seasonsShow = seasonsShow,
-//                onClickSeason = onClickSeason,
-//            )
+            LazyRow(modifier = modifier.padding(horizontal = AppTheme.size.dp12)) {
+                items(listSeasonsShow) { seasonItem ->
+                    SeasonsItemCard(
+                        seasonItem = seasonItem,
+                        onClickSeason = onClickSeason,
+                        modifier = Modifier.padding(
+                            horizontal = AppTheme.size.dp4,
+                            vertical = AppTheme.size.dp2
+                        )
+                    )
+                }
+            }
         }
     }
 }

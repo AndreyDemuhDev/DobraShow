@@ -51,6 +51,7 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.design.theme.AppTheme
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CrewShowUi
+import com.example.domain.model.SeasonsShowUi
 import com.example.domain.model.ShowsUi
 import com.example.ui.InfoBottomSheet
 import com.example.ui.ShowStatusComponent
@@ -72,18 +73,25 @@ internal fun ShowDetailsScreen(
     val stateShowInformation by viewModel.showDetailState.collectAsState()
     val stateShowCast by viewModel.showCastState.collectAsState()
     val stateShowCrew by viewModel.showCrewState.collectAsState()
+    val stateSeasonsCrew by viewModel.showSeasonsState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = {
-        viewModel.getShowDetails(3)
-        viewModel.getShowCast(23)
-        viewModel.getShowCrew(13)
+        viewModel.getShowDetails(1)
+        viewModel.getShowCast(1)
+        viewModel.getShowCrew(1)
+        viewModel.getSeasonsShow(1)
     })
 
-    if (stateShowInformation != StateShow.None && stateShowCast != StateCast.None && stateShowCrew != StateCrew.None) {
+    if (stateShowInformation != StateShow.None &&
+        stateShowCast != StateCast.None &&
+        stateShowCrew != StateCrew.None &&
+        stateSeasonsCrew != StateSeason.None
+    ) {
         DetailsShowStateContent(
             showState = stateShowInformation,
             listCastState = stateShowCast,
             listCrewState = stateShowCrew,
+            listSeasonsShow = stateSeasonsCrew,
             modifier = modifier
         )
     }
@@ -95,6 +103,7 @@ private fun DetailsShowStateContent(
     showState: StateShow,
     listCastState: StateCast,
     listCrewState: StateCrew,
+    listSeasonsShow: StateSeason,
     modifier: Modifier = Modifier
 ) {
     if (showState is StateShow.Error) {
@@ -105,11 +114,16 @@ private fun DetailsShowStateContent(
             modifier = modifier
         )
     }
-    if (showState.show != null && listCastState.listCast != null && listCrewState.listCrew != null) {
+    if (showState.show != null &&
+        listCastState.listCast != null &&
+        listCrewState.listCrew != null &&
+        listSeasonsShow.listSeasons != null
+    ) {
         DetailShowInformation(
             show = showState.show,
             listCast = listCastState.listCast,
             listCrew = listCrewState.listCrew,
+            listSeasonsShow = listSeasonsShow.listSeasons,
             onClickPerson = {},
             onClickSeason = {},
             onClickBack = {},
@@ -124,6 +138,7 @@ fun DetailShowInformation(
     show: ShowsUi,
     listCast: List<CastShowUi>,
     listCrew: List<CrewShowUi>,
+    listSeasonsShow: List<SeasonsShowUi>,
     onClickPerson: (Int) -> Unit,
     onClickSeason: (Int) -> Unit,
     onClickBack: () -> Unit,
@@ -209,7 +224,7 @@ fun DetailShowInformation(
                     InfoBottomSheet(
                         listCast = listCast,
                         listCrew = listCrew,
-//                        seasonsShow = listSeasons,
+                        listSeasonsShow = listSeasonsShow,
                         onClickPerson = onClickPerson,
                         onClickSeason = onClickSeason,
                         sheetState = sheetState,
