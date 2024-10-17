@@ -86,18 +86,4 @@ import androidx.navigation.navArgument
 //    }
 //}
 //
-//// табы навигационной панели
-//val tabs = listOf(
-//    NavScreenDestination.Shows,
-//    NavScreenDestination.Persons,
-//    NavScreenDestination.Search,
-//    NavScreenDestination.Favorite,
-//)
-//
-//// навигационные графы
-//val bottomBarRoutes = setOf(
-//    NavScreenDestination.Shows.route,
-//    NavScreenDestination.Persons.route,
-//    NavScreenDestination.Search.route,
-//    NavScreenDestination.Favorite.route,
-//)
+

@@ -13,12 +13,6 @@ sealed class NavScreenDestination(
         icon = R.drawable.ic_clapperboard,
     )
 
-    data object Persons : NavScreenDestination(
-        title = "Persons",
-        route = "persons",
-        icon = R.drawable.ic_persons,
-    )
-
     data object Search : NavScreenDestination(
         title = "Search",
         route = "search",

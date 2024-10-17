@@ -57,15 +57,15 @@ import com.example.ui.InfoBottomSheet
 import com.example.ui.ShowStatusComponent
 import com.example.view_show.R
 
-//
 @Composable
-fun ShowDetailsMainScreen(modifier: Modifier = Modifier) {
-    ShowDetailsScreen(modifier = modifier)
+fun ShowDetailsMainScreen(idShow: Int, modifier: Modifier = Modifier) {
+    ShowDetailsScreen(idShow = idShow, modifier = modifier)
 }
 
 
 @Composable
 internal fun ShowDetailsScreen(
+    idShow: Int,
     modifier: Modifier = Modifier,
     viewModel: DetailsShowViewModel = hiltViewModel(),
 ) {
@@ -76,10 +76,10 @@ internal fun ShowDetailsScreen(
     val stateSeasonsCrew by viewModel.showSeasonsState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = {
-        viewModel.getShowDetails(1)
-        viewModel.getShowCast(1)
-        viewModel.getShowCrew(1)
-        viewModel.getSeasonsShow(1)
+        viewModel.getShowDetails(showId = idShow)
+        viewModel.getShowCast(showId = idShow)
+        viewModel.getShowCrew(showId = idShow)
+        viewModel.getSeasonsShow(showId = idShow)
     })
 
     if (stateShowInformation != StateShow.None &&
