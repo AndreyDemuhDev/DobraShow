@@ -40,12 +40,13 @@ import com.example.domain.model.ShowsUi
 import com.example.view_show.R
 
 @Composable
-fun ShowsMainScreen(modifier: Modifier = Modifier) {
-    ShowsScreen(modifier = modifier)
+fun ShowsMainScreen(onClickShow: (Int) -> Unit, modifier: Modifier = Modifier) {
+    ShowsScreen(onClickShow = onClickShow, modifier = modifier)
 }
 
 @Composable
 internal fun ShowsScreen(
+    onClickShow: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ShowViewModel = hiltViewModel(),
 ) {
@@ -54,12 +55,20 @@ internal fun ShowsScreen(
     val currentState = state
 
     if (state != ListShowsState.None) {
-        ShowsContent(currentListShowsState = currentState, modifier = modifier)
+        ShowsContent(
+            currentListShowsState = currentState,
+            onClickShow = onClickShow,
+            modifier = modifier
+        )
     }
 }
 
 @Composable
-private fun ShowsContent(currentListShowsState: ListShowsState, modifier: Modifier = Modifier) {
+private fun ShowsContent(
+    currentListShowsState: ListShowsState,
+    onClickShow: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val scrollState = rememberLazyGridState()
 
     if (currentListShowsState is ListShowsState.Error) {
@@ -69,7 +78,12 @@ private fun ShowsContent(currentListShowsState: ListShowsState, modifier: Modifi
         ProgressIndicator(currentListShowsState, modifier = modifier)
     }
     if (currentListShowsState.listShows != null) {
-        ListShows(shows = currentListShowsState.listShows, scrollState = scrollState, modifier = modifier)
+        ListShows(
+            shows = currentListShowsState.listShows,
+            onClickShow = onClickShow,
+            scrollState = scrollState,
+            modifier = modifier
+        )
     }
 }
 
@@ -88,7 +102,10 @@ private fun ErrorContent(listShowsState: ListShowsState.Error, modifier: Modifie
 }
 
 @Composable
-private fun ProgressIndicator(listShowsState: ListShowsState.Loading, modifier: Modifier = Modifier) {
+private fun ProgressIndicator(
+    listShowsState: ListShowsState.Loading,
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -105,6 +122,7 @@ private fun ProgressIndicator(listShowsState: ListShowsState.Loading, modifier: 
 @Composable
 private fun ListShows(
     shows: List<ShowsUi>,
+    onClickShow: (Int) -> Unit,
     scrollState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -123,9 +141,7 @@ private fun ListShows(
                 items(items = shows, key = { currentShow -> currentShow.id }) { show ->
                     ShowItemCard(
                         show = show,
-                        onClickShow = {
-                            Log.d("MyLog", "Click on ID show ${show.id}" )
-                        },
+                        onClickShow = { onClickShow(show.id) },
                     )
                 }
             }

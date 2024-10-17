@@ -5,12 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.design.theme.AppTheme
-import com.example.view_show.screens.details_show.ShowDetailsMainScreen
+import com.example.dobrashow.navigation.BottomNavigationTabs
+import com.example.dobrashow.navigation.DobraShowApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,11 +25,10 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     containerColor = AppTheme.colorScheme.background,
                     bottomBar = {
-//                        BottomNavigationTabs(navController)
+                        BottomNavigationTabs(navController)
                     }
                 ) { innerPadding ->
-//                    AppNavigation(navController, innerPadding)
-                    ShowDetailsMainScreen(modifier = Modifier.padding(innerPadding).fillMaxSize())
+                    DobraShowApp(modifier = Modifier.fillMaxSize(), innerPadding = innerPadding)
                 }
             }
         }
