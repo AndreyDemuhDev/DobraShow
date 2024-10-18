@@ -20,16 +20,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
             AppTheme {
-                Scaffold(
-                    containerColor = AppTheme.colorScheme.background,
-                    bottomBar = {
-                        BottomNavigationTabs(navController)
-                    }
-                ) { innerPadding ->
-                    DobraShowApp(modifier = Modifier.fillMaxSize(), innerPadding = innerPadding)
-                }
+                DobraShowApp()
             }
         }
     }
