@@ -12,7 +12,7 @@ import com.example.data.model.ImageShowEntity
 import com.example.data.model.NetworkShowEntity
 import com.example.data.model.PersonShowEntity
 import com.example.data.model.RatingShowEntity
-import com.example.data.model.RemoteEmbeddedEntity
+import com.example.data.model.ListEpisodesEntity
 import com.example.data.model.SeasonsShowEntity
 import com.example.data.model.ShowsEntity
 import com.example.database.model.CountryShowDBO
@@ -188,7 +188,7 @@ internal fun RemoteSeasonsModel.toSeasonsShow(): SeasonsShowEntity {
         premiereDate = premiereDate ?: "unknown premiere date season",
         summary = summary ?: "",
         url = url ?: "unknown url season",
-        listEpisodes = RemoteEmbeddedEntity(
+        listEpisodes = ListEpisodesEntity(
             episodes = listEpisodes?.episodes?.map { it.toEpisodeSeasonShow() } ?: emptyList()
         )
     )

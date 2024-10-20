@@ -11,7 +11,7 @@ data class SeasonsShowEntity(
     val premiereDate: String,
     val summary: String,
     val url: String,
-    val listEpisodes: RemoteEmbeddedEntity
+    val listEpisodes: ListEpisodesEntity
 )
 
 data class ImageSeasonsEntity(
@@ -20,7 +20,7 @@ data class ImageSeasonsEntity(
 )
 
 
-data class RemoteEmbeddedEntity(
+data class ListEpisodesEntity(
     val episodes: List<EpisodeEntity>
 )
 

@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.view_show.screens.details_person.PersonDetailsMainScreen
+import com.example.view_show.screens.details_season.DetailSeasonMainScreen
 import com.example.view_show.screens.details_show.ShowDetailsMainScreen
 import com.example.view_show.screens.main_screen.ShowsMainScreen
 
@@ -51,6 +52,7 @@ fun DobraShowHost(
                 ShowDetailsMainScreen(
                     idShow = showId,
                     onClickPerson = { navController.navigate("people_details/$it") },
+                    onClickSeason = { navController.navigate("seasons_details/$it") },
                     onClickBack = { navController.navigateUp() },
                     modifier = modifier
                 )
@@ -60,13 +62,13 @@ fun DobraShowHost(
             route = "seasons_details/{seasonId}",
             arguments = listOf(navArgument("seasonId") { type = NavType.IntType })
         ) { backStackEntry ->
-//            val currentShow = backStackEntry.arguments?.getInt("seasonId")
-//            currentShow?.let {
-//                SeasonDetailsScreen(
-//                    seasonId = it,
-//                    onClickBack = { navController.navigateUp() },
-//                )
-//            }
+            val currentShow = backStackEntry.arguments?.getInt("seasonId")
+            currentShow?.let {
+                DetailSeasonMainScreen(
+                    idSeason = it,
+                    onClickBack = { navController.navigateUp() },
+                )
+            }
         }
         composable(
             route = "people_details/{personId}",
