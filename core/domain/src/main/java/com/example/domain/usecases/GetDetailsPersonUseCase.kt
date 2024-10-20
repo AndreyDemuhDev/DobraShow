@@ -16,9 +16,7 @@ class GetDetailsPersonUseCase @Inject constructor(
     fun personInformation(personId: Int): Flow<RequestStatus<PersonShowUi>> {
         return personRepository.getPersonDetails(idPerson = personId)
             .map { result ->
-                result.mapperStatus {
-                    it.toPersonUi()
-                }
+                result.mapperStatus { it.toPersonUi() }
             }
     }
 }

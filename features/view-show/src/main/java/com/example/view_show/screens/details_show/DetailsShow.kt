@@ -3,24 +3,18 @@ package com.example.view_show.screens.details_show
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -38,7 +32,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +45,7 @@ import com.example.domain.model.CastShowUi
 import com.example.domain.model.CrewShowUi
 import com.example.domain.model.SeasonsShowUi
 import com.example.domain.model.ShowsUi
+import com.example.ui.FunctionalDetailShowCard
 import com.example.ui.InfoBottomSheet
 import com.example.ui.ShowStatusComponent
 import com.example.view_show.R
@@ -60,12 +54,14 @@ import com.example.view_show.R
 fun ShowDetailsMainScreen(
     idShow: Int,
     onClickPerson: (Int) -> Unit,
+    onClickSeason: (Int) -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ShowDetailsScreen(
         idShow = idShow,
         onClickPerson = onClickPerson,
+        onClickSeason = onClickSeason,
         onClickBack = onClickBack,
         modifier = modifier
     )
@@ -76,6 +72,7 @@ fun ShowDetailsMainScreen(
 internal fun ShowDetailsScreen(
     idShow: Int,
     onClickPerson: (Int) -> Unit,
+    onClickSeason: (Int) -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailsShowViewModel = hiltViewModel(),
@@ -103,6 +100,7 @@ internal fun ShowDetailsScreen(
             listCrewState = stateShowCrew,
             listSeasonsShow = stateSeasonsCrew,
             onClickPerson = onClickPerson,
+            onClickSeason = onClickSeason,
             onClickBack = onClickBack,
             modifier = modifier
         )
@@ -117,6 +115,7 @@ private fun DetailsShowStateContent(
     listCrewState: StateCrew,
     listSeasonsShow: StateSeason,
     onClickPerson: (Int) -> Unit,
+    onClickSeason: (Int) -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -139,7 +138,7 @@ private fun DetailsShowStateContent(
             listCrew = listCrewState.listCrew,
             listSeasonsShow = listSeasonsShow.listSeasons,
             onClickPerson = onClickPerson,
-            onClickSeason = {},
+            onClickSeason = onClickSeason,
             onClickBack = onClickBack,
             modifier = modifier
         )
@@ -217,19 +216,19 @@ fun DetailShowInformation(
                             vertical = AppTheme.size.dp4
                         )
                 ) {
-                    FunctionalItemCard(
+                    FunctionalDetailShowCard(
                         title = "Add",
                         icon = painterResource(id = R.drawable.ic_bookmark),
                         onClick = { /*TODO*/ })
-                    FunctionalItemCard(
+                    FunctionalDetailShowCard(
                         title = "Share",
                         icon = painterResource(id = R.drawable.ic_share),
                         onClick = { /*TODO*/ })
-                    FunctionalItemCard(
+                    FunctionalDetailShowCard(
                         title = "URL",
                         icon = painterResource(id = R.drawable.ic_world),
                         onClick = { /*TODO*/ })
-                    FunctionalItemCard(
+                    FunctionalDetailShowCard(
                         title = "Info",
                         icon = painterResource(id = R.drawable.ic_info),
                         onClick = { isSheetOpen = true })
@@ -323,46 +322,6 @@ private fun DescriptionShowSection(
                     .clickable {
                         expandedDescription = !expandedDescription
                     }
-            )
-        }
-    }
-}
-
-@Composable
-fun FunctionalItemCard(
-    title: String,
-    icon: Painter,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(contentAlignment = Alignment.Center,
-        modifier = modifier
-            .width(90.dp)
-            .clip(RoundedCornerShape(15.dp))
-            .background(AppTheme.colorScheme.primary.copy(alpha = 0.1f))
-            .border(
-                width = AppTheme.size.dp1,
-                color = AppTheme.colorScheme.primary.copy(alpha = 0.2f),
-                shape = RoundedCornerShape(15.dp)
-            )
-            .clickable { onClick() }
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(all = AppTheme.size.dp8)
-        ) {
-            Icon(
-                painter = icon,
-                contentDescription = title,
-                tint = AppTheme.colorScheme.text,
-                modifier = Modifier.size(AppTheme.size.dp24 * 2)
-            )
-            Spacer(modifier = Modifier.height(AppTheme.size.dp4))
-            Text(
-                text = title,
-                style = AppTheme.typography.bodyNormal,
-                color = AppTheme.colorScheme.text
             )
         }
     }

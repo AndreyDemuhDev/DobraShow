@@ -77,15 +77,14 @@ class KtorClient {
                 .body<RemotePersonShow>()
         }
     }
-//
-//    suspend fun getSeasonInfo(seasonId: Int): Result<DomainSeasonEntity> {
-//        return safeApiCall {
-//            client.get("seasons/$seasonId?embed=episodes")
-//                .body<RemoteSeasonsModel>()
-//                .toDomainSeason()
-//        }
-//    }
-//
+
+    suspend fun getSeasonInfo(seasonId: Int): Result<RemoteSeasonsModel> {
+        return safeApiCall {
+            client.get("seasons/$seasonId?embed=episodes")
+                .body<RemoteSeasonsModel>()
+        }
+    }
+
 
 //
 //

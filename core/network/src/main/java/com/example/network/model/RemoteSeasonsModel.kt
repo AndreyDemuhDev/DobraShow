@@ -14,7 +14,7 @@ data class RemoteSeasonsModel(
     @SerialName("premiereDate") val premiereDate: String? = "unknown premiere date season",
     @SerialName("summary") val summary: String? = "empty summary season",
     @SerialName("url") val url: String? = "unknown url season",
-    @SerialName("_embedded") val listEpisodes: RemoteEmbedded? = null
+    @SerialName("_embedded") val listEpisodes: RemoteListEpisodes? = null
 )
 
 @Serializable
@@ -24,7 +24,7 @@ data class RemoteImageSeasons(
 )
 
 @Serializable
-data class RemoteEmbedded(
+data class RemoteListEpisodes(
     @SerialName("episodes") val episodes: List<RemoteEpisode>
 )
 

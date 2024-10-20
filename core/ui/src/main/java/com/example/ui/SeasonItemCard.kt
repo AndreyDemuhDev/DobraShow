@@ -48,7 +48,7 @@ fun SeasonsItemCard(
                 contentScale = ContentScale.Crop,
                 error = painterResource(id = R.drawable.ic_no_image),
                 modifier = Modifier
-                    .size(width = 200.dp, height = 250.dp)
+                    .size(width = 200.dp, height = 230.dp)
                     .clip(
                         shape = RoundedCornerShape(
                             topStart = AppTheme.size.dp16,
