@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.view_show.screens.details_person.PersonDetailsMainScreen
 import com.example.view_show.screens.details_show.ShowDetailsMainScreen
 import com.example.view_show.screens.main_screen.ShowsMainScreen
 
@@ -47,7 +48,12 @@ fun DobraShowHost(
         ) { backStackEntry ->
             val showId = backStackEntry.arguments?.getInt("showId")
             showId?.let {
-                ShowDetailsMainScreen(idShow = showId, modifier = modifier)
+                ShowDetailsMainScreen(
+                    idShow = showId,
+                    onClickPerson = { navController.navigate("people_details/$it") },
+                    onClickBack = { navController.navigateUp() },
+                    modifier = modifier
+                )
             }
         }
         composable(
@@ -66,15 +72,15 @@ fun DobraShowHost(
             route = "people_details/{personId}",
             arguments = listOf(navArgument("personId") { type = NavType.IntType })
         ) { backStackEntry ->
-//            val currentPeople = backStackEntry.arguments?.getInt("personId")
-//            currentPeople?.let { id ->
-//                PersonDetailsScreen(
-//                    personId = id,
+            val currentPeople = backStackEntry.arguments?.getInt("personId")
+            currentPeople?.let { id ->
+                PersonDetailsMainScreen(
+                    personId = id,
 //                    onClickShow = { navController.navigate("show_details/$id") },
 //                    onClickCrew = { navController.navigate("show_details/$id") },
-//                    onClickBack = { navController.navigateUp() },
-//                )
-//            }
+                    onClickBack = { navController.navigateUp() },
+                )
+            }
         }
     }
 }

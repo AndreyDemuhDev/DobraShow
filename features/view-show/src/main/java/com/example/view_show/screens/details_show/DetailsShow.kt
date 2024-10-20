@@ -1,6 +1,5 @@
 package com.example.view_show.screens.details_show
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -58,18 +57,29 @@ import com.example.ui.ShowStatusComponent
 import com.example.view_show.R
 
 @Composable
-fun ShowDetailsMainScreen(idShow: Int, modifier: Modifier = Modifier) {
-    ShowDetailsScreen(idShow = idShow, modifier = modifier)
+fun ShowDetailsMainScreen(
+    idShow: Int,
+    onClickPerson: (Int) -> Unit,
+    onClickBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ShowDetailsScreen(
+        idShow = idShow,
+        onClickPerson = onClickPerson,
+        onClickBack = onClickBack,
+        modifier = modifier
+    )
 }
 
 
 @Composable
 internal fun ShowDetailsScreen(
     idShow: Int,
+    onClickPerson: (Int) -> Unit,
+    onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailsShowViewModel = hiltViewModel(),
 ) {
-    Log.d("MyLog", "ShowsScreen")
     val stateShowInformation by viewModel.showDetailState.collectAsState()
     val stateShowCast by viewModel.showCastState.collectAsState()
     val stateShowCrew by viewModel.showCrewState.collectAsState()
@@ -92,6 +102,8 @@ internal fun ShowDetailsScreen(
             listCastState = stateShowCast,
             listCrewState = stateShowCrew,
             listSeasonsShow = stateSeasonsCrew,
+            onClickPerson = onClickPerson,
+            onClickBack = onClickBack,
             modifier = modifier
         )
     }
@@ -104,6 +116,8 @@ private fun DetailsShowStateContent(
     listCastState: StateCast,
     listCrewState: StateCrew,
     listSeasonsShow: StateSeason,
+    onClickPerson: (Int) -> Unit,
+    onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (showState is StateShow.Error) {
@@ -124,9 +138,9 @@ private fun DetailsShowStateContent(
             listCast = listCastState.listCast,
             listCrew = listCrewState.listCrew,
             listSeasonsShow = listSeasonsShow.listSeasons,
-            onClickPerson = {},
+            onClickPerson = onClickPerson,
             onClickSeason = {},
-            onClickBack = {},
+            onClickBack = onClickBack,
             modifier = modifier
         )
     }

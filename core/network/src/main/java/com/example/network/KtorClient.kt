@@ -2,6 +2,7 @@ package com.example.network
 
 import com.example.network.model.RemoteCastModel
 import com.example.network.model.RemoteCrewModel
+import com.example.network.model.RemotePersonShow
 import com.example.network.model.RemoteSeasonsModel
 import com.example.network.model.RemoteShowModel
 import io.ktor.client.HttpClient
@@ -69,6 +70,13 @@ class KtorClient {
                 .body<List<RemoteShowModel>>()
         }
     }
+
+    suspend fun getPersonInfo(personId: Int): Result<RemotePersonShow> {
+        return safeApiCall {
+            client.get("people/$personId?embed[]=crewcredits&embed[]=castcredits")
+                .body<RemotePersonShow>()
+        }
+    }
 //
 //    suspend fun getSeasonInfo(seasonId: Int): Result<DomainSeasonEntity> {
 //        return safeApiCall {
@@ -78,21 +86,8 @@ class KtorClient {
 //        }
 //    }
 //
-//    suspend fun getPersonInfo(personId: Int): Result<DomainPersonEntity> {
-//        return safeApiCall {
-//            client.get("people/$personId?embed[]=crewcredits&embed[]=castcredits")
-//                .body<RemotePersonModel>()
-//                .toDomainPerson()
-//        }
-//    }
+
 //
-//    suspend fun getListPersons(pageNumber: Int): Result<List<DomainSimplePersonEntity>> {
-//        return safeApiCall {
-//            client.get("people?page=$pageNumber")
-//                .body<List<RemoteSimplePersonModel>>()
-//                .map { it.toDomainSimplePerson() }
-//        }
-//    }
 //
 //    suspend fun searchShow(query: String): Result<List<DomainSearchShowEntity>> {
 //        return safeApiCall {
