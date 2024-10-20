@@ -23,6 +23,7 @@ import com.example.database.model.ShowsDBO
 import com.example.network.model.RemoteCastModel
 import com.example.network.model.RemoteCrewModel
 import com.example.network.model.RemoteEpisode
+import com.example.network.model.RemotePersonShow
 import com.example.network.model.RemoteSeasonsModel
 import com.example.network.model.RemoteShowModel
 
@@ -136,7 +137,7 @@ internal fun RemoteCrewModel.toCrewShow(): CrewShowEntity {
                 original = person.image?.original ?: "unknown image"
             ),
             name = person.name,
-            url = person.url,
+            url = person.url
         ),
         type = type
     )
@@ -211,3 +212,21 @@ internal fun RemoteEpisode.toEpisodeSeasonShow(): EpisodeEntity {
         summary = summary ?: "unknown summary episode"
     )
 }
+
+internal fun RemotePersonShow.toPerson(): PersonShowEntity {
+    return PersonShowEntity(
+        id = id,
+        birthday = birthday ?: "-",
+        country = CountryPersonEntity(name = country?.name ?: "unknown name person"),
+        deathday = deathday ?: "-",
+        gender = gender ?: "-",
+        image = ImagePersonEntity(
+            medium = image?.medium ?: "unknown image person",
+            original = image?.original ?: "unknown image person"
+        ),
+        name = name,
+        url = url,
+    )
+}
+
+

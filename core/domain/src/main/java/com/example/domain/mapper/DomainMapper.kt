@@ -3,14 +3,17 @@ package com.example.domain.mapper
 import com.example.data.model.CastShowEntity
 import com.example.data.model.CrewShowEntity
 import com.example.data.model.EpisodeEntity
+import com.example.data.model.PersonShowEntity
 import com.example.data.model.SeasonsShowEntity
 import com.example.data.model.ShowsEntity
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CharacterShowUi
+import com.example.domain.model.CountryPersonUi
 import com.example.domain.model.CrewShowUi
 import com.example.domain.model.EpisodeUI
 import com.example.domain.model.ImagePersonUi
 import com.example.domain.model.ImageSeasonUI
+import com.example.domain.model.PersonShowUi
 import com.example.domain.model.RatingUI
 import com.example.domain.model.SeasonEpisodesUI
 import com.example.domain.model.SeasonsShowUi
@@ -130,5 +133,18 @@ internal fun EpisodeEntity.toUiEpisode(): EpisodeUI {
             original = image.original
         ),
         summary = summary
+    )
+}
+
+internal fun PersonShowEntity.toPersonUi(): PersonShowUi {
+    return PersonShowUi(
+        id = id,
+        birthday = birthday,
+        country = CountryPersonUi(name = country.name),
+        deathday = deathday,
+        gender = gender,
+        image = ImagePersonUi(medium = image.medium, original = image.original),
+        name = name,
+        url = url
     )
 }

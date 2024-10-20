@@ -36,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.design.theme.AppTheme
 import com.example.domain.model.ShowsUi
+import com.example.ui.CustomTopBarComponent
 
 import com.example.view_show.R
 
@@ -176,33 +177,3 @@ fun ShowItemCard(
     }
 }
 
-@Composable
-fun CustomTopBarComponent(
-    title: String,
-    modifier: Modifier = Modifier,
-    onClickBack: (() -> Unit)? = null,
-) {
-    Column(modifier = modifier) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (onClickBack != null) {
-                IconButton(onClick = { onClickBack() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = "arrow_back",
-                        tint = AppTheme.colorScheme.text
-                    )
-                }
-            }
-            Text(
-                text = title,
-                color = AppTheme.colorScheme.text,
-                style = AppTheme.typography.titleLarge
-            )
-        }
-        HorizontalDivider(
-            thickness = AppTheme.size.dp2,
-            color = AppTheme.colorScheme.primary,
-            modifier = Modifier.padding(bottom = AppTheme.size.dp8)
-        )
-    }
-}
