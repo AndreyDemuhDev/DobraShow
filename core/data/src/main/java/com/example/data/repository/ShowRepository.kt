@@ -29,10 +29,6 @@ class ShowRepository @Inject constructor(
     private val ktorClient: KtorClient,
     private val database: ShowsDatabase,
 ) {
-//
-//    suspend fun getListShow(numberPage: Int): Result<List<DomainShowEntity>> {
-//        return ktorClient.getListShow(pageNumber = numberPage)
-//    }
 
     // функция которая отображает нам списко сериалов
     fun getListShow(
@@ -101,20 +97,4 @@ class ShowRepository @Inject constructor(
                 }
             }
     }
-
-//    suspend fun getSeasonInfo(seasonId: Int): Result<DomainSeasonEntity> {
-//        return ktorClient.getSeasonInfo(seasonId = seasonId)
-//    }
-//
-//    suspend fun getInfoPerson(personId: Int): Result<DomainPersonEntity> {
-//        return ktorClient.getPersonInfo(personId = personId)
-//    }
-//
-//    suspend fun getListPersons(pageNumber: Int): Result<List<DomainSimplePersonEntity>> {
-//        return ktorClient.getListPersons(pageNumber = pageNumber)
-//    }
-//
-//    suspend fun searchShow(query: String): Result<List<DomainSearchShowEntity>> {
-//        return ktorClient.searchShow(query = query)
-//    }
 }

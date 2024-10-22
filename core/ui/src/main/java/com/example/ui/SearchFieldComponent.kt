@@ -1,4 +1,4 @@
-package com.example.dobrashow.ui.components
+package com.example.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.design.theme.AppTheme
-import com.example.dobrashow.R
+
 
 @Composable
 @Suppress("LongMethod")
