@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.search.SearchMainScreen
 import com.example.view_show.screens.details_person.PersonDetailsMainScreen
 import com.example.view_show.screens.details_season.DetailSeasonMainScreen
 import com.example.view_show.screens.details_show.ShowDetailsMainScreen
@@ -37,7 +38,7 @@ fun DobraShowHost(
             )
         }
         composable(route = NavScreenDestination.Search.route) {
-//            SearchScreen(onClickShow = { navController.navigate(NavScreenDestination.Search.route) })
+            SearchMainScreen(onClickShow = { navController.navigate(NavScreenDestination.Search.route) })
         }
         composable(route = NavScreenDestination.Favorite.route) {
 //            FavoriteScreen()

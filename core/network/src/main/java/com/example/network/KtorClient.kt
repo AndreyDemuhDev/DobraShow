@@ -86,15 +86,12 @@ class KtorClient {
     }
 
 
-//
-//
-//    suspend fun searchShow(query: String): Result<List<DomainSearchShowEntity>> {
-//        return safeApiCall {
-//            client.get("search/shows?q=$query")
-//                .body<List<RemoteSearchShowModel>>()
-//                .map { it.toDomainSearchShowEntity() }
-//        }
-//    }
+    suspend fun searchShow(query: String): Result<List<RemoteShowModel>> {
+        return safeApiCall {
+            client.get("search/shows?q=$query")
+                .body<List<RemoteShowModel>>()
+        }
+    }
 }
 
 // функция для обработки данных получаемых из сети
