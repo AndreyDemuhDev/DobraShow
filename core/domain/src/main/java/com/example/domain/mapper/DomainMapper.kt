@@ -4,8 +4,9 @@ import com.example.data.model.CastShowEntity
 import com.example.data.model.CrewShowEntity
 import com.example.data.model.EpisodeEntity
 import com.example.data.model.PersonShowEntity
+import com.example.data.model.SearchShowEntity
 import com.example.data.model.SeasonsShowEntity
-import com.example.data.model.ShowsEntity
+import com.example.data.model.ShowEntity
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CharacterShowUi
 import com.example.domain.model.CountryPersonUi
@@ -22,7 +23,7 @@ import com.example.domain.model.ShowsUi
 /**
  * класс в котором мапим из моделей модуля data в модели модуля domain
  */
-internal fun ShowsEntity.toUiShows(): ShowsUi {
+internal fun ShowEntity.toUiShows(): ShowsUi {
     return ShowsUi(
         id = id,
         name = name,
@@ -146,5 +147,36 @@ internal fun PersonShowEntity.toPersonUi(): PersonShowUi {
         image = ImagePersonUi(medium = image.medium, original = image.original),
         name = name,
         url = url
+    )
+}
+
+
+internal fun SearchShowEntity.toSearchShowUi(): ShowsUi{
+    return ShowsUi(
+        id = searchShow.id,
+        name = searchShow.name,
+        ended = searchShow.ended,
+        genres = searchShow.genres,
+        image = ShowsUi.ImageShowUi(
+            medium = searchShow.image.medium,
+            original = searchShow.image.original
+        ),
+        language = searchShow.language,
+        network = ShowsUi.NetworkShowUi(
+            country = ShowsUi.CountryShowUi(
+                code = searchShow.network.country.code,
+                name = searchShow.network.country.name,
+                timezone = searchShow.network.country.timezone
+            ),
+            id = searchShow.network.id,
+            name = searchShow.network.name,
+            officialSite = searchShow.network.officialSite
+        ),
+        officialSite = searchShow.officialSite,
+        premiered = searchShow.premiered,
+        rating = ShowsUi.RatingShowUi(average = searchShow.rating.average),
+        status = searchShow.status,
+        summary = searchShow.summary,
+        url = searchShow.url,
     )
 }

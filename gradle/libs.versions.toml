@@ -49,8 +49,6 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 
 dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-#dagger-main = { module = "com.google.dagger:dager", version.ref = "hilt" }
-#dagger-compiler = { module = "com.google.dagger:dager-compiler", version.ref = "hilt" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }

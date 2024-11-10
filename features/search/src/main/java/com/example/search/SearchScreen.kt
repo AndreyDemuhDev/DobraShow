@@ -27,21 +27,22 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.design.theme.AppTheme
-import com.example.domain.model.ShowsUi
 import com.example.ui.CustomTopBarComponent
 import com.example.ui.R
-import com.example.ui.SearchFieldComponent
 import com.example.ui.SearchShowItemCard
 
 @Composable
@@ -65,8 +66,16 @@ internal fun SearchScreen(
 //    val searchState by searchViewModel.searchState.collectAsState()
     val searchState = searchViewModel.searchTextFieldState
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Text(text = "SearchScreen", color = AppTheme.colorScheme.primary)
+    DisposableEffect(key1 = Unit) {
+        val job = searchViewModel.observeSearchShow()
+        onDispose { job.cancel() }
+    }
+
+    Column(modifier = modifier
+        .fillMaxSize()
+        .padding(horizontal = AppTheme.size.dp16)) {
+        CustomTopBarComponent(title = "Search shows")
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -88,8 +97,7 @@ internal fun SearchScreen(
                     contentDescription = "search",
                     modifier = Modifier
                         .padding(all = AppTheme.size.dp8)
-                        .size(28.dp)
-                        .clickable { },
+                        .size(28.dp),
                     colorFilter = ColorFilter.tint(AppTheme.colorScheme.background)
                 )
                 BasicTextField2(
@@ -111,72 +119,51 @@ internal fun SearchScreen(
                 )
             }
         }
-        val searchShowText by searchViewModel.searchTextState.collectAsState()
-        Text(text = searchShowText, color = AppTheme.colorScheme.onBackground)
+        val screenState by searchViewModel.uiState.collectAsState()
+        when (val state = screenState) {
+            SearchViewModel.SearchShowScreenState.None -> {
+                Text(
+                    text = "Serch show name here...",
+                    color = Color.White,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(AppTheme.size.dp16),
+                    textAlign = TextAlign.Center,
+                    fontSize = 28.sp
+                )
+            }
+
+            is SearchViewModel.SearchShowScreenState.Loading -> SearchingContent(
+                searchingState = state
+            )
+
+            is SearchViewModel.SearchShowScreenState.Success -> SuccessSearchShowContent(
+                content = state, onClickShow = {})
+
+            is SearchViewModel.SearchShowScreenState.Error -> ErrorSearchContent(errorState = state)
+        }
 
     }
-
-//     if (searchState != SearchShowState.None) {
-//        SearchShowContentState(
-//            searchState = searchState,
-//            onClickShow = onClickShow,
-//            onSearch = { searchViewModel.searchShow(query = it)
-//                Log.d("MyLog", "ввод в поиск = $it")},
-//            modifier = modifier
-//        )
-//    }
 }
 
-@Composable
-internal fun SearchShowContentState(
-    searchState: SearchShowState,
-    onClickShow: (Int) -> Unit,
-    onSearch: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-
-    if (searchState is SearchShowState.Error) {
-        ErrorSearchContent(searchState, modifier = modifier)
-    }
-    if (searchState is SearchShowState.Loading) {
-        ProgressSearchContent(searchState, modifier = modifier)
-    }
-    if (searchState.listShow != null) {
-        SuccessSearchShowContent(
-            searchShowState = searchState.listShow,
-            onClickShow = onClickShow,
-            onSearch = onSearch,
-            modifier = modifier
-        )
-    }
-}
 
 @Composable
 fun SuccessSearchShowContent(
-    searchShowState: List<ShowsUi>,
+    content: SearchViewModel.SearchShowScreenState.Success,
     onClickShow: (Int) -> Unit,
-    onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    Log.d("MyLog", "список шоу $searchShowState")
+    Log.d("MyLog", "список шоу $content")
     Column {
-        CustomTopBarComponent(
-            title = "Search shows",
-            modifier = modifier.padding(horizontal = AppTheme.size.dp16)
-        )
-        SearchFieldComponent(
-            onSearch = onSearch,
-            modifier = Modifier.padding(vertical = AppTheme.size.dp8)
-        )
 
         LazyColumn(
-            contentPadding = PaddingValues(horizontal = AppTheme.size.dp16),
+            contentPadding = PaddingValues(horizontal = AppTheme.size.dp4),
             verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
             modifier = Modifier.padding(vertical = AppTheme.size.dp8),
             content = {
-                Log.d("MyLog", "listShows $searchShowState")
-                items(items = searchShowState) { show ->
+//                Log.d("MyLog", "listShows $searchShowState")
+                items(items = content.listShows) { show ->
                     SearchShowItemCard(
                         show = show,
                         onClickShow = { onClickShow(show.id) },
@@ -189,7 +176,7 @@ fun SuccessSearchShowContent(
 
 @Composable
 private fun ErrorSearchContent(
-    searchShowState: SearchShowState.Error,
+    errorState: SearchViewModel.SearchShowScreenState.Error,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -199,25 +186,27 @@ private fun ErrorSearchContent(
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "Search Shows Error Content", color = AppTheme.colorScheme.error)
+            Text(text = errorState.error, color = AppTheme.colorScheme.error)
         }
     }
 }
 
 @Composable
-private fun ProgressSearchContent(
-    searchShowState: SearchShowState.Loading,
+private fun SearchingContent(
+    searchingState: SearchViewModel.SearchShowScreenState.Loading,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        CircularProgressIndicator(
-            color = AppTheme.colorScheme.primary,
-            strokeWidth = 4.dp
-        )
+    Column {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(
+                color = AppTheme.colorScheme.primary,
+                strokeWidth = 4.dp
+            )
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.example.domain.usecases
 import com.example.data.RequestStatus
 import com.example.data.mapperStatus
 import com.example.data.repository.SearchShowRepository
+import com.example.domain.mapper.toSearchShowUi
 import com.example.domain.mapper.toUiShows
 import com.example.domain.model.ShowsUi
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ class GetSearchShowUseCase @Inject constructor(
             .map { result ->
                 result.mapperStatus { listShows ->
                     listShows.map { show ->
-                        show.toUiShows()
+                        show.toSearchShowUi()
                     }
                 }
             }

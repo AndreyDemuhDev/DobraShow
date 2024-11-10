@@ -9,12 +9,13 @@ import com.example.data.model.EpisodeEntity
 import com.example.data.model.ImagePersonEntity
 import com.example.data.model.ImageSeasonsEntity
 import com.example.data.model.ImageShowEntity
+import com.example.data.model.ListEpisodesEntity
 import com.example.data.model.NetworkShowEntity
 import com.example.data.model.PersonShowEntity
 import com.example.data.model.RatingShowEntity
-import com.example.data.model.ListEpisodesEntity
+import com.example.data.model.SearchShowEntity
 import com.example.data.model.SeasonsShowEntity
-import com.example.data.model.ShowsEntity
+import com.example.data.model.ShowEntity
 import com.example.database.model.CountryShowDBO
 import com.example.database.model.ImageShowDBO
 import com.example.database.model.NetworkShowDBO
@@ -24,13 +25,14 @@ import com.example.network.model.RemoteCastModel
 import com.example.network.model.RemoteCrewModel
 import com.example.network.model.RemoteEpisode
 import com.example.network.model.RemotePersonShow
+import com.example.network.model.RemoteSearchShowModel
 import com.example.network.model.RemoteSeasonsModel
 import com.example.network.model.RemoteShowModel
 
 
 // маппер из модели шоу базы данных в ui модель шоу
-internal fun ShowsDBO.toShow(): ShowsEntity {
-    return ShowsEntity(
+internal fun ShowsDBO.toShow(): ShowEntity {
+    return ShowEntity(
         id = id,
         name = name,
         ended = ended,
@@ -60,8 +62,8 @@ internal fun ShowsDBO.toShow(): ShowsEntity {
 }
 
 // маппер из сетевой модели шоу в модель шоу data слоя
-internal fun RemoteShowModel.toShow(): ShowsEntity {
-    return ShowsEntity(
+internal fun RemoteShowModel.toShow(): ShowEntity {
+    return ShowEntity(
         id = id ?: 4,
         name = name ?: "unknown name",
         ended = ended ?: "unknown",
@@ -227,6 +229,10 @@ internal fun RemotePersonShow.toPerson(): PersonShowEntity {
         name = name,
         url = url,
     )
+}
+
+internal fun RemoteSearchShowModel.toSearchShow(): SearchShowEntity {
+    return SearchShowEntity(searchShow = searchShow.toShow())
 }
 
 
