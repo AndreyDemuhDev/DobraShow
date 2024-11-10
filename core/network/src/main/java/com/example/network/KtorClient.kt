@@ -3,6 +3,7 @@ package com.example.network
 import com.example.network.model.RemoteCastModel
 import com.example.network.model.RemoteCrewModel
 import com.example.network.model.RemotePersonShow
+import com.example.network.model.RemoteSearchShowModel
 import com.example.network.model.RemoteSeasonsModel
 import com.example.network.model.RemoteShowModel
 import io.ktor.client.HttpClient
@@ -86,10 +87,10 @@ class KtorClient {
     }
 
 
-    suspend fun searchShow(query: String): Result<List<RemoteShowModel>> {
+    suspend fun searchShow(query: String): Result<List<RemoteSearchShowModel>> {
         return safeApiCall {
             client.get("search/shows?q=$query")
-                .body<List<RemoteShowModel>>()
+                .body<List<RemoteSearchShowModel>>()
         }
     }
 }

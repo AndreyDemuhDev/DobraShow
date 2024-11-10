@@ -9,7 +9,7 @@ import com.example.data.mapperStatus
 import com.example.data.model.CastShowEntity
 import com.example.data.model.CrewShowEntity
 import com.example.data.model.SeasonsShowEntity
-import com.example.data.model.ShowsEntity
+import com.example.data.model.ShowEntity
 import com.example.data.toRequestStatus
 import com.example.network.KtorClient
 import com.example.network.model.RemoteCastModel
@@ -26,7 +26,7 @@ class DetailShowRepository @Inject constructor(
 ) {
 
 
-    fun getShow(showId: Int): Flow<RequestStatus<ShowsEntity>> {
+    fun getShow(showId: Int): Flow<RequestStatus<ShowEntity>> {
         val apiRequest: Flow<RequestStatus<RemoteShowModel>> =
             flow { emit(ktorClient.getShow(id = showId)) }
                 .map { it.toRequestStatus() }

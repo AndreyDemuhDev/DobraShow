@@ -2,7 +2,7 @@ package com.example.data.model
 
 // "промежуточный" класс данных моделей
 
-data class ShowsEntity(
+data class ShowEntity(
     val id: Int,
     val name: String,
     val ended: String,
