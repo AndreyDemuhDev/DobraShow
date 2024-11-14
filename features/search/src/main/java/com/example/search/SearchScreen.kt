@@ -2,7 +2,6 @@
 
 package com.example.search
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -63,7 +62,6 @@ internal fun SearchScreen(
     modifier: Modifier = Modifier,
     searchViewModel: SearchViewModel = hiltViewModel()
 ) {
-//    val searchState by searchViewModel.searchState.collectAsState()
     val searchState = searchViewModel.searchTextFieldState
 
     DisposableEffect(key1 = Unit) {
@@ -71,9 +69,11 @@ internal fun SearchScreen(
         onDispose { job.cancel() }
     }
 
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(horizontal = AppTheme.size.dp16)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = AppTheme.size.dp16)
+    ) {
         CustomTopBarComponent(title = "Search shows")
 
         Row(
@@ -138,7 +138,7 @@ internal fun SearchScreen(
             )
 
             is SearchViewModel.SearchShowScreenState.Success -> SuccessSearchShowContent(
-                content = state, onClickShow = {})
+                content = state, onClickShow = onClickShow)
 
             is SearchViewModel.SearchShowScreenState.Error -> ErrorSearchContent(errorState = state)
         }
@@ -153,16 +153,12 @@ fun SuccessSearchShowContent(
     onClickShow: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    Log.d("MyLog", "список шоу $content")
-    Column {
-
+    Column(modifier = modifier) {
         LazyColumn(
             contentPadding = PaddingValues(horizontal = AppTheme.size.dp4),
             verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
             modifier = Modifier.padding(vertical = AppTheme.size.dp8),
             content = {
-//                Log.d("MyLog", "listShows $searchShowState")
                 items(items = content.listShows) { show ->
                     SearchShowItemCard(
                         show = show,

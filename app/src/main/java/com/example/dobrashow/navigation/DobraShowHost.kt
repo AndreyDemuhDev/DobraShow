@@ -38,7 +38,7 @@ fun DobraShowHost(
             )
         }
         composable(route = NavScreenDestination.Search.route) {
-            SearchMainScreen(onClickShow = { navController.navigate(NavScreenDestination.Search.route) })
+            SearchMainScreen(onClickShow = { navController.navigate("show_details/$it") })
         }
         composable(route = NavScreenDestination.Favorite.route) {
 //            FavoriteScreen()
