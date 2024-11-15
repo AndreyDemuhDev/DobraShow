@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +32,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -123,7 +125,7 @@ internal fun SearchScreen(
         when (val state = screenState) {
             SearchViewModel.SearchShowScreenState.None -> {
                 Text(
-                    text = "Serch show name here...",
+                    text = "Search show name here...",
                     color = Color.White,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -138,7 +140,10 @@ internal fun SearchScreen(
             )
 
             is SearchViewModel.SearchShowScreenState.Success -> SuccessSearchShowContent(
-                content = state, onClickShow = onClickShow)
+                content = state,
+                onStatusClickable = searchViewModel::toggleStatus,
+                onClickShow = onClickShow
+            )
 
             is SearchViewModel.SearchShowScreenState.Error -> ErrorSearchContent(errorState = state)
         }
@@ -150,19 +155,66 @@ internal fun SearchScreen(
 @Composable
 fun SuccessSearchShowContent(
     content: SearchViewModel.SearchShowScreenState.Success,
+    onStatusClickable: (String) -> Unit,
     onClickShow: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+            content.filterState.statusEnded.forEach { status ->
+                val isSelected = content.filterState.selectedStatuses.contains(status)
+                val contentColor =
+                    if (isSelected) AppTheme.colorScheme.onPrimary else AppTheme.colorScheme.error
+
+                val count = content.listShows.filter { it.status == status }.size
+                Column(
+                    modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = contentColor,
+                            shape = AppTheme.shape.small
+                        )
+                        .clickable {
+                            onStatusClickable(status)
+                        }
+                        .clip(AppTheme.shape.medium)
+                        .padding(all = AppTheme.size.dp2),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = count.toString(),
+                        color = contentColor,
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        textAlign = TextAlign.Center,
+                        style = AppTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = status,
+                        color = contentColor,
+                        modifier = Modifier.padding(horizontal = 6.dp),
+                        textAlign = TextAlign.Center,
+                        style = AppTheme.typography.bodySmall
+                    )
+                }
+            }
+        }
+
         LazyColumn(
             contentPadding = PaddingValues(horizontal = AppTheme.size.dp4),
             verticalArrangement = Arrangement.spacedBy(AppTheme.size.dp8),
             modifier = Modifier.padding(vertical = AppTheme.size.dp8),
             content = {
-                items(items = content.listShows) { show ->
+                val filterResult = content.listShows.filter {
+                    content.filterState.selectedStatuses.contains(
+                        it.status
+                    )
+                }
+                items(items = filterResult, key = { show -> show.id }) { show ->
                     SearchShowItemCard(
                         show = show,
                         onClickShow = { onClickShow(show.id) },
+                        modifier = Modifier.animateItemPlacement()
                     )
                 }
             }

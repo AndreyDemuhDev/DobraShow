@@ -56,7 +56,7 @@ class SearchViewModel @Inject constructor(
             when (state) {
                 is SearchState.Empty -> _uiState.update { SearchShowScreenState.None }
                 is SearchState.SearchQuery -> {
-                    Log.d("MyLog", "observeSearchShow = ${state}")
+                    Log.d("MyLog", "observeSearchShow = $state")
                     searchShow(query = state.query)
                 }
             }
@@ -67,11 +67,32 @@ class SearchViewModel @Inject constructor(
     private fun searchShow(query: String) = viewModelScope.launch {
         _uiState.update { SearchShowScreenState.Loading }
         searchShowUseCase.get().searchShow(query = query).collect { show ->
+            val allStatuses = show.data?.map { it.status }?.toSet()?.toList()
             _uiState.update {
                 SearchShowScreenState.Success(
-                    listShows = show.data ?: emptyList()
+                    listShows = show.data ?: emptyList(),
+                    query= query,
+                    filterState = SearchShowScreenState.Success.FilterState(
+                        statusEnded = allStatuses ?: emptyList(),
+                        selectedStatuses = allStatuses ?: emptyList()
+                    )
                 )
             }
+        }
+    }
+
+    fun toggleStatus(status: String) {
+        _uiState.update {
+            val currentState = (it as? SearchShowScreenState.Success) ?: return@update it
+            val currentSelectedStatuses = currentState.filterState.selectedStatuses
+            val newStatuses = if (currentSelectedStatuses.contains(status)) {
+                currentSelectedStatuses - status
+            } else {
+                currentSelectedStatuses + status
+            }
+            return@update currentState.copy(
+                filterState = currentState.filterState.copy(selectedStatuses = newStatuses)
+            )
         }
     }
 
@@ -79,7 +100,16 @@ class SearchViewModel @Inject constructor(
         object None : SearchShowScreenState
         object Loading : SearchShowScreenState
         data class Error(val error: String) : SearchShowScreenState
-        data class Success(val listShows: List<ShowsUi>) :
-            SearchShowScreenState
+        data class Success(
+            val listShows: List<ShowsUi>,
+            val query: String,
+            val filterState: FilterState
+        ) :
+            SearchShowScreenState {
+            data class FilterState(
+                val statusEnded: List<String>,
+                val selectedStatuses: List<String>
+            )
+        }
     }
 }
