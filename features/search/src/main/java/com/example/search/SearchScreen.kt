@@ -6,7 +6,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,7 +31,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -43,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.design.theme.AppTheme
 import com.example.ui.CustomTopBarComponent
+import com.example.ui.FilterShowComponent
 import com.example.ui.R
 import com.example.ui.SearchShowItemCard
 
@@ -164,39 +163,14 @@ fun SuccessSearchShowContent(
             content.filterState.statusEnded.forEach { status ->
                 val isSelected = content.filterState.selectedStatuses.contains(status)
                 val contentColor =
-                    if (isSelected) AppTheme.colorScheme.onPrimary else AppTheme.colorScheme.error
-
+                    if (isSelected) AppTheme.colorScheme.onPrimary else AppTheme.colorScheme.onText
                 val count = content.listShows.filter { it.status == status }.size
-                Column(
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = contentColor,
-                            shape = AppTheme.shape.small
-                        )
-                        .clickable {
-                            onStatusClickable(status)
-                        }
-                        .clip(AppTheme.shape.medium)
-                        .padding(all = AppTheme.size.dp2),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = count.toString(),
-                        color = contentColor,
-                        modifier = Modifier.padding(vertical = 4.dp),
-                        textAlign = TextAlign.Center,
-                        style = AppTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = status,
-                        color = contentColor,
-                        modifier = Modifier.padding(horizontal = 6.dp),
-                        textAlign = TextAlign.Center,
-                        style = AppTheme.typography.bodySmall
-                    )
-                }
+                FilterShowComponent(
+                    statusFilter = status,
+                    onStatusClickable = onStatusClickable,
+                    contentColor = contentColor,
+                    countCategory = count
+                )
             }
         }
 
