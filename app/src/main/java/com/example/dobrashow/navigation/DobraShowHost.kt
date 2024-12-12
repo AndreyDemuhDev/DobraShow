@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.favorite.FavoriteMainScreen
 import com.example.search.SearchMainScreen
 import com.example.view_show.screens.details_person.PersonDetailsMainScreen
 import com.example.view_show.screens.details_season.DetailSeasonMainScreen
@@ -41,7 +42,10 @@ fun DobraShowHost(
             SearchMainScreen(onClickShow = { navController.navigate("show_details/$it") })
         }
         composable(route = NavScreenDestination.Favorite.route) {
-//            FavoriteScreen()
+            FavoriteMainScreen(
+                onClickShow = { navController.navigate("show_details/$it") },
+                onClickDelete = {}
+            )
         }
         // экраны не включенные в навигационную панель bottom navigation bar
         composable(
