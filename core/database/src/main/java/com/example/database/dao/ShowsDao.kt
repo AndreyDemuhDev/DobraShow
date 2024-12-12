@@ -18,10 +18,10 @@ interface ShowsDao {
     fun getObservableListShow(): Flow<List<ShowsDBO>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertShowToDatabase(shows: List<ShowsDBO>)
+    suspend fun insertShowsToDatabase(shows: List<ShowsDBO>)
 
     @Delete
-    suspend fun removeShowFromDatabase(shows: List<ShowsDBO>)
+    suspend fun removeShowsFromDatabase(shows: List<ShowsDBO>)
 
     @Query("DELETE FROM shows_table")
     suspend fun deleteAllShowFromDatabase()

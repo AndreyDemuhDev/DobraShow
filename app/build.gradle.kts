@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":features:view-show"))
     implementation(project(":features:search"))
+    implementation(project(":features:favorite"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

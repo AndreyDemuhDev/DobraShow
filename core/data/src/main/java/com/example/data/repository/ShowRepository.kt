@@ -81,7 +81,7 @@ class ShowRepository @Inject constructor(
     private suspend fun saveNetworkShowsToDatabase(data: List<RemoteShowModel>) {
         val networkShows: List<ShowsDBO> =
             data.map { showsDto: RemoteShowModel -> showsDto.toShowDatabase() }
-        database.showsDao.insertShowToDatabase(networkShows)
+        database.showsDao.insertShowsToDatabase(networkShows)
     }
 
     // функция которая предоставляет сериалы из базы данных
