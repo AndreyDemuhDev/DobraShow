@@ -1,5 +1,7 @@
 package com.example.view_show.screens.details_show
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,6 +35,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -161,6 +164,8 @@ fun DetailShowInformation(
     var isSheetOpen by rememberSaveable {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
+    val intentUrl = remember {Intent(Intent.ACTION_VIEW, Uri.parse(show.url))}
     Box(modifier = modifier.background(color = AppTheme.colorScheme.transparent)) {
         SubcomposeAsyncImage(
             model = show.image.original, contentDescription = null,
@@ -227,7 +232,7 @@ fun DetailShowInformation(
                     FunctionalDetailShowCard(
                         title = "URL",
                         icon = painterResource(id = R.drawable.ic_world),
-                        onClick = { /*TODO*/ })
+                        onClick = { context.startActivity(intentUrl) })
                     FunctionalDetailShowCard(
                         title = "Info",
                         icon = painterResource(id = R.drawable.ic_info),
