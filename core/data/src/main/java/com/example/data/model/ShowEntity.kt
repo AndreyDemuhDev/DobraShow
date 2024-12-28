@@ -16,6 +16,7 @@ data class ShowEntity(
     val status: String,
     val summary: String,
     val url: String,
+    val isFavorite: Int,
 )
 
 data class ImageShowEntity(

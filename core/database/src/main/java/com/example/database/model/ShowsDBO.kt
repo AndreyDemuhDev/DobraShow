@@ -39,6 +39,8 @@ data class ShowsDBO(
     val summary: String,
     @ColumnInfo("url")
     val url: String,
+    @ColumnInfo("favorite")
+    val favorite: Int,
 )
 
 data class ImageShowDBO(

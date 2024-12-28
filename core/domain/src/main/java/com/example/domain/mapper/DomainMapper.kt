@@ -50,6 +50,7 @@ internal fun ShowEntity.toUiShows(): ShowsUi {
         status = status,
         summary = summary,
         url = url,
+        isFavorite = isFavorite,
     )
 }
 
@@ -178,5 +179,6 @@ internal fun SearchShowEntity.toSearchShowUi(): ShowsUi{
         status = searchShow.status,
         summary = searchShow.summary,
         url = searchShow.url,
+        isFavorite = searchShow.isFavorite,
     )
 }

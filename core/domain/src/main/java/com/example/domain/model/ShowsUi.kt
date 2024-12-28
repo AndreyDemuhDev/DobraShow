@@ -16,6 +16,7 @@ public data class ShowsUi(
     val status: String,
     val summary: String,
     val url: String,
+    var isFavorite: Int,
 ) {
     data class ImageShowUi(
         val medium: String,
