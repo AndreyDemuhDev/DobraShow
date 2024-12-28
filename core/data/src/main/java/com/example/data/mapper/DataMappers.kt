@@ -58,6 +58,7 @@ internal fun ShowsDBO.toShow(): ShowEntity {
         status = status,
         summary = summary,
         url = url,
+        isFavorite = favorite,
     )
 }
 
@@ -89,6 +90,38 @@ internal fun RemoteShowModel.toShow(): ShowEntity {
         status = status ?: "unknown status",
         summary = summary ?: "unknown summary",
         url = url ?: "unknown url",
+        isFavorite = 0,
+    )
+}
+
+internal fun ShowEntity.toShowDatabase():ShowsDBO{
+    return ShowsDBO(
+        id = id ,
+        name = name,
+        ended = ended,
+        genres = genres,
+        image = ImageShowDBO(
+            medium = image.medium ,
+            original = image.original
+        ),
+        language = language ,
+        network = NetworkShowDBO(
+            country = CountryShowDBO(
+                code = network.country.code,
+                name = network.country.name,
+                timezone = network.country.timezone
+            ),
+            id = network.id,
+            name = network.name,
+            officialSite = network.officialSite
+        ),
+        officialSite = officialSite,
+        premiered = premiered ,
+        rating = RatingShowDBO(average = rating.average),
+        status = status,
+        summary = summary,
+        url = url,
+        favorite = 0,
     )
 }
 
@@ -120,6 +153,7 @@ internal fun RemoteShowModel.toShowDatabase(): ShowsDBO {
         status = status ?: "unknown status",
         summary = summary ?: "unknown summary",
         url = url ?: "unknown url",
+        favorite = 0,
     )
 }
 

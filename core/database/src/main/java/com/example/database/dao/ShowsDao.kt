@@ -23,6 +23,18 @@ interface ShowsDao {
     @Delete
     suspend fun removeShowsFromDatabase(shows: List<ShowsDBO>)
 
+    @Insert
+    suspend fun insertShowToFavorite(show: ShowsDBO)
+
+    @Delete
+    suspend fun deleteShowFromFavorite(show: ShowsDBO)
+
+    @Query("SELECT * FROM shows_table WHERE favorite == 1")
+    suspend fun getFavoriteShowList(): List<ShowsDBO>
+
+    @Query("DELETE FROM shows_table WHERE favorite == 1")
+    suspend fun deleteAllFavoriteShows()
+
     @Query("DELETE FROM shows_table")
     suspend fun deleteAllShowFromDatabase()
 }

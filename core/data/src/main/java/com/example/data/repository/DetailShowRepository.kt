@@ -5,12 +5,15 @@ import com.example.data.mapper.toCastShow
 import com.example.data.mapper.toCrewShow
 import com.example.data.mapper.toSeasonsShow
 import com.example.data.mapper.toShow
+import com.example.data.mapper.toShowDatabase
 import com.example.data.mapperStatus
 import com.example.data.model.CastShowEntity
 import com.example.data.model.CrewShowEntity
 import com.example.data.model.SeasonsShowEntity
 import com.example.data.model.ShowEntity
 import com.example.data.toRequestStatus
+import com.example.database.ShowsDatabase
+import com.example.database.model.ShowsDBO
 import com.example.network.KtorClient
 import com.example.network.model.RemoteCastModel
 import com.example.network.model.RemoteCrewModel
@@ -23,6 +26,7 @@ import javax.inject.Inject
 
 class DetailShowRepository @Inject constructor(
     private val ktorClient: KtorClient,
+    private val database: ShowsDatabase,
 ) {
 
 
@@ -79,5 +83,13 @@ class DetailShowRepository @Inject constructor(
                 }
             }
         }
+    }
+
+    suspend fun insertShowToFavorite(show: ShowEntity) {
+        database.showsDao.insertShowToFavorite(show = show.toShowDatabase())
+    }
+
+    suspend fun deleteShowFromFavorite(show: ShowEntity) {
+        database.showsDao.deleteShowFromFavorite(show = show.toShowDatabase())
     }
 }

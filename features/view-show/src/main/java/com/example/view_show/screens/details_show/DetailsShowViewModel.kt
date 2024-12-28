@@ -3,10 +3,14 @@ package com.example.view_show.screens.details_show
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.RequestStatus
+import com.example.data.model.ShowEntity
 import com.example.domain.model.CastShowUi
 import com.example.domain.model.CrewShowUi
 import com.example.domain.model.SeasonsShowUi
 import com.example.domain.model.ShowsUi
+import com.example.domain.usecases.GetDeleteShowFromFavorite
+import com.example.domain.usecases.GetFavoriteShowUseCase
+import com.example.domain.usecases.GetInsertShowToFavoriteUseCase
 import com.example.domain.usecases.GetShowInformationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,8 +23,12 @@ import javax.inject.Provider
 
 @HiltViewModel
 class DetailsShowViewModel @Inject constructor(
-    private val getDetailShowsUseCases: Provider<GetShowInformationUseCase>
+    private val getDetailShowsUseCases: Provider<GetShowInformationUseCase>,
+    private val getFavoriteShowsUseCases: Provider<GetFavoriteShowUseCase>,
+    private val getInsertShowsUseCases: Provider<GetInsertShowToFavoriteUseCase>,
+    private val getDeleteShowsUseCases: Provider<GetDeleteShowFromFavorite>,
 ) : ViewModel() {
+
 
     var showDetailState: StateFlow<StateShow> = getDetailShowsUseCases.get().showInformation(0)
         .map { it.toStateShow() }
@@ -100,6 +108,10 @@ class DetailsShowViewModel @Inject constructor(
                     StateSeason.None
                 )
         }
+    }
+
+    suspend fun addShowToFavorite(show: ShowEntity){
+        getDetailShowsUseCases.get().addShowToFavorite(show)
     }
 }
 

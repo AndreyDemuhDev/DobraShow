@@ -2,14 +2,11 @@ package com.example.data.repository
 
 import com.example.data.RequestStatus
 import com.example.data.mapper.toSearchShow
-import com.example.data.mapper.toShow
 import com.example.data.mapperStatus
 import com.example.data.model.SearchShowEntity
-import com.example.data.model.ShowEntity
 import com.example.data.toRequestStatus
 import com.example.network.KtorClient
 import com.example.network.model.RemoteSearchShowModel
-import com.example.network.model.RemoteShowModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

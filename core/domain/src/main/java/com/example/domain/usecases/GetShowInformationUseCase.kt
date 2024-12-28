@@ -2,7 +2,9 @@ package com.example.domain.usecases
 
 import com.example.data.RequestStatus
 import com.example.data.mapperStatus
+import com.example.data.model.ShowEntity
 import com.example.data.repository.DetailShowRepository
+import com.example.data.repository.ShowRepository
 import com.example.domain.mapper.toUiCast
 import com.example.domain.mapper.toUiCrew
 import com.example.domain.mapper.toUiSeason
@@ -59,4 +61,9 @@ class GetShowInformationUseCase @Inject constructor(
                 }
             }
     }
+
+    suspend fun addShowToFavorite(show: ShowEntity){
+        detailShowRepository.insertShowToFavorite(show = show)
+    }
+
 }
