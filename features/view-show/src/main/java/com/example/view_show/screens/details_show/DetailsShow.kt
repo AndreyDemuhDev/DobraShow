@@ -166,6 +166,10 @@ fun DetailShowInformation(
     }
     val context = LocalContext.current
     val intentUrl = remember {Intent(Intent.ACTION_VIEW, Uri.parse(show.url))}
+    val intentShare = remember {Intent(Intent.ACTION_SEND).apply {
+        putExtra(Intent.EXTRA_TEXT, show.officialSite)
+        type = "text/plain"
+    } }
     Box(modifier = modifier.background(color = AppTheme.colorScheme.transparent)) {
         SubcomposeAsyncImage(
             model = show.image.original, contentDescription = null,
@@ -228,7 +232,7 @@ fun DetailShowInformation(
                     FunctionalDetailShowCard(
                         title = "Share",
                         icon = painterResource(id = R.drawable.ic_share),
-                        onClick = { /*TODO*/ })
+                        onClick = { context.startActivity(intentShare) })
                     FunctionalDetailShowCard(
                         title = "URL",
                         icon = painterResource(id = R.drawable.ic_world),
