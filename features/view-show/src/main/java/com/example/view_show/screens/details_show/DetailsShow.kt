@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -226,19 +227,19 @@ fun DetailShowInformation(
                         )
                 ) {
                     FunctionalDetailShowCard(
-                        title = "Add",
+                        title = stringResource(id = R.string.button_add),
                         icon = painterResource(id = R.drawable.ic_bookmark),
                         onClick = { /*TODO*/ })
                     FunctionalDetailShowCard(
-                        title = "Share",
+                        title = stringResource(id = R.string.button_share),
                         icon = painterResource(id = R.drawable.ic_share),
                         onClick = { context.startActivity(intentShare) })
                     FunctionalDetailShowCard(
-                        title = "URL",
+                        title = stringResource(id = R.string.button_url),
                         icon = painterResource(id = R.drawable.ic_world),
                         onClick = { context.startActivity(intentUrl) })
                     FunctionalDetailShowCard(
-                        title = "Info",
+                        title = stringResource(id = R.string.button_info),
                         icon = painterResource(id = R.drawable.ic_info),
                         onClick = { isSheetOpen = true })
                 }
@@ -286,7 +287,7 @@ private fun DescriptionShowSection(
                     color = AppTheme.colorScheme.text
                 )
                 Text(
-                    text = " • " + show.premiered.substring(
+                    text = stringResource(id = R.string.separator_show_info) + show.premiered.substring(
                         startIndex = 0,
                         endIndex = 4
                     ),
@@ -294,7 +295,7 @@ private fun DescriptionShowSection(
                     color = AppTheme.colorScheme.text
                 )
                 Text(
-                    text = " • " + show.network.country.code,
+                    text = stringResource(id = R.string.separator_show_info) + show.network.country.code,
                     style = AppTheme.typography.bodyLarge,
                     color = AppTheme.colorScheme.text
                 )
@@ -346,7 +347,7 @@ private fun ErrorDetailShowContent(stateShow: StateShow.Error, modifier: Modifie
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "ShowsErrorContent", color = AppTheme.colorScheme.error)
+            Text(text = stringResource(id = R.string.show_error_status), color = AppTheme.colorScheme.error)
         }
     }
 }
