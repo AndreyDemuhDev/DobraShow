@@ -1,0 +1,22 @@
+<resources>
+    <string name="person_detail_error_status">Person detail error</string>
+    <string name="detail_person_top_bar">"Detail Person"</string>
+    <string name="detail_person_name_text">"Name"</string>
+    <string name="detail_person_birthday_text">"Birthday"</string>
+    <string name="detail_person_country_text">"Country"</string>
+    <string name="season_error_status">"SeasonErrorContent"</string>
+    <string name="season_top_bar">"Season Details"</string>
+    <string name="season">"Season"</string>
+    <string name="season_premiere_date">"Premiere date:"</string>
+    <string name="season_episode_number">"Episode:"</string>
+    <string name="show_description">"Show Description"</string>
+    <string name="button_arrow_down_description">"arrow down"</string>
+    <string name="button_add">"Add"</string>
+    <string name="button_share">"Share"</string>
+    <string name="button_url">"URL"</string>
+    <string name="button_info">"Info"</string>
+    <string name="show_error_status">"ShowErrorContent"</string>
+    <string name="separator_show_info">" • "</string>
+    <string name="all_show_error_status">"ShowsErrorContent"</string>
+    <string name="all_shows_top_bar">"All shows"</string>
+</resources>

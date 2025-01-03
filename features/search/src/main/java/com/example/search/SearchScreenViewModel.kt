@@ -1,6 +1,5 @@
 package com.example.search
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
@@ -56,7 +55,6 @@ class SearchViewModel @Inject constructor(
             when (state) {
                 is SearchState.Empty -> _uiState.update { SearchShowScreenState.None }
                 is SearchState.SearchQuery -> {
-                    Log.d("MyLog", "observeSearchShow = $state")
                     searchShow(query = state.query)
                 }
             }

@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
@@ -121,7 +122,10 @@ private fun DetailSeasonErrorContent(
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "SeasonErrorContent", color = AppTheme.colorScheme.error)
+            Text(
+                text = stringResource(id = R.string.season_error_status),
+                color = AppTheme.colorScheme.error
+            )
         }
     }
 }
@@ -147,7 +151,10 @@ fun DetailSeasonSuccessContent(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        CustomTopBarComponent(title = "Season Details", onClickBack = onClickBack)
+        CustomTopBarComponent(
+            title = stringResource(id = R.string.season_top_bar),
+            onClickBack = onClickBack
+        )
         LazyColumn {
             item { ImageSeasonSection(season = season) }
             item { DescriptionSeason(season = season, modifier = Modifier.fillMaxWidth()) }
@@ -169,7 +176,7 @@ fun SeasonHeader(
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = "Season ${season.number}",
+        text = stringResource(id = R.string.season) + " ${season.number}",
         style = AppTheme.typography.titleNormal,
         color = AppTheme.colorScheme.text,
         textAlign = TextAlign.Center,
@@ -190,7 +197,7 @@ fun DescriptionSeason(
         )
     ) {
         Text(
-            text = "Premiere date: ${dateConverter(season.premiereDate)}",
+            text = stringResource(id = R.string.season_premiere_date) + " ${dateConverter(season.premiereDate)}",
             color = AppTheme.colorScheme.text,
             style = AppTheme.typography.bodyLarge,
         )
@@ -237,7 +244,7 @@ fun ListEpisodesSeason(
         Column(modifier = Modifier.padding(all = AppTheme.size.dp8)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Episode: ${episode.number}",
+                    text = stringResource(id = R.string.season_episode_number) + " ${episode.number}",
                     color = AppTheme.colorScheme.text,
                     style = AppTheme.typography.titleLarge
                 )
@@ -256,7 +263,7 @@ fun ListEpisodesSeason(
             if (episode.summary.isNotEmpty()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "Show Description",
+                        text = stringResource(id = R.string.show_description),
                         style = AppTheme.typography.labelNormal,
                         color = AppTheme.colorScheme.text,
                     )
@@ -264,7 +271,7 @@ fun ListEpisodesSeason(
                         painter = if (!expanded) painterResource(id = R.drawable.ic_arrow_down) else painterResource(
                             id = R.drawable.ic_arrow_up
                         ),
-                        contentDescription = "arrow_down",
+                        contentDescription = stringResource(id = R.string.button_arrow_down_description),
                         colorFilter = ColorFilter.tint(AppTheme.colorScheme.text),
                         modifier = Modifier
                             .size(AppTheme.size.dp24)

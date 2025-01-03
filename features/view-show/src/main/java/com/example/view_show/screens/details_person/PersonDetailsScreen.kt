@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.design.theme.AppTheme
 import com.example.domain.model.PersonShowUi
@@ -15,6 +16,7 @@ import com.example.ui.CustomTopBarComponent
 import com.example.ui.DescriptionPersonComponent
 import com.example.ui.PersonImageComponent
 import com.example.ui.dateConverter
+import com.example.view_show.R
 import com.example.view_show.screens.details_show.LoadingStateContent
 
 @Composable
@@ -75,7 +77,10 @@ private fun DetailStateContent(
 
 @Composable
 fun DetailPersonErrorContent(modifier: Modifier = Modifier) {
-    Text(text = "Persin detail error", color = AppTheme.colorScheme.primary)
+    Text(
+        text = stringResource(id = R.string.person_detail_error_status),
+        color = AppTheme.colorScheme.primary
+    )
 }
 
 @Composable
@@ -85,26 +90,29 @@ private fun DetailPersonSuccessContent(
     modifier: Modifier = Modifier,
 ) {
     Column {
-        CustomTopBarComponent(title = "Detail Person", onClickBack = onClickBack)
+        CustomTopBarComponent(
+            title = stringResource(id = R.string.detail_person_top_bar),
+            onClickBack = onClickBack
+        )
         LazyColumn(
             modifier = modifier
         ) {
             item { PersonImageComponent(imageUrl = person.image.medium) }
             item {
                 if (person.name.isNotEmpty()) DescriptionPersonComponent(
-                    title = "Name",
+                    title = stringResource(id = R.string.detail_person_name_text),
                     description = person.name
                 )
             }
             item {
                 if (person.birthday.isNotEmpty()) DescriptionPersonComponent(
-                    title = "Birthday",
+                    title = stringResource(id = R.string.detail_person_birthday_text),
                     description = dateConverter(person.birthday)
                 )
             }
             item {
                 if (person.country.name.isNotEmpty()) DescriptionPersonComponent(
-                    title = "Country",
+                    title = stringResource(id = R.string.detail_person_country_text),
                     description = person.country.name
                 )
             }

@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.design.theme.AppTheme
 import com.example.ui.CustomTopBarComponent
 import com.example.ui.FilterShowComponent
-import com.example.ui.R
+import com.example.ui.R.drawable
 import com.example.ui.SearchShowItemCard
 
 @Composable
@@ -75,7 +76,7 @@ internal fun SearchScreen(
             .fillMaxSize()
             .padding(horizontal = AppTheme.size.dp16)
     ) {
-        CustomTopBarComponent(title = "Search shows")
+        CustomTopBarComponent(title = stringResource(id = R.string.search_shows_title))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -94,8 +95,8 @@ internal fun SearchScreen(
                 horizontalArrangement = Arrangement.spacedBy(AppTheme.size.dp8)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_search),
-                    contentDescription = "search",
+                    painter = painterResource(id = drawable.ic_search),
+                    contentDescription = stringResource(id = R.string.search_description),
                     modifier = Modifier
                         .padding(all = AppTheme.size.dp8)
                         .size(28.dp),
@@ -110,7 +111,7 @@ internal fun SearchScreen(
             AnimatedVisibility(visible = searchState.text.isNotBlank()) {
                 Icon(
                     imageVector = Icons.Rounded.Delete,
-                    contentDescription = "delete icon",
+                    contentDescription = stringResource(id = R.string.delete_icon_description),
                     tint = AppTheme.colorScheme.error,
                     modifier = Modifier
                         .padding(end = AppTheme.size.dp4)
@@ -124,7 +125,7 @@ internal fun SearchScreen(
         when (val state = screenState) {
             SearchViewModel.SearchShowScreenState.None -> {
                 Text(
-                    text = "Search show name here...",
+                    text = stringResource(id = R.string.search_show_status_screen),
                     color = Color.White,
                     modifier = Modifier
                         .fillMaxWidth()

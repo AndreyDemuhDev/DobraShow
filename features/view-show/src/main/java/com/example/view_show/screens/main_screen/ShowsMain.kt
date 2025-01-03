@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -51,7 +52,6 @@ internal fun ShowsScreen(
     modifier: Modifier = Modifier,
     viewModel: ShowViewModel = hiltViewModel(),
 ) {
-    Log.d("MyLog", "ShowsScreen")
     val state by viewModel.listShowsState.collectAsState()
     val currentState = state
 
@@ -97,7 +97,7 @@ private fun ErrorContent(listShowsState: ListShowsState.Error, modifier: Modifie
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "ShowsErrorContent", color = AppTheme.colorScheme.error)
+            Text(text = stringResource(id = R.string.all_show_error_status), color = AppTheme.colorScheme.error)
         }
     }
 }
@@ -129,7 +129,7 @@ private fun ListShows(
 ) {
     Column(modifier = modifier) {
         CustomTopBarComponent(
-            title = "All shows",
+            title = stringResource(id = R.string.all_shows_top_bar),
             modifier = Modifier.padding(horizontal = AppTheme.size.dp16)
         )
         LazyVerticalGrid(
