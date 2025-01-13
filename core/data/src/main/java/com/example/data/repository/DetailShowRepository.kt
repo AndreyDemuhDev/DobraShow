@@ -13,7 +13,6 @@ import com.example.data.model.SeasonsShowEntity
 import com.example.data.model.ShowEntity
 import com.example.data.toRequestStatus
 import com.example.database.ShowsDatabase
-import com.example.database.model.ShowsDBO
 import com.example.network.KtorClient
 import com.example.network.model.RemoteCastModel
 import com.example.network.model.RemoteCrewModel
