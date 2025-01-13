@@ -16,10 +16,15 @@ import com.example.data.model.RatingShowEntity
 import com.example.data.model.SearchShowEntity
 import com.example.data.model.SeasonsShowEntity
 import com.example.data.model.ShowEntity
+import com.example.database.model.CastModelDBO
 import com.example.database.model.CountryShowDBO
+import com.example.database.model.CrewModelDBO
+import com.example.database.model.EpisodeDBO
 import com.example.database.model.ImageShowDBO
 import com.example.database.model.NetworkShowDBO
+import com.example.database.model.PersonShowDBO
 import com.example.database.model.RatingShowDBO
+import com.example.database.model.SeasonsModelDBO
 import com.example.database.model.ShowsDBO
 import com.example.network.model.RemoteCastModel
 import com.example.network.model.RemoteCrewModel
@@ -250,6 +255,114 @@ internal fun RemoteEpisode.toEpisodeSeasonShow(): EpisodeEntity {
 }
 
 internal fun RemotePersonShow.toPerson(): PersonShowEntity {
+    return PersonShowEntity(
+        id = id,
+        birthday = birthday ?: "-",
+        country = CountryPersonEntity(name = country?.name ?: "unknown name person"),
+        deathday = deathday ?: "-",
+        gender = gender ?: "-",
+        image = ImagePersonEntity(
+            medium = image?.medium ?: "unknown image person",
+            original = image?.original ?: "unknown image person"
+        ),
+        name = name,
+        url = url,
+    )
+}
+
+//маппер из модели crew из сети в модель crew data слоя
+internal fun CrewModelDBO.toCrewShow(): CrewShowEntity {
+    return CrewShowEntity(
+        person = PersonShowEntity(
+            id = person.id,
+            birthday = person.birthday ?: "unknown birthday",
+            country = CountryPersonEntity(
+                name = person.country?.name ?: "unknown country",
+            ),
+            deathday = person.deathday ?: "unknown",
+            gender = person.gender ?: "unknown gender",
+            image = ImagePersonEntity(
+                medium = person.image?.medium ?: "unknown image",
+                original = person.image?.original ?: "unknown image"
+            ),
+            name = person.name,
+            url = person.url
+        ),
+        type = type
+    )
+}
+
+//маппер из модели cast из сети в модель cast data слоя
+internal fun CastModelDBO.toCastShow(): CastShowEntity {
+    return CastShowEntity(
+        person = PersonShowEntity(
+            id = person.id,
+            birthday = person.birthday ?: "unknown date birthday",
+            country = CountryPersonEntity(
+                name = person.country?.name ?: "unknown name country"
+            ),
+            deathday = person.deathday ?: "empty",
+            gender = person.gender ?: "unknown gender",
+            image = ImagePersonEntity(
+                medium = person.image?.medium ?: "",
+                original = person.image?.original ?: ""
+            ),
+            name = person.name,
+            url = person.url
+        ),
+        character = CharacterShowEntity(
+            id = character.id,
+            image = ImagePersonEntity(
+                medium = character.image?.medium ?: "",
+                original = character.image?.original ?: ""
+            ),
+            name = character.name,
+            url = character.url
+        )
+    )
+}
+
+//маппер из модели seasons из сети в модель season data слоя
+internal fun SeasonsModelDBO.toSeasonsShow(): SeasonsShowEntity {
+    return SeasonsShowEntity(
+        id = id,
+        endDate = endDate ?: "unknown end date season",
+        episodeOrder = episodeOrder ?: -1,
+        image = ImageSeasonsEntity(
+            medium = image?.medium ?: "empty medium image season",
+            original = image?.original ?: "empty original image season"
+        ),
+        name = name ?: "unknown name season",
+        number = number ?: -1,
+        premiereDate = premiereDate ?: "unknown premiere date season",
+        summary = summary ?: "",
+        url = url ?: "unknown url season",
+        listEpisodes = ListEpisodesEntity(
+            episodes = listEpisodes?.episodes?.map { it.toEpisodeSeasonShow() } ?: emptyList()
+        )
+    )
+}
+
+//маппер из сетевой модели episode в модель episode data слоя
+internal fun EpisodeDBO.toEpisodeSeasonShow(): EpisodeEntity {
+    return EpisodeEntity(
+        id = id ?: -1,
+        url = url ?: "unknown url episode",
+        name = name ?: "unknown name episode",
+        airdate = airdate ?: "",
+        season = season ?: -1,
+        number = number ?: -1,
+        runtime = runtime ?: -1,
+        rating = RatingShowEntity(average = rating?.average ?: 0.0),
+        image = ImageShowEntity(
+            medium = image?.medium ?: "unknown image medium episode",
+            original = image?.original ?: "unknown image original episode"
+        ),
+        summary = summary ?: "unknown summary episode"
+    )
+}
+
+internal fun PersonShowDBO.toPerson(): PersonShowEntity {
     return PersonShowEntity(
         id = id,
         birthday = birthday ?: "-",
